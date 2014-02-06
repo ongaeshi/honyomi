@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'honyomi'
+require 'honyomi/cli'
+
+Honyomi::CLI.start
