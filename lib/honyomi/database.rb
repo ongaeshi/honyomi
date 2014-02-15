@@ -33,6 +33,7 @@ module Honyomi
     end
 
     def search(query)
+      @pages.select(query, default_column: "text")
     end
   end
 end

@@ -41,4 +41,22 @@ class TestDatabase < MiniTest::Test
       assert_equal   "3cc", db.pages["Book3:3"].text
     end
   end
+
+  def test_search
+    GrnMini::tmpdb do
+      db = Honyomi::Database.new
+      db.add_book_from_text(title: "Book1", text: "1aa\f")
+      db.add_book_from_text(title: "Book2", text: "2aa\f2bb\f")
+      db.add_book_from_text(title: "Book3", text: "3aa\f3bb\f3cc\f")
+
+      results = db.search("1aa")
+      assert_equal 1, results.size
+
+      results = db.search("aa")
+      assert_equal 3, results.size
+
+      results = db.search("bb OR cc")
+      assert_equal 3, results.size
+    end
+  end
 end
