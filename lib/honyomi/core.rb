@@ -24,6 +24,12 @@ module Honyomi
       @database.add_book_from_pages(title, pages)
     end
 
+    def list
+      @database.books.map do |book|
+        "#{book.title} (#{book.page_num} pages)"
+      end
+    end
+
     private
 
     def home_dir

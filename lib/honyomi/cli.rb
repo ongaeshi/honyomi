@@ -24,6 +24,13 @@ module Honyomi
     desc "search query", "Search pages"
     def search(*args)
       puts "search #{args}"
+
+    desc "list", "List books"
+    def list
+      core = Core.new
+      core.load_database
+
+      puts core.list
     end
 
     no_tasks do
