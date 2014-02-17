@@ -23,7 +23,20 @@ module Honyomi
 
     desc "search query", "Search pages"
     def search(*args)
-      puts "search #{args}"
+      core = Core.new
+      core.load_database
+
+      results = core.search(args.join(" "))
+      snippet = GrnMini::Util::text_snippet_from_selection_results(results)
+
+      puts "#{results.size} matches"
+      results.map do |page|
+        puts "--- #{page.book.title} (#{page.page_no} page) ---"
+        snippet.execute(page.text).each do |segment|
+          puts segment.gsub("\n", "")
+        end
+      end
+    end
 
     desc "list", "List books"
     def list
