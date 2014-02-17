@@ -17,6 +17,13 @@ module Honyomi
       @database = Database.new
     end
 
+    def add(filename)
+      title = File.basename(filename)
+      pages = Pdf.new(filename).strip_pages
+
+      @database.add_book_from_pages(title, pages)
+    end
+
     private
 
     def home_dir

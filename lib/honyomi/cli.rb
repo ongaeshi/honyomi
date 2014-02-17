@@ -15,6 +15,10 @@ module Honyomi
     def add(*args)
       core = Core.new
       core.load_database
+
+      args.each do |arg| 
+        core.add(arg)
+      end
     end
 
     desc "search query", "Search pages"

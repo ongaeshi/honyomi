@@ -31,6 +31,14 @@ module Honyomi
       end
     end
 
+    def add_book_from_pages(title, pages)
+      @books[title] = { title: title, page_num: pages.size }
+      
+      pages.each_with_index do |page, index|
+        @pages["#{title}:#{index+1}"] = { book: title, text: page, page_no: index+1 }
+      end
+    end
+
     def search(query)
       @pages.select(query, default_column: "text")
     end
