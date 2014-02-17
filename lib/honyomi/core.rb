@@ -18,7 +18,7 @@ module Honyomi
     end
 
     def add(filename)
-      title = File.basename(filename)
+      title = File.basename(filename, ".pdf")
       pages = Pdf.new(filename).strip_pages
 
       @database.add_book_from_pages(title, pages)
