@@ -5,7 +5,13 @@ module Honyomi
   class CLI < Thor
     class_option :help, :type => :boolean, :aliases => '-h', :desc => 'Help message'
 
-    desc "add file1 [file2 ...]", "Add e-book files"
+    desc "init", "Init database"
+    def init
+      core = Core.new
+      core.init_database
+    end
+
+    desc "add file1 [file2 ...]", "Add pdf files"
     def add(*args)
       puts "add #{args}"
     end
