@@ -13,7 +13,8 @@ module Honyomi
 
     desc "add file1 [file2 ...]", "Add pdf files"
     def add(*args)
-      puts "add #{args}"
+      core = Core.new
+      core.load_database
     end
 
     desc "search query", "Search pages"

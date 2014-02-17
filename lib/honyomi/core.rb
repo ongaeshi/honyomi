@@ -12,6 +12,11 @@ module Honyomi
       Groonga::Database.create(path: db_path)
     end
 
+    def load_database
+      Groonga::Database.open(db_path)
+      @database = Database.new
+    end
+
     private
 
     def home_dir
