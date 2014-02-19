@@ -12,12 +12,13 @@ module Honyomi
     end
 
     desc "add file1 [file2 ...]", "Add pdf files"
+    option :strip, :type => :boolean, :desc => 'Remove spaces and line breaks'
     def add(*args)
       core = Core.new
       core.load_database
 
       args.each do |arg| 
-        core.add(arg)
+        core.add(arg, options)
       end
     end
 

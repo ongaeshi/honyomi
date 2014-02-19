@@ -17,10 +17,9 @@ module Honyomi
       @database = Database.new
     end
 
-    def add(filename)
+    def add(filename, options)
       title = File.basename(filename, ".pdf")
-      pages = Pdf.new(filename).strip_pages
-
+      pages = options[:strip] ? Pdf.new(filename).strip_pages : Pdf.new(filename).pages
       @database.add_book_from_pages(title, pages)
     end
 
