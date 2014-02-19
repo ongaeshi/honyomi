@@ -17,8 +17,9 @@ module Honyomi
       core = Core.new
       core.load_database
 
-      args.each do |arg| 
-        core.add(arg, options)
+      args.each do |arg|
+        title = File.basename(Util::filename_to_utf8(arg), ".pdf")
+        core.add(arg, title, options)
       end
     end
 
