@@ -1,8 +1,11 @@
+require 'haml'
+require 'honyomi/database'
 require 'sinatra'
 require 'sinatra/reloader' if ENV['SINATRA_RELOADER']
-require 'honyomi/database'
 
 include Honyomi
+
+set :haml, :format => :html5
 
 configure do
   $database = Database.new
@@ -10,11 +13,9 @@ end
 
 get '/' do
   @database = $database
+  haml :index
+end
 
-  <<EOF
-<pre>
-Hello Honyomi!
-#{@database.books.size} Books, #{@database.pages.size} Pages.
-</pre>
-EOF
+post '/search' do
+  redirect "/?query=#{escape(params[:query])}"
 end
