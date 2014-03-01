@@ -10,11 +10,16 @@
     .container
       .span12
         %h1 Honyomi
+        #{@database.books.size} books, #{@database.pages.size} pages.
 
       .span12
         %form
           %input(type="text" size=40 name="q")
             %input(type="submit" value="Search")
+
+      .span12
+        = @content
+              
           
 
           
