@@ -16,7 +16,7 @@ get '/' do
 
   results = @database.search(@params[:query])
   page_entries = results.paginate([["_score", :desc]], :page => 1, :size => 20)
-  snippet = GrnMini::Util::html_snippet_from_selection_results(results)
+  snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
 
   r = page_entries.map do |page|
     <<EOF
