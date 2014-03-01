@@ -1,5 +1,6 @@
 require 'honyomi'
 require 'fileutils'
+require 'rack'
 
 module Honyomi
   class Core
@@ -33,6 +34,27 @@ module Honyomi
     end
 
     def web
+      options = {
+        :environment => ENV['RACK_ENV'] || "development",
+        :pid         => nil,
+        :Port        => 9295,
+        :Host        => "0.0.0.0",
+        :AccessLog   => [],
+        :config      => "config.ru",
+        # ----------------------------
+        :server      => "thin",
+      }
+
+      # Move to the location of the server script
+      FileUtils.cd(File.dirname(__FILE__))
+
+      # Create Rack Server
+      rack_server = Rack::Server.new(options)
+
+      # Start Rack
+      rack_server.start do
+        # Launchy.open(launch_url) if launch_url
+      end
     end
 
     private

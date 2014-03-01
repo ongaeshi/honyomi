@@ -48,12 +48,10 @@ module Honyomi
       puts core.list
     end
 
-    desc "web", "Web books"
+    desc "web", "Web search interface"
     def web
       core = Core.new
-      core.load_database
-
-      puts core.web
+      core.web
     end
 
     no_tasks do
