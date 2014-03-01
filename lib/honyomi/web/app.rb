@@ -15,10 +15,10 @@ get '/' do
   @database = $database
 
   results = @database.search("css text")
-  results.sort([["_score", :desc]])
+  page_entries = results.paginate([["_score", :desc]], :page => 1, :size => 20)
   snippet = GrnMini::Util::html_snippet_from_selection_results(results)
 
-  r = results.map do |page|
+  r = page_entries.map do |page|
     text = "--- #{page.book.title} (#{page.page_no} page) ---\n"
     snippet.execute(page.text).each do |segment|
       text += segment.gsub("\n", "") + "\n"
