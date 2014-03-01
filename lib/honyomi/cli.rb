@@ -48,6 +48,14 @@ module Honyomi
       puts core.list
     end
 
+    desc "web", "Web books"
+    def web
+      core = Core.new
+      core.load_database
+
+      puts core.web
+    end
+
     no_tasks do
       # Override method for support -h 
       # defined in /lib/thor/invocation.rb

@@ -32,6 +32,9 @@ module Honyomi
       end
     end
 
+    def web
+    end
+
     private
 
     def home_dir
