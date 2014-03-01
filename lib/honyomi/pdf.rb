@@ -22,3 +22,4 @@ module Honyomi
     end
   end
 end
+
