@@ -51,6 +51,7 @@ module Honyomi
     desc "web", "Web search interface"
     def web
       core = Core.new
+      core.load_database      
       core.web
     end
 

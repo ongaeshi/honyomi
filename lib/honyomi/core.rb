@@ -46,7 +46,7 @@ module Honyomi
       }
 
       # Move to the location of the server script
-      FileUtils.cd(File.dirname(__FILE__))
+      FileUtils.cd(File.join(File.dirname(__FILE__), 'web'))
 
       # Create Rack Server
       rack_server = Rack::Server.new(options)
