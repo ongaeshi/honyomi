@@ -13,8 +13,8 @@
         #{@database.books.size} books, #{@database.pages.size} pages.
 
       .span12
-        %form
-          %input(type="text" size=40 name="q")
+        %form(method="post" action="/search")
+          %input(type="text" size=40 name="query" value="#{@params[:query]}")
             %input(type="submit" value="Search")
 
       .span12

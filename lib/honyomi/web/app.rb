@@ -14,7 +14,7 @@ end
 get '/' do
   @database = $database
 
-  results = @database.search("css text")
+  results = @database.search(@params[:query])
   page_entries = results.paginate([["_score", :desc]], :page => 1, :size => 20)
   snippet = GrnMini::Util::html_snippet_from_selection_results(results)
 
