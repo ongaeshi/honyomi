@@ -19,18 +19,17 @@ get '/' do
   snippet = GrnMini::Util::html_snippet_from_selection_results(results)
 
   r = page_entries.map do |page|
-    text = "--- #{page.book.title} (#{page.page_no} page) ---\n"
-    snippet.execute(page.text).each do |segment|
-      text += segment.gsub("\n", "") + "\n"
-    end
-    text
+    <<EOF
+  <div class="result-header"><a href="#">#{page.book.title}</a> (#{page.page_no} page)</div>
+  <div class="result-body">
+    #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
+  </div>
+EOF
   end
 
   @content = <<EOF
-<pre>
-#{results.size} matches
-#{r.join("\n\n")}
-</pre>
+<div class="matches">#{results.size} matches</div>
+#{r.join("\n")}
 EOF
 
   haml :index
