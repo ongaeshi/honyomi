@@ -14,24 +14,29 @@ end
 get '/' do
   @database = $database
 
-  results = @database.search(@params[:query])
-  page_entries = results.paginate([["_score", :desc]], :page => 1, :size => 20)
-  snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
+  if @params[:query] && !@params[:query].empty?
+    results = @database.search(@params[:query])
 
-  r = page_entries.map do |page|
-    <<EOF
+    page_entries = results.paginate([["_score", :desc]], :page => 1, :size => 20)
+    snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
+
+    r = page_entries.map do |page|
+      <<EOF
   <div class="result-header"><a href="#">#{page.book.title}</a> (#{page.page_no} page)</div>
   <div class="result-body">
     #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
   </div>
 EOF
-  end
+    end
 
-  @content = <<EOF
+    @content = <<EOF
 <div class="matches">#{results.size} matches</div>
 #{r.join("\n")}
 EOF
-
+  else
+    @content = ""
+  end
+  
   haml :index
 end
 
