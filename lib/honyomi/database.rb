@@ -10,7 +10,8 @@ module Honyomi
       @books = GrnMini::Hash.new("Books")
       @pages = GrnMini::Hash.new("Pages")
 
-      @books.setup_columns(title:    "",
+      @books.setup_columns(path:     "",
+                           title:    "",
                            author:   "",
                            page_num: 0,
                            )
@@ -31,8 +32,8 @@ module Honyomi
       end
     end
 
-    def add_book_from_pages(title, pages)
-      @books[title] = { title: title, page_num: pages.size }
+    def add_book_from_pages(filename, title, pages)
+      @books[title] = { path: File.expand_path(filename), title: title, page_num: pages.size }
       
       pages.each_with_index do |page, index|
         @pages["#{title}:#{index+1}"] = { book: title, text: page, page_no: index+1 }

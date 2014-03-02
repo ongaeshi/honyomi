@@ -20,7 +20,7 @@ module Honyomi
 
     def add(filename, title, options)
       pages = options[:strip] ? Pdf.new(filename).strip_pages : Pdf.new(filename).pages
-      @database.add_book_from_pages(title, pages)
+      @database.add_book_from_pages(filename, title, pages)
     end
 
     def search(query)
@@ -29,7 +29,7 @@ module Honyomi
 
     def list
       @database.books.map do |book|
-        "#{book.title} (#{book.page_num} pages)"
+        "#{book.title} (#{book.page_num} pages) #{book.path}"
       end
     end
 
