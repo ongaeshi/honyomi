@@ -22,7 +22,7 @@ get '/' do
 
     r = page_entries.map do |page|
       <<EOF
-  <div class="result-header"><a href="/v/#{page.book.key}#page=#{page.page_no}">#{page.book.title}</a> (#{page.page_no} page)</div>
+  <div class="result-header"><a href="/v/#{page.book.key}#page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
   <div class="result-sub-header"><a href="/v/#{page.book.key}?dl=1">Download</a></div>
   <div class="result-body">
     #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
