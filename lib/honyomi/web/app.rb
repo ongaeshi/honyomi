@@ -43,3 +43,11 @@ end
 post '/search' do
   redirect "/?query=#{escape(params[:query])}"
 end
+
+get '/v/:id' do
+  @database = $database
+  book = @database.books[params[:id]]
+  # book.title + "<br>" + book.path
+  send_file book.path
+end
+
