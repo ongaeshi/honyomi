@@ -43,5 +43,9 @@ module Honyomi
     def search(query)
       @pages.select(query, default_column: "text")
     end
+
+    def book_pages(book_key)
+      @pages.select("book._key:\"#{book_key}\"").sort(["page_no"])
+    end
   end
 end
