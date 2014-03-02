@@ -23,6 +23,7 @@ get '/' do
     r = page_entries.map do |page|
       <<EOF
   <div class="result-header"><a href="/v/#{page.book.key}#page=#{page.page_no}">#{page.book.title}</a> (#{page.page_no} page)</div>
+  <div class="result-sub-header"><a href="/v/#{page.book.key}?dl=1">Download</a></div>
   <div class="result-body">
     #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
   </div>
@@ -46,8 +47,9 @@ end
 
 get '/v/:id' do
   @database = $database
+
   book = @database.books[params[:id]]
-  # book.title + "<br>" + book.path
-  send_file book.path
+
+  send_file(book.path, :disposition => params[:dl] == '1' ? 'download' : 'inline')
 end
 
