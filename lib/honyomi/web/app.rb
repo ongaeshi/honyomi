@@ -50,6 +50,19 @@ get '/v/:id' do
 
   book = @database.books[params[:id]]
 
-  send_file(book.path, :disposition => params[:dl] == '1' ? 'download' : 'inline')
+  if params[:raw] == '1'
+    pages = @database.book_pages(book.key)
+
+    text = pages.map { |page|
+      <<EOF
+<div id="#{page.page_no}" class="page_no">Page #{page.page_no}</div>
+<pre>#{page.text}</pre>
+<hr>
+EOF
+      # <div>#{page.text}</div>
+    }.join("\n")
+  else
+    send_file(book.path, :disposition => params[:dl] == '1' ? 'download' : 'inline')
+  end
 end
 
