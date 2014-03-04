@@ -53,14 +53,15 @@ get '/v/:id' do
   if params[:raw] == '1'
     pages = @database.book_pages(book.key)
 
-    text = pages.map { |page|
+    @content = pages.map { |page|
       <<EOF
 <div id="#{page.page_no}" class="page_no">Page #{page.page_no}</div>
-<pre>#{page.text}</pre>
-<hr>
+<pre>#{escape_html page.text}</pre>
 EOF
       # <div>#{page.text}</div>
     }.join("\n")
+
+    haml :raw
   else
     send_file(book.path, :disposition => params[:dl] == '1' ? 'download' : 'inline')
   end
