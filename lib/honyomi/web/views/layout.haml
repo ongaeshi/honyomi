@@ -7,7 +7,16 @@
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
     %link(rel="stylesheet" href="/css/bootstrap.min.css")
     
-  %body
+  %body(style="padding-top:70px;")
+    .navbar.navbar-default.navbar-fixed-top
+      .navbar-header
+        %button(type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse")
+          %span(class="icon-bar")
+          %span(class="icon-bar")
+          %span(class="icon-bar")
+        %a(class="navbar-brand" href="/")
+          Honyomi
+
     != yield
     %script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
               
