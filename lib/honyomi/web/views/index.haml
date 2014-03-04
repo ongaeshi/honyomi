@@ -5,9 +5,10 @@
     .col-md-12
       %h1 Honyomi
       #{@database.books.size} books, #{@database.pages.size} pages.
-      %form(method="post" action="/search")
-        %input(type="text" size=40 name="query" value="#{@params[:query]}")
-          %input(type="submit" value="Search")
+      %form(class="form-inline" method="post" action="/search")
+        .form-group
+          %input(class="form-control" type="text" size=40 name="query" value="#{@params[:query]}")
+          %input(class="btn btn-primary" type="submit" value="Search")
       = @content
               
           
