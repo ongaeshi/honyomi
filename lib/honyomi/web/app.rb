@@ -59,8 +59,10 @@ get '/v/:id' do
 
     @content = pages.map { |page|
       <<EOF
-<div id="#{page.page_no}" class="page_no">Page #{page.page_no}</div>
-<pre>#{escape_html page.text}</pre>
+<div class="raw-page" id="#{page.page_no}">
+  <div class="raw-page-no">Page #{page.page_no}</div>
+  <pre>#{escape_html page.text}</pre>
+</div>
 EOF
       # <div>#{page.text}</div>
     }.join("\n")

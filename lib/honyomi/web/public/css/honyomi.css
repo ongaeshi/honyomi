@@ -24,3 +24,10 @@
     font-size: 95%;
 }
 
+.raw-page {
+    margin: 0px 20px;
+}
+
+.raw-page-no {
+    padding: 60px 0px 10px 0px;
+}
