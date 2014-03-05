@@ -1,0 +1,26 @@
+.search-header {
+    margin: 0px 0px 10px 0px;
+}
+
+.matches {
+    margin: 10px 0px 0px 5px;
+}
+
+.result {
+    margin: 10px 0px 0px 5px;
+}
+
+.result-header {
+    font-size: 120%;
+}
+
+.result-sub-header {
+    margin: 5px 0px 0px 0px;
+    font-size: 100%;
+}
+
+.result-body {
+    margin: 5px 0px 0px 0px;
+    font-size: 95%;
+}
+

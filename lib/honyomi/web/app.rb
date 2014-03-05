@@ -22,10 +22,12 @@ get '/' do
 
     r = page_entries.map do |page|
       <<EOF
-  <div class="result-header"><a href="/v/#{page.book.key}#page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
-  <div class="result-sub-header"><a href="/v/#{page.book.key}?dl=1">Download</a> <a href="/v/#{page.book.key}?raw=1##{page.page_no}">Raw</a></div>
-  <div class="result-body">
-    #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
+  <div class="result">
+    <div class="result-header"><a href="/v/#{page.book.key}#page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
+    <div class="result-sub-header"><a href="/v/#{page.book.key}?dl=1">Download</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.key}?raw=1##{page.page_no}">Raw</a></div>
+    <div class="result-body">
+      #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
+    </div>
   </div>
 EOF
     end
@@ -35,7 +37,9 @@ EOF
 #{r.join("\n")}
 EOF
   else
-    @content = ""
+    @content = <<EOF
+<div class="result">#{@database.books.size} books, #{@database.pages.size} pages.</div>
+EOF
   end
   
   haml :index

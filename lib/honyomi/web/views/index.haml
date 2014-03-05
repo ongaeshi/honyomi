@@ -3,7 +3,6 @@
 .container
   .row
     .col-md-12
-      #{@database.books.size} books, #{@database.pages.size} pages.
       %form(class="form-inline" method="post" action="/search")
         .form-group
           %input(class="form-control" type="text" size=40 name="query" value="#{@params[:query]}")
