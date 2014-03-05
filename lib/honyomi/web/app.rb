@@ -41,7 +41,7 @@ EOF
 <div class="result">#{@database.books.size} books, #{@database.pages.size} pages.</div>
 EOF
   end
-  
+
   haml :index
 end
 
@@ -57,6 +57,9 @@ get '/v/:id' do
   if params[:raw] == '1'
     pages = @database.book_pages(book.key)
 
+    @navbar_href = "#1"
+    @navbar_title = book.title
+
     @content = pages.map { |page|
       <<EOF
 <div class="raw-page" id="#{page.page_no}">
@@ -64,7 +67,6 @@ get '/v/:id' do
   <pre>#{escape_html page.text}</pre>
 </div>
 EOF
-      # <div>#{page.text}</div>
     }.join("\n")
 
     haml :raw

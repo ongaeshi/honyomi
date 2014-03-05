@@ -18,6 +18,10 @@
           %span(class="icon-bar")
         %a(class="navbar-brand" href="/")
           Honyomi
+      .navbar-collapse.collapse
+        %ul(class="nav navbar-nav")
+          %li
+            <a href="#{@navbar_href}">#{@navbar_title}</a>
 
     != yield
     %script(src="https://code.jquery.com/jquery.js")
