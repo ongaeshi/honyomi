@@ -20,7 +20,11 @@ get '/' do
     page_entries = results.paginate([["_score", :desc]], :page => 1, :size => 20)
     snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
 
+    books = {}
+
     r = page_entries.map do |page|
+      books[page.book.path] = 1
+      
       file_mb = File.stat(page.book.path).size / (1024 * 1024)
 
       <<EOF
@@ -35,7 +39,7 @@ EOF
     end
 
     @content = <<EOF
-<div class="matches">#{results.size} matches</div>
+<div class="matches">#{books.size} books, #{results.size} pages</div>
 #{r.join("\n")}
 EOF
   else
