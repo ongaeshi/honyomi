@@ -27,10 +27,16 @@ get '/' do
       
       file_mb = File.stat(page.book.path).size / (1024 * 1024)
 
+      query_plus  = escape "#{@params[:query]} book.title:@\"#{page.book.title}\""
+      query_minus = escape "#{@params[:query]} -book.title:@\"#{page.book.title}\""
+
       <<EOF
   <div class="result">
     <div class="result-header"><a href="/v/#{page.book.key}#page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
-    <div class="result-sub-header"><a href="/v/#{page.book.key}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.key}?raw=1##{page.page_no}">Raw</a>&nbsp;&nbsp;&nbsp;</div>
+    <div class="row result-sub-header">
+      <div class="col-xs-6"><a href="/v/#{page.book.key}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.key}?raw=1##{page.page_no}">Raw</a>&nbsp;&nbsp;&nbsp;</div>
+      <div class="col-xs-6"><a href="/?query=#{query_plus}">Filter+</a> <a href="/?query=#{query_minus}">Filter-</a></div>
+    </div>
     <div class="result-body">
       #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
     </div>
