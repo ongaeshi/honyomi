@@ -19,6 +19,10 @@
     font-size: 100%;
 }
 
+.result-file-size {
+    font-size: 95%;
+}
+
 .result-body {
     margin: 5px 0px 0px 0px;
     font-size: 95%;
