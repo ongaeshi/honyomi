@@ -18,8 +18,8 @@ class TestPdf < MiniTest::Test
     pdf = Honyomi::Pdf.new(test_pdf)
     pages = pdf.strip_pages
 
-    assert_equal "aaa", pages[0]
-    assert_equal "bbb", pages[1]
-    assert_equal "ccc", pages[2]
+    assert_equal "aaa\n\n", pages[0]
+    assert_equal "bbb\n\n", pages[1]
+    assert_equal "ccc\n\n", pages[2]
   end
 end
