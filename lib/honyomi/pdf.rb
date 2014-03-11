@@ -18,7 +18,7 @@ module Honyomi
     end
 
     def strip_pages
-      @text.split("\f").map { |page| page.gsub(/[\n\s]/, "") }
+      @text.split("\f").map { |page| page.gsub(/[ \t]/, "") }
     end
   end
 end

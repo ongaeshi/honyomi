@@ -1,0 +1,33 @@
+!!! 
+
+%html(lang='ja')
+  %head
+    %meta(charset='utf-8')
+    %title Honyomi
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    %link(rel="stylesheet" href="/css/bootstrap.min.css")
+    %link(rel="stylesheet" href="/css/honyomi.css")
+    %link(rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
+    
+  %body(style="padding-top:70px;")
+    .navbar.navbar-default.navbar-fixed-top
+      .navbar-header
+        %button(type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse")
+          %span(class="icon-bar")
+          %span(class="icon-bar")
+          %span(class="icon-bar")
+        %a(class="navbar-brand" href="/")
+          Honyomi
+      .navbar-collapse.collapse
+        %ul(class="nav navbar-nav")
+          %li
+            <a href="#{@navbar_href}">#{@navbar_title}</a>
+
+    != yield
+    %script(src="https://code.jquery.com/jquery.js")
+    %script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
+              
+          
+
+          
+

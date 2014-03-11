@@ -1,5 +1,6 @@
 require 'honyomi'
 require 'fileutils'
+require 'rack'
 
 module Honyomi
   class Core
@@ -19,7 +20,7 @@ module Honyomi
 
     def add(filename, title, options)
       pages = options[:strip] ? Pdf.new(filename).strip_pages : Pdf.new(filename).pages
-      @database.add_book_from_pages(title, pages)
+      @database.add_book_from_pages(filename, title, pages)
     end
 
     def search(query)
@@ -28,11 +29,32 @@ module Honyomi
 
     def list
       @database.books.map do |book|
-        "#{book.title} (#{book.page_num} pages)"
+        "#{book.title} (#{book.page_num} pages) #{book.path}"
       end
     end
 
     def web
+      options = {
+        :environment => ENV['RACK_ENV'] || "development",
+        :pid         => nil,
+        :Port        => 9295,
+        :Host        => "0.0.0.0",
+        :AccessLog   => [],
+        :config      => "config.ru",
+        # ----------------------------
+        :server      => "thin",
+      }
+
+      # Move to the location of the server script
+      FileUtils.cd(File.join(File.dirname(__FILE__), 'web'))
+
+      # Create Rack Server
+      rack_server = Rack::Server.new(options)
+
+      # Start Rack
+      rack_server.start do
+        # Launchy.open(launch_url) if launch_url
+      end
     end
 
     private
