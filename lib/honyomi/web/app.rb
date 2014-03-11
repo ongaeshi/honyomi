@@ -32,9 +32,9 @@ get '/' do
 
       <<EOF
   <div class="result">
-    <div class="result-header"><a href="/v/#{page.book.key}#page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
+    <div class="result-header"><a href="/v/#{page.book.id}#page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
     <div class="row result-sub-header">
-      <div class="col-xs-6"><a href="/v/#{page.book.key}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.key}?raw=1##{page.page_no}">Raw</a>&nbsp;&nbsp;&nbsp;</div>
+      <div class="col-xs-6"><a href="/v/#{page.book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?raw=1##{page.page_no}">Raw</a>&nbsp;&nbsp;&nbsp;</div>
       <div class="col-xs-6"><a href="/?query=#{query_plus}">Filter+</a> <a href="/?query=#{query_minus}">Filter-</a></div>
     </div>
     <div class="result-body">
@@ -64,7 +64,7 @@ end
 get '/v/:id' do
   @database = $database
 
-  book = @database.books[params[:id]]
+  book = @database.books[params[:id].to_i]
 
   if params[:raw] == '1'
     pages = @database.book_pages(book.id)
