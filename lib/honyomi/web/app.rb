@@ -67,7 +67,7 @@ get '/v/:id' do
   book = @database.books[params[:id]]
 
   if params[:raw] == '1'
-    pages = @database.book_pages(book.key)
+    pages = @database.book_pages(book.id)
 
     @navbar_href = "#1"
     @navbar_title = book.title
