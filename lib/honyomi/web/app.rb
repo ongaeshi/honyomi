@@ -34,7 +34,7 @@ get '/' do
   <div class="result">
     <div class="result-header"><a href="/v/#{page.book.id}#page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
     <div class="row result-sub-header">
-      <div class="col-xs-6"><a href="/v/#{page.book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?raw=1##{page.page_no}">Raw</a>&nbsp;&nbsp;&nbsp;</div>
+      <div class="col-xs-6"><a href="/v/#{page.book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?raw=1##{page.page_no}">Raw</a>&nbsp;&nbsp;&nbsp;</div>
       <div class="col-xs-6"><a href="/?query=#{query_plus}">Filter+</a> <a href="/?query=#{query_minus}">Filter-</a></div>
     </div>
     <div class="result-body">
@@ -82,8 +82,12 @@ EOF
     }.join("\n")
 
     haml :raw
+  elsif params[:pdf] == '1'
+    send_file(book.path, :disposition => 'inline')
+  elsif params[:dl] == '1'
+    send_file(book.path, :disposition => 'download')
   else
-    send_file(book.path, :disposition => params[:dl] == '1' ? 'download' : 'inline')
+    "aaaa"
   end
 end
 

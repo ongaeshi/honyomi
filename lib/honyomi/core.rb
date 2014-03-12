@@ -28,8 +28,12 @@ module Honyomi
     end
 
     def list
+      id_length = @database.books.max { |book| book.id.to_s.length }
+      id_length = id_length.id.to_s.length
+
       @database.books.map do |book|
-        "#{book.title} (#{book.page_num} pages) #{book.path}"
+        # "#{book.id} #{book.title} (#{book.page_num} pages) #{book.path}"
+        "#{book.id.to_s.rjust(id_length)} #{book.title} (#{book.page_num} pages)"
       end
     end
 
