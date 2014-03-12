@@ -22,7 +22,7 @@ module Honyomi
       end
     end
 
-    desc "update [options] [book_id1 book_id2 ...]", "Update pdf files"
+    desc "update [book_id1 book_id2 ...]", "Update pdf files"
     option :all, :type => :boolean, :desc => 'Update all pdf'
     def update(*args)
       core = Core.new
