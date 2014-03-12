@@ -12,7 +12,6 @@ module Honyomi
     end
 
     desc "add file1 [file2 ...]", "Add pdf files"
-    option :strip, :type => :boolean, :desc => 'Remove spaces'
     def add(*args)
       core = Core.new
       core.load_database
@@ -23,14 +22,22 @@ module Honyomi
       end
     end
 
-    desc "update book_id [options]", "Update pdf file"
-    option :title, :type => :string, :desc => 'Change title'
-    option :path, :type => :string, :desc => 'Change path'
-    option :strip, :type => :boolean, :desc => 'Remove spaces'
+    desc "update [options] [book_id1 book_id2 ...]", "Update pdf files"
+    option :all, :type => :boolean, :desc => 'Update all pdf'
     def update(*args)
       core = Core.new
       core.load_database
       core.update(args[0], options)
+    end
+
+    desc "edit book_id [options]", "Edit book info"
+    option :title, :type => :string,  :desc => 'Change title'
+    option :path,  :type => :string,  :desc => 'Change file path'
+    option :strip, :type => :boolean, :desc => 'Remove spaces'
+    def edit(*args)
+      core = Core.new
+      core.load_database
+      core.edit(args[0], options)
     end
 
     desc "search query", "Search pages"
