@@ -23,13 +23,41 @@ module Honyomi
       @database.add_book_from_pages(filename, title, pages)
     end
 
+    def update(book_id, options)
+      book = @database.books[book_id.to_i]
+
+      if options[:title]
+        book.title = options[:title]
+      end
+
+      if options[:strip]
+      end
+    end
+
     def search(query)
       @database.search(query)
     end
 
-    def list
-      @database.books.map do |book|
-        "#{book.title} (#{book.page_num} pages) #{book.path}"
+    def list(args)
+      if args.empty?
+        id_length = @database.books.max { |book| book.id.to_s.length }
+        id_length = id_length.id.to_s.length
+
+        @database.books.map do |book|
+          # "#{book.id} #{book.title} (#{book.page_num} pages) #{book.path}"
+          "#{book.id.to_s.rjust(id_length)} #{book.title} (#{book.page_num} pages)"
+        end
+      else
+        args.map do |book_id| 
+          book = @database.books[book_id.to_i]
+          <<EOF
+id:    #{book.id.to_s}
+title: #{book.title}
+path:  #{book.path}
+pages: #{book.page_num}
+
+EOF
+        end
       end
     end
 

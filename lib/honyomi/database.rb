@@ -7,7 +7,7 @@ module Honyomi
     attr_reader :pages
 
     def initialize
-      @books = GrnMini::Hash.new("Books")
+      @books = GrnMini::Array.new("Books")
       @pages = GrnMini::Hash.new("Pages")
 
       @books.setup_columns(path:     "",
@@ -25,18 +25,20 @@ module Honyomi
       title      = data[:title]
       text_array = data[:text].split("\f")
       
-      @books[title] = { title: title, page_num: text_array.size }
+      @books << { title: title, page_num: text_array.size }
+      book = @books[@books.size]
       
       text_array.each_with_index do |page, index|
-        @pages["#{title}:#{index+1}"] = { book: title, text: page, page_no: index+1 }
+        @pages["#{book.id}:#{index+1}"] = { book: book, text: page, page_no: index+1 }
       end
     end
 
     def add_book_from_pages(filename, title, pages)
-      @books[title] = { path: File.expand_path(filename), title: title, page_num: pages.size }
+      @books << { path: File.expand_path(filename), title: title, page_num: pages.size }
+      book = @books[@books.size]
       
       pages.each_with_index do |page, index|
-        @pages["#{title}:#{index+1}"] = { book: title, text: page, page_no: index+1 }
+        @pages["#{book.id}:#{index+1}"] = { book: book, text: page, page_no: index+1 }
       end
     end
 
@@ -44,8 +46,8 @@ module Honyomi
       @pages.select(query, default_column: "text")
     end
 
-    def book_pages(book_key)
-      @pages.select("book._key:\"#{book_key}\"").sort(["page_no"])
+    def book_pages(book_id)
+      @pages.select("book._id:\"#{book_id}\"").sort(["page_no"])
     end
   end
 end
