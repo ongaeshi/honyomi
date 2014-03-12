@@ -32,7 +32,7 @@ get '/' do
 
       <<EOF
   <div class="result">
-    <div class="result-header"><a href="/v/#{page.book.id}#page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
+    <div class="result-header"><a href="/v/#{page.book.id}?page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
     <div class="row result-sub-header">
       <div class="col-xs-6"><a href="/v/#{page.book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?raw=1##{page.page_no}">Raw</a>&nbsp;&nbsp;&nbsp;</div>
       <div class="col-xs-6"><a href="/?query=#{query_plus}">Filter+</a> <a href="/?query=#{query_minus}">Filter-</a></div>
@@ -87,7 +87,22 @@ EOF
   elsif params[:dl] == '1'
     send_file(book.path, :disposition => 'download')
   else
-    "aaaa"
+    @navbar_href = ""
+    @navbar_title = book.title
+
+    pages = @database.book_pages(book.id)
+    page = pages[params[:page].to_i]
+    file_mb = File.stat(page.book.path).size / (1024 * 1024)
+
+    @content = <<EOF
+<div class="landing-page" id="#{page.page_no}">
+  <div class="landing-page-no"><i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;
+  <a href="/v/#{page.book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?raw=1##{page.page_no}">Raw</a></div>
+  <pre>#{escape_html page.text}</pre>
+</div>
+EOF
+
+    haml :raw
   end
 end
 
