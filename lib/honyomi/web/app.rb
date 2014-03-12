@@ -25,8 +25,6 @@ get '/' do
     r = page_entries.map do |page|
       books[page.book.path] = 1
       
-      file_mb = File.stat(page.book.path).size / (1024 * 1024)
-
       query_plus  = escape "#{@params[:query]} book.title:@\"#{page.book.title}\""
       query_minus = escape "#{@params[:query]} -book.title:@\"#{page.book.title}\""
 
@@ -34,7 +32,6 @@ get '/' do
   <div class="result">
     <div class="result-header"><a href="/v/#{page.book.id}?page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
     <div class="row result-sub-header">
-      <div class="col-xs-6"><a href="/v/#{page.book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?raw=1##{page.page_no}">Raw</a>&nbsp;&nbsp;&nbsp;</div>
       <div class="col-xs-6"><a href="/?query=#{query_plus}">Filter+</a> <a href="/?query=#{query_minus}">Filter-</a></div>
     </div>
     <div class="result-body">
