@@ -23,6 +23,17 @@ module Honyomi
       @database.add_book_from_pages(filename, title, pages)
     end
 
+    def update(book_id, options)
+      book = @database.books[book_id.to_i]
+
+      if options[:title]
+        book.title = options[:title]
+      end
+
+      if options[:strip]
+      end
+    end
+
     def search(query)
       @database.search(query)
     end
