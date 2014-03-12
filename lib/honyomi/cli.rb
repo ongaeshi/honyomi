@@ -57,12 +57,12 @@ module Honyomi
       end
     end
 
-    desc "list", "List books"
-    def list
+    desc "list [book_id1 book_id2 ...]", "List books"
+    def list(*args)
       core = Core.new
       core.load_database
 
-      puts core.list
+      puts core.list(args)
     end
 
     desc "web", "Web search interface"
