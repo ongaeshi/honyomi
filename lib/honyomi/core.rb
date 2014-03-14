@@ -24,14 +24,18 @@ module Honyomi
     end
 
     def update(book_id, options)
+    end
+
+    def edit(book_id, options)
       book = @database.books[book_id.to_i]
+      
+      book.title = options[:title] if options[:title] 
+      book.path = options[:path]   if options[:path]
 
-      if options[:title]
-        book.title = options[:title]
-      end
+      # if options[:strip]
+      # end
 
-      if options[:strip]
-      end
+      puts list([book_id])
     end
 
     def search(query)
