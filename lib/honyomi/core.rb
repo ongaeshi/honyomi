@@ -19,7 +19,7 @@ module Honyomi
     end
 
     def add(filename, title, options)
-      pages = options[:strip] ? Pdf.new(filename).strip_pages : Pdf.new(filename).pages
+      pages = Pdf.new(filename).pages
       @database.add_book_from_pages(filename, title, pages)
     end
 
