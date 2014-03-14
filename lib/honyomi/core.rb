@@ -32,8 +32,13 @@ module Honyomi
       book.title = options[:title] if options[:title] 
       book.path = options[:path]   if options[:path]
 
-      # if options[:strip]
-      # end
+      if options[:strip]
+        @database.book_pages(book_id).each do |page|
+          unless page.text.nil?
+            page.text = page.text.gsub(/[ \t]/, "")
+          end
+        end
+      end
     end
 
     def search(query)
