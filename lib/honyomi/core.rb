@@ -34,8 +34,6 @@ module Honyomi
 
       # if options[:strip]
       # end
-
-      puts list([book_id])
     end
 
     def search(query)

@@ -37,7 +37,10 @@ module Honyomi
     def edit(*args)
       core = Core.new
       core.load_database
-      core.edit(args[0], options)
+
+      book_id = args[0]
+      core.edit(book_id, options)
+      puts core.list([book_id])
     end
 
     desc "search query", "Search pages"
