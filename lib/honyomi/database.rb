@@ -21,18 +21,6 @@ module Honyomi
                            )
     end
 
-    def add_book_from_text(data)
-      title      = data[:title]
-      text_array = data[:text].split("\f")
-      
-      @books << { title: title, page_num: text_array.size }
-      book = @books[@books.size]
-      
-      text_array.each_with_index do |page, index|
-        @pages["#{book.id}:#{index+1}"] = { book: book, text: page, page_no: index+1 }
-      end
-    end
-
     def add_book_from_pages(filename, title, pages)
       @books << { path: File.expand_path(filename), title: title, page_num: pages.size }
       book = @books[@books.size]

@@ -7,12 +7,12 @@ class TestDatabase < MiniTest::Test
     end
   end
 
-  def test_add_book_from_text
+  def test_add_book_from_pages
     GrnMini::tmpdb do
       db = Honyomi::Database.new
-      db.add_book_from_text(title: "Book1", text: "1aa\f")
-      db.add_book_from_text(title: "Book2", text: "2aa\f2bb\f")
-      db.add_book_from_text(title: "Book3", text: "3aa\f3bb\f3cc\f")
+      db.add_book_from_pages("/path/to/book1.pdf", "Book1", ["1aa"])
+      db.add_book_from_pages("/path/to/book2.pdf", "Book2", ["2aa", "2bb"])
+      db.add_book_from_pages("/path/to/book3.pdf", "Book3", ["3aa", "3bb", "3cc"])
 
       assert_equal 3, db.books.size
       assert_equal 1, db.books[1].page_num
@@ -45,9 +45,9 @@ class TestDatabase < MiniTest::Test
   def test_search
     GrnMini::tmpdb do
       db = Honyomi::Database.new
-      db.add_book_from_text(title: "Book1", text: "1aa\f")
-      db.add_book_from_text(title: "Book2", text: "2aa\f2bb\f")
-      db.add_book_from_text(title: "Book3", text: "3aa\f3bb\f3cc\f")
+      db.add_book_from_pages("/path/to/book1.pdf", "Book1", ["1aa"])
+      db.add_book_from_pages("/path/to/book2.pdf", "Book2", ["2aa", "2bb"])
+      db.add_book_from_pages("/path/to/book3.pdf", "Book3", ["3aa", "3bb", "3cc"])
 
       results = db.search("1aa")
       assert_equal 1, results.size
@@ -63,9 +63,9 @@ class TestDatabase < MiniTest::Test
   def test_book_pages
     GrnMini::tmpdb do
       db = Honyomi::Database.new
-      db.add_book_from_text(title: "Book1", text: "1aa\f")
-      db.add_book_from_text(title: "Book2", text: "2aa\f2bb\f")
-      db.add_book_from_text(title: "Book3", text: "3aa\f3bb\f3cc\f")
+      db.add_book_from_pages("/path/to/book1.pdf", "Book1", ["1aa"])
+      db.add_book_from_pages("/path/to/book2.pdf", "Book2", ["2aa", "2bb"])
+      db.add_book_from_pages("/path/to/book3.pdf", "Book3", ["3aa", "3bb", "3cc"])
 
       assert_equal 1, db.book_pages(1).size
       assert_equal 2, db.book_pages(2).size
