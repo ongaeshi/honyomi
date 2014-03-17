@@ -4,6 +4,8 @@ require 'rack'
 
 module Honyomi
   class Core
+    attr_reader :database
+
     def initialize(opts = {})
       @opts = opts
     end
@@ -11,6 +13,7 @@ module Honyomi
     def init_database
       FileUtils.mkdir_p(db_dir)
       Groonga::Database.create(path: db_path)
+      @database = Database.new
     end
 
     def load_database
