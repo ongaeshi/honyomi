@@ -22,9 +22,21 @@ module Honyomi
     end
 
     def add_book_from_pages(filename, title, pages)
-      @books << { path: File.expand_path(filename), title: title, page_num: pages.size }
-      book = @books[@books.size]
-      
+      path = File.expand_path(filename)
+      results = @books.select("path:#{path}")
+      book = results.first
+
+      unless book
+        # Add
+        @books << { path: File.expand_path(filename), title: title, page_num: pages.size }
+        book = @books[@books.size]
+      else
+        # Update
+        book       = book.key         # Get the entity
+        book.title = title
+        page_num   = pages.size
+      end
+
       pages.each_with_index do |page, index|
         @pages["#{book.id}:#{index+1}"] = { book: book, text: page, page_no: index+1 }
       end
