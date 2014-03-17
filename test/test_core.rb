@@ -15,7 +15,7 @@ module Honyomi
         core = Core.new({home_dir: dir})
         core.init_database
 
-        core.add(datafile("test.pdf"), "TEST PDF", {})
+        core.add(datafile("test.pdf"), "TEST PDF")
 
         assert_equal 1, core.database.books.size
       end

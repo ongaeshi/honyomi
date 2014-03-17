@@ -21,7 +21,7 @@ module Honyomi
       @database = Database.new
     end
 
-    def add(filename, title, options)
+    def add(filename, title, options = {})
       pages = Pdf.new(filename).pages
       @database.add_book_from_pages(filename, title, pages)
     end
