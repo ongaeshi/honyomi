@@ -15,7 +15,7 @@ module Honyomi
         core = Core.new({home_dir: dir})
         core.init_database
 
-        core.add(datafile("test.pdf"), "TEST PDF")
+        core.add(datafile("test.pdf"), title: "TEST PDF")
 
         assert_equal 1, core.database.books.size
       end
@@ -26,13 +26,23 @@ module Honyomi
         core = Core.new({home_dir: dir})
         core.init_database
 
-        core.add(datafile("test.pdf"), "TEST1")
+        core.add(datafile("test.pdf"), title: "TEST1")
         assert_equal "TEST1", core.database.books[1].title 
         
-        core.add(datafile("test.pdf"), "TEST2")
+        core.add(datafile("test.pdf"), title: "TEST2")
         assert_equal "TEST2", core.database.books[1].title 
 
         assert_equal 1, core.database.books.size
+      end
+    end
+
+    def test_add_by_specifying_only_filename
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+
+        core.add(datafile("test.pdf"))
+        assert_equal "test", core.database.books[1].title 
       end
     end
 
