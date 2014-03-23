@@ -23,7 +23,7 @@ module Honyomi
 
     def add_book_from_pages(filename, title, pages)
       path = File.expand_path(filename)
-      results = @books.select("path:#{path}")
+      results = @books.select("path:\"#{path}\"")
       book = results.first
 
       unless book
