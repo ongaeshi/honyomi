@@ -22,9 +22,13 @@ module Honyomi
     end
 
     def add(filename, options = {})
-      pages = Pdf.new(filename).pages
-      title = options[:title] || File.basename(Util::filename_to_utf8(filename), ".pdf")
-      @database.add_book_from_pages(filename, title, pages)
+      if File.exist?(filename)
+        pages = Pdf.new(filename).pages
+        title = options[:title] || File.basename(Util::filename_to_utf8(filename), ".pdf")
+        @database.add_book_from_pages(filename, title, pages)
+      else
+        puts "Not exist: #{filename}"
+      end
     end
 
     def update(book_id, options)
