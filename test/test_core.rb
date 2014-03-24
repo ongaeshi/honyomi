@@ -46,6 +46,16 @@ module Honyomi
       end
     end
 
+    def test_add_with_title
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+
+        core.add(datafile("test.pdf"), {title: "ttt"})
+        assert_equal "ttt", core.database.books[1].title 
+      end
+    end
+
     private
 
     def datafile(path)

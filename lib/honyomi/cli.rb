@@ -12,9 +12,15 @@ module Honyomi
     end
 
     desc "add file1 [file2 ...]", "Add pdf files"
+    option :title, :type => :string,  :desc => 'Specify title'
     def add(*args)
       core = Core.new
       core.load_database
+
+      if options[:title] && args.size > 1
+        puts "Arguments is specified more than once, but there is --title option"
+        return
+      end
 
       args.each do |arg|
         core.add(arg, options)
