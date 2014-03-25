@@ -21,7 +21,14 @@ module Honyomi
                            )
     end
 
-    def add_book(path, title, pages, options = {})
+    def add_book(path, title, pages)
+      book = book_from_path(path)
+
+      if book
+        change_book(book.id, {title: title, pages: pages})
+        return
+      end
+
       @books << { path: path, title: title, page_num: pages.size }
       book = @books[@books.size]
 
@@ -60,6 +67,25 @@ module Honyomi
       book.delete
     end
 
+    def search(query)
+      @pages.select(query, default_column: "text")
+    end
+
+    def book_pages(book_id)
+      @pages.select("book._id:\"#{book_id}\"").sort(["page_no"])
+    end
+
+    def book_from_path(path)
+      r = @books.select("path:\"#{path}\"").first
+
+      if r
+        r.key
+      else
+        nil
+      end
+    end
+
+    # @todo Remove
     def add_book_from_pages(filename, title, pages)
       path = File.expand_path(filename)
       results = @books.select("path:\"#{path}\"")
@@ -81,12 +107,5 @@ module Honyomi
       end
     end
 
-    def search(query)
-      @pages.select(query, default_column: "text")
-    end
-
-    def book_pages(book_id)
-      @pages.select("book._id:\"#{book_id}\"").sort(["page_no"])
-    end
   end
 end
