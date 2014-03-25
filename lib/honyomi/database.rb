@@ -28,7 +28,7 @@ module Honyomi
 
       unless book
         # Add
-        @books << { path: File.expand_path(filename), title: title, page_num: pages.size }
+        @books << { path: path, title: title, page_num: pages.size }
         book = @books[@books.size]
       else
         # Update
