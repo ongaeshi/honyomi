@@ -25,8 +25,7 @@ module Honyomi
       if File.exist?(filename)
         pages = Pdf.new(filename).pages
         pages = pages.map { |page| page.gsub(/[ \t]/, "") } if options[:strip]
-        title = options[:title] || File.basename(Util::filename_to_utf8(filename), ".pdf")
-        @database.add_book_from_pages(filename, title, pages)
+        @database.add_book(filename, pages, options)
       else
         puts "Not exist: #{filename}"
       end
