@@ -7,6 +7,80 @@ class TestDatabase < MiniTest::Test
     end
   end
 
+  def test_add_book
+    GrnMini::tmpdb do
+      db = Honyomi::Database.new
+
+      db.add_book("/path/to/book1.pdf", "Book1", ["1aa"])
+      db.add_book("/path/to/book2.pdf", "Book2", ["2aa", "2bb"])
+      db.add_book("/path/to/book3.pdf", "Book3", ["3aa", "3bb", "3cc"])
+
+      assert_equal 3, db.books.size
+      assert_equal 1, db.books[1].page_num
+      assert_equal 2, db.books[2].page_num
+      assert_equal 3, db.books[3].page_num
+
+      assert_equal "Book1", db.pages["1:1"].book.title
+      assert_equal       1, db.pages["1:1"].page_no
+      assert_equal   "1aa", db.pages["1:1"].text
+
+      assert_equal "Book2", db.pages["2:1"].book.title
+      assert_equal       1, db.pages["2:1"].page_no
+      assert_equal   "2aa", db.pages["2:1"].text
+      assert_equal "Book2", db.pages["2:2"].book.title
+      assert_equal       2, db.pages["2:2"].page_no
+      assert_equal   "2bb", db.pages["2:2"].text
+
+      assert_equal "Book3", db.pages["3:1"].book.title
+      assert_equal       1, db.pages["3:1"].page_no
+      assert_equal   "3aa", db.pages["3:1"].text
+      assert_equal "Book3", db.pages["3:2"].book.title
+      assert_equal       2, db.pages["3:2"].page_no
+      assert_equal   "3bb", db.pages["3:2"].text
+      assert_equal "Book3", db.pages["3:3"].book.title
+      assert_equal       3, db.pages["3:3"].page_no
+      assert_equal   "3cc", db.pages["3:3"].text
+    end
+  end
+
+  def test_change_book
+    GrnMini::tmpdb do
+      db = Honyomi::Database.new
+
+      db.add_book("/path/to/book1.pdf", "Book1", ["1aa"])
+      db.add_book("/path/to/book2.pdf", "Book2", ["2aa", "2bb"])
+
+      # title
+      db.change_book(1, title: "BOOK1")
+      assert_equal "BOOK1", db.books[1].title
+      
+      # path
+      db.change_book(2, path: "/PATH/TO/BOOK2.pdf")
+      assert_equal "/PATH/TO/BOOK2.pdf", db.books[2].path
+
+      # pages
+      db.change_book(2, pages: ["AA"])
+      assert_equal 1, db.books[2].page_num
+      assert_equal "AA", db.pages["2:1"].text
+      assert_equal nil, db.pages["2:2"]
+    end
+  end
+
+  def test_delete_book
+    GrnMini::tmpdb do
+      db = Honyomi::Database.new
+
+      db.add_book("/path/to/book1.pdf", "Book1", ["1aa"])
+      db.add_book("/path/to/book2.pdf", "Book2", ["2aa", "2bb"])
+      db.add_book("/path/to/book3.pdf", "Book3", ["3aa", "3bb", "3cc"])
+
+      db.delete_book(2)
+
+      assert_equal 2, db.books.size
+      assert_equal 4, db.pages.size
+    end
+  end
+
   def test_add_book_from_pages
     GrnMini::tmpdb do
       db = Honyomi::Database.new

@@ -21,6 +21,45 @@ module Honyomi
                            )
     end
 
+    def add_book(path, title, pages, options = {})
+      @books << { path: path, title: title, page_num: pages.size }
+      book = @books[@books.size]
+
+      pages.each_with_index do |page, index|
+        @pages["#{book.id}:#{index+1}"] = { book: book, text: page, page_no: index+1 }
+      end
+    end
+
+    def change_book(book_id, options = {})
+      book = @books[book_id]
+      
+      book.title = options[:title] if options[:title]
+      book.path  = options[:path]  if options[:path]
+
+      if options[:pages]
+        pages = options[:pages]
+        book.page_num = pages.size
+
+        @pages.delete do |page|
+          page.book == book
+        end
+        
+        pages.each_with_index do |page, index|
+          @pages["#{book.id}:#{index+1}"] = { book: book, text: page, page_no: index+1 }
+        end
+      end
+    end
+
+    def delete_book(book_id)
+      book = @books[book_id]
+      
+      @pages.delete do |page|
+        page.book == book
+      end
+
+      book.delete
+    end
+
     def add_book_from_pages(filename, title, pages)
       path = File.expand_path(filename)
       results = @books.select("path:\"#{path}\"")
