@@ -56,6 +56,21 @@ module Honyomi
       end
     end
 
+    def test_add_strip
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+
+        core.add(datafile("test2.pdf"))
+        assert_equal "aaa bbb ccc", core.database.pages["1:1"].text.sub(/\n+\Z/, "")
+        assert_equal "dd ee", core.database.pages["1:2"].text.sub(/\n+\Z/, "")
+
+        core.add(datafile("test2.pdf"), strip: true)
+        assert_equal "aaabbbccc", core.database.pages["1:1"].text.sub(/\n+\Z/, "")
+        assert_equal "ddee", core.database.pages["1:2"].text.sub(/\n+\Z/, "")
+      end
+    end
+
     private
 
     def datafile(path)
