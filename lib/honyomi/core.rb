@@ -35,18 +35,17 @@ module Honyomi
     end
 
     def edit(book_id, options)
-      book = @database.books[book_id.to_i]
-      
-      book.title = options[:title] if options[:title] 
-      book.path = options[:path]   if options[:path]
+      opts = {}
+      opts[:title] = options[:title] if options[:title]
+      opts[:path]  = options[:path]  if options[:path]
 
       if options[:strip]
-        @database.book_pages(book_id).each do |page|
-          unless page.text.nil?
-            page.text = page.text.gsub(/[ \t]/, "")
-          end
+        opts[:pages] = @database.book_pages(book_id).map do |page|
+          page.text ? Util.strip_page(page.text) : ""
         end
       end
+
+      @database.change_book(book_id, opts)
     end
 
     def search(query)

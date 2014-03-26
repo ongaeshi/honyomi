@@ -71,6 +71,25 @@ module Honyomi
       end
     end
 
+    def test_edit
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+
+        core.add(datafile("test2.pdf"))
+
+        core.edit(1, title: "ttt")
+        assert_equal "ttt", core.database.books[1].title 
+
+        core.edit(1, strip: true)
+        assert_equal "aaabbbccc", core.database.pages["1:1"].text.sub(/\n+\Z/, "")
+
+        assert_equal datafile("test2.pdf"), core.database.books[1].path
+        core.edit(1, path: datafile("test.pdf"))
+        assert_equal datafile("test.pdf"), core.database.books[1].path
+      end
+    end
+
     private
 
     def datafile(path)
