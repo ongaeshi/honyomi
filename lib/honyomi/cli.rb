@@ -49,6 +49,16 @@ module Honyomi
       puts core.list([book_id])
     end
 
+    desc "remove book_id1 [book_id2 ...]", "Remove books"
+    def remove(*args)
+      core = Core.new
+      core.load_database
+
+      args.each do |id|
+        core.remove(id.to_i)
+      end
+    end
+
     desc "search query", "Search pages"
     def search(*args)
       core = Core.new
