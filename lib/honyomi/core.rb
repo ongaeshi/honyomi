@@ -48,6 +48,10 @@ module Honyomi
       @database.change_book(book_id, opts)
     end
 
+    def remove(book_id)
+      @database.delete_book(book_id)
+    end
+
     def search(query)
       @database.search(query)
     end

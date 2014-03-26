@@ -90,6 +90,25 @@ module Honyomi
       end
     end
 
+    def test_remove
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+
+        core.add(datafile("test.pdf"))
+        core.add(datafile("test2.pdf"))
+        assert_equal 2, core.database.books.size
+
+        core.remove(1)
+        assert_equal 1, core.database.books.size
+        assert_equal 2, core.database.pages.size
+
+        core.remove(2)
+        assert_equal 0, core.database.books.size
+        assert_equal 0, core.database.pages.size
+      end
+    end
+
     private
 
     def datafile(path)
