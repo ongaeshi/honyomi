@@ -44,7 +44,7 @@ module Honyomi
       core = Core.new
       core.load_database
 
-      book_id = args[0]
+      book_id = args[0].to_i
       core.edit(book_id, options)
       puts core.list([book_id])
     end
@@ -81,7 +81,7 @@ module Honyomi
       core = Core.new
       core.load_database
 
-      puts core.list(args)
+      puts core.list(args.map{|v| v.to_i })
     end
 
     desc "web", "Web search interface"

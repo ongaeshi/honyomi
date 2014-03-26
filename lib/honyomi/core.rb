@@ -67,7 +67,7 @@ module Honyomi
         end
       else
         args.map do |book_id| 
-          book = @database.books[book_id.to_i]
+          book = @database.books[book_id]
           <<EOF
 id:    #{book.id.to_s}
 title: #{book.title}
