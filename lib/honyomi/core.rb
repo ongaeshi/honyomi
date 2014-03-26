@@ -24,7 +24,7 @@ module Honyomi
     def add(filename, options = {})
       if File.exist?(filename)
         pages = Pdf.new(filename).pages
-        pages = pages.map { |page| page.gsub(/[ \t]/, "") } if options[:strip]
+        pages = pages.map { |page| Util.strip_page(page) } if options[:strip]
         @database.add_book(filename, pages, options)
       else
         puts "Not exist: #{filename}"

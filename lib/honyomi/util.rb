@@ -33,5 +33,9 @@ module Honyomi
         src
       end
     end
+
+    def strip_page(page)
+      page.gsub(/[ \t]/, "")
+    end
   end
 end
