@@ -31,7 +31,7 @@ module Honyomi
         return
       end
 
-      path_utf8 = Util::filename_to_utf8(path)
+      path_utf8 = Util.filename_to_utf8(path)
       title = options[:title] || File.basename(path_utf8, File.extname(path_utf8))
 
       @books << { path: path, title: title, page_num: pages.size }

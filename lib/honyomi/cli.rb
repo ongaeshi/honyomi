@@ -55,7 +55,7 @@ module Honyomi
       core.load_database
 
       results = core.search(args.join(" "))
-      snippet = GrnMini::Util::text_snippet_from_selection_results(results)
+      snippet = GrnMini::Util.text_snippet_from_selection_results(results)
 
       puts "#{results.size} matches"
       results.map do |page|
