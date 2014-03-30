@@ -103,6 +103,14 @@ EOF
       end
     end
 
+    def db_dir
+      ENV['HONYOMI_DATABASE_DIR'] || File.join(home_dir, 'db')
+    end
+
+    def db_path
+      File.join(db_dir, 'honyomi.db')
+    end
+
     private
 
     def home_dir
@@ -112,14 +120,6 @@ EOF
       end
       
       @home_dir
-    end
-
-    def db_dir
-      ENV['HONYOMI_DATABASE_DIR'] || File.join(home_dir, 'db')
-    end
-
-    def db_path
-      File.join(db_dir, 'honyomi.db')
     end
 
     def default_home
