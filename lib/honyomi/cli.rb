@@ -5,7 +5,7 @@ module Honyomi
   class CLI < Thor
     class_option :help, :type => :boolean, :aliases => '-h', :desc => 'Help message'
 
-    desc "init", "Init database"
+    desc "init  # Create database in ENV['HONYOMI_DATABASE_DIR'] or '~/.honyomi'", "Init database"
     def init
       core = Core.new
       core.init_database
