@@ -27,7 +27,7 @@ module Honyomi
         pages = pages.map { |page| Util.strip_page(page) } if options[:strip]
         @database.add_book(filename, pages, options)
       else
-        puts "Not exist: #{filename}"
+        nil
       end
     end
 

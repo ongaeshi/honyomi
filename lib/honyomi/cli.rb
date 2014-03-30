@@ -24,7 +24,21 @@ module Honyomi
       end
 
       args.each do |arg|
-        core.add(arg, options)
+        book, status = core.add(arg, options)
+
+        unless book
+          puts "Not exist: #{arg}"
+          next
+        end
+
+        case status
+        when :update
+          puts "U #{book.id.to_s} #{book.title} (#{book.page_num} pages)"
+        when :add
+          puts "A #{book.id.to_s} #{book.title} (#{book.page_num} pages)"
+        else
+          raise
+        end
       end
     end
 
@@ -37,9 +51,9 @@ module Honyomi
     # end
 
     desc "edit book_id [options]", "Edit book info"
-    option :title, :type => :string,  :desc => 'Change title'
     option :path,  :type => :string,  :desc => 'Change file path'
     option :strip, :type => :boolean, :desc => 'Remove spaces'
+    option :title, :type => :string,  :desc => 'Change title'
     def edit(*args)
       core = Core.new
       core.load_database

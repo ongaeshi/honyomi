@@ -25,20 +25,25 @@ module Honyomi
       book = book_from_path(path)
 
       if book
+        # Already exist
         opts = options.dup
         opts[:pages] = pages
         change_book(book.id, opts)
-        return
-      end
+        return book, :update
 
-      path_utf8 = Util.filename_to_utf8(path)
-      title = options[:title] || File.basename(path_utf8, File.extname(path_utf8))
+      else
+        # New book
+        path_utf8 = Util.filename_to_utf8(path)
+        title = options[:title] || File.basename(path_utf8, File.extname(path_utf8))
 
-      @books << { path: path, title: title, page_num: pages.size }
-      book = @books[@books.size]
+        @books << { path: path, title: title, page_num: pages.size }
+        book = @books[@books.size]
 
-      pages.each_with_index do |page, index|
-        @pages["#{book.id}:#{index+1}"] = { book: book, text: page, page_no: index+1 }
+        pages.each_with_index do |page, index|
+          @pages["#{book.id}:#{index+1}"] = { book: book, text: page, page_no: index+1 }
+        end
+
+        return book, :add
       end
     end
 

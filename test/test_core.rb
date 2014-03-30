@@ -71,6 +71,19 @@ module Honyomi
       end
     end
 
+    def test_add_with_status
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+
+        book, status = core.add(datafile("test2.pdf"))
+        assert_equal :add, status
+
+        book, status = core.add(datafile("test2.pdf"), strip: true)
+        assert_equal :update, status
+      end
+    end
+
     def test_edit
       Dir.mktmpdir do |dir|
         core = Core.new({home_dir: dir})
