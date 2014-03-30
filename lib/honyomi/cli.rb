@@ -7,8 +7,12 @@ module Honyomi
 
     desc "init  # Create database in ENV['HONYOMI_DATABASE_DIR'] or '~/.honyomi'", "Init database"
     def init
-      core = Core.new
-      core.init_database
+      begin
+        core = Core.new
+        core.init_database
+      rescue Groonga::FileExists
+        puts "Database already exists in \"#{core.db_path}\""
+      end
     end
 
     desc "add file1 [file2 ...]", "Add pdf files"
