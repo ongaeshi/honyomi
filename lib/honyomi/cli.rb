@@ -69,6 +69,7 @@ module Honyomi
       core.load_database
 
       args.each do |id|
+        puts core.list([id.to_i])
         core.remove(id.to_i)
       end
     end
