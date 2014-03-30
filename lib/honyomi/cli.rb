@@ -51,9 +51,9 @@ module Honyomi
     # end
 
     desc "edit book_id [options]", "Edit book info"
+    option :title, :aliases => '-t', :type => :string,  :desc => 'Change title'
     option :path,  :type => :string,  :desc => 'Change file path'
     option :strip, :type => :boolean, :desc => 'Remove spaces'
-    option :title, :type => :string,  :desc => 'Change title'
     def edit(*args)
       core = Core.new
       core.load_database
