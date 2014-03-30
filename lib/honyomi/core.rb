@@ -56,8 +56,10 @@ module Honyomi
       @database.search(query)
     end
 
-    def list(args)
-      if args.empty?
+    def list(args = [])
+      if @database.books.size == 0
+        []
+      elsif args.empty?
         id_length = @database.books.max { |book| book.id.to_s.length }
         id_length = id_length.id.to_s.length
 

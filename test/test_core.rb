@@ -122,6 +122,14 @@ module Honyomi
       end
     end
 
+    def test_list_empty
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+        assert_equal [], core.list
+      end
+    end    
+
     private
 
     def datafile(path)
