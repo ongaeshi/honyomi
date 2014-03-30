@@ -115,7 +115,7 @@ EOF
     end
 
     def db_dir
-      File.join(home_dir, 'db')
+      ENV['HONYOMI_DATABASE_DIR'] || File.join(home_dir, 'db')
     end
 
     def db_path
