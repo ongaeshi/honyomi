@@ -141,7 +141,19 @@ module Honyomi
         assert_equal ["2 test2 (2 pages)"], core.list([], {title: "2"})
         assert_equal ["1 test (3 pages)", "2 test2 (2 pages)"], core.list([], {title: "test"})
       end
-    end    
+    end
+
+    def test_list_id_with_titile
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+
+        core.add(datafile("test.pdf"))
+        core.add(datafile("test2.pdf"))
+
+        assert_equal 1, core.list([1], {title: "test"}).size
+      end
+    end
 
     private
 

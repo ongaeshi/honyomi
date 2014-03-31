@@ -57,15 +57,10 @@ module Honyomi
     end
 
     def list(args = [], options = {})
-      if @database.books.size == 0
-        []
-      elsif args.empty?
-        if options[:title]
-          books = @database.books.select("title:@#{options[:title]}").map { |record| record.key }
-        else
-          books = @database.books
-        end
-        
+      books = @database.books
+      books = books.select("title:@#{options[:title]}").map {|record| record.key} if options[:title]
+      
+      if args.empty?
         id_length = books.max { |book| book.id.to_s.length }
         id_length = id_length ? id_length.id.to_s.length : 0
 
@@ -74,16 +69,21 @@ module Honyomi
           "#{book.id.to_s.rjust(id_length)} #{book.title} (#{book.page_num} pages)"
         end
       else
-        args.map do |book_id| 
-          book = @database.books[book_id]
-          <<EOF
+        results = []
+        
+        books.each do |book|
+          if args.include?(book.id)
+            results << <<EOF
 id:    #{book.id.to_s}
 title: #{book.title}
 path:  #{book.path}
 pages: #{book.page_num}
 
 EOF
+          end
         end
+
+        results
       end
     end
 
