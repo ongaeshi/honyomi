@@ -56,14 +56,20 @@ module Honyomi
       @database.search(query)
     end
 
-    def list(args = [])
+    def list(args = [], options = {})
       if @database.books.size == 0
         []
       elsif args.empty?
-        id_length = @database.books.max { |book| book.id.to_s.length }
-        id_length = id_length.id.to_s.length
+        if options[:title]
+          books = @database.books.select("title:@#{options[:title]}").map { |record| record.key }
+        else
+          books = @database.books
+        end
+        
+        id_length = books.max { |book| book.id.to_s.length }
+        id_length = id_length ? id_length.id.to_s.length : 0
 
-        @database.books.map do |book|
+        books.map do |book|
           # "#{book.id} #{book.title} (#{book.page_num} pages) #{book.path}"
           "#{book.id.to_s.rjust(id_length)} #{book.title} (#{book.page_num} pages)"
         end

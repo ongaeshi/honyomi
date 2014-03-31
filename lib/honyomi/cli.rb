@@ -96,11 +96,12 @@ module Honyomi
     end
 
     desc "list [book_id1 book_id2 ...]", "List books"
+    option :title, :aliases => '-t', :type => :string,  :desc => 'Filter title'
     def list(*args)
       core = Core.new
       core.load_database
 
-      puts core.list(args.map{|v| v.to_i })
+      puts core.list(args.map{|v| v.to_i }, options)
     end
 
     desc "web", "Web search interface"
