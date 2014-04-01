@@ -1,5 +1,6 @@
 require 'honyomi'
 require 'fileutils'
+require 'launchy'
 require 'rack'
 
 module Honyomi
@@ -88,7 +89,7 @@ EOF
     end
 
     def web(options)
-      options = {
+      rack_options = {
         :environment => ENV['RACK_ENV'] || "development",
         :pid         => nil,
         :Port        => options[:port],
@@ -103,11 +104,13 @@ EOF
       FileUtils.cd(File.join(File.dirname(__FILE__), 'web'))
 
       # Create Rack Server
-      rack_server = Rack::Server.new(options)
+      rack_server = Rack::Server.new(rack_options)
 
       # Start Rack
       rack_server.start do
-        # Launchy.open(launch_url) if launch_url
+        unless options[:no_browser]
+          Launchy.open("http://#{options[:host]}:#{options[:port]}")
+        end
       end
     end
 
