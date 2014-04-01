@@ -87,16 +87,16 @@ EOF
       end
     end
 
-    def web
+    def web(options)
       options = {
         :environment => ENV['RACK_ENV'] || "development",
         :pid         => nil,
-        :Port        => 9295,
-        :Host        => "0.0.0.0",
+        :Port        => options[:port],
+        :Host        => options[:host],
         :AccessLog   => [],
         :config      => "config.ru",
         # ----------------------------
-        :server      => "thin",
+        :server      => options[:server],
       }
 
       # Move to the location of the server script
