@@ -27,8 +27,8 @@ get '/' do
     end
 
     r = page_entries.map do |page|
-      query_plus  = escape "#{@params[:query]} book.title:@\"#{page.book.title}\""
-      query_minus = escape "#{@params[:query]} -book.title:@\"#{page.book.title}\""
+      query_plus  = escape "#{@params[:query]} book:#{page.book.id}"
+      query_minus = escape "#{@params[:query]} -book:#{page.book.id}"
 
       <<EOF
   <div class="result">
