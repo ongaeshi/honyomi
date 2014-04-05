@@ -22,9 +22,11 @@ get '/' do
 
     books = {}
 
-    r = page_entries.map do |page|
+    results.each do |page|
       books[page.book.path] = 1
-      
+    end
+
+    r = page_entries.map do |page|
       query_plus  = escape "#{@params[:query]} book.title:@\"#{page.book.title}\""
       query_minus = escape "#{@params[:query]} -book.title:@\"#{page.book.title}\""
 
