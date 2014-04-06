@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'launchy'
   spec.add_dependency 'rack'
   spec.add_dependency 'sinatra'
-  spec.add_dependency 'thin'
+  spec.add_dependency 'thin', "< 1.7"
   spec.add_dependency 'thor'
 
   spec.add_development_dependency "bundler", "~> 1.3"
