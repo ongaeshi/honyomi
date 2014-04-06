@@ -1,8 +1,8 @@
 # Honyomi
 
-honyomi is a e-book (pdf) search engine. It have command line interface and web application. It will accelerate the e-book of your life.
+Honyomi is ebook (pdf) search engine written by Ruby. It have command line interface and web application. It will accelerate the ebook of your life.
 
-honyomi is "本読み". "Read a book" is meaning.
+Honyomi is "本読み". "Read a book" is meaning.
 
 ![honyomi-01.png]()
 
@@ -46,14 +46,14 @@ $ HONYOMI_DATABASE_DIR=/path/to/dir honyomi init
 Create database to "/path/to/dir/db/honyomi.db"
 ```
 
-### Add e-book
+### Add book
 
 ```
 $ honyomi add /path/to/this_is_book.pdf
 A 1 this_is_book (10 pages)
 ```
 
-### Edit e-book
+### Edit book
 
 Change title. Specify book id.
 
