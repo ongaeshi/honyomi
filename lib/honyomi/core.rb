@@ -43,10 +43,10 @@ module Honyomi
       opts[:path]      = options[:path]                  if options[:path]
       opts[:timestamp] = Time.parse(options[:timestamp]) if options[:timestamp]
 
-      if options[:strip]
-        opts[:pages] = @database.book_pages(book_id).map do |page|
-          page.text ? Util.strip_page(page.text) : ""
-        end
+      if options[:strip] || options[:no_strip]
+        filename = @database.books[book_id].path
+        opts[:pages] = Pdf.new(filename).pages
+        opts[:pages] = opts[:pages].map { |page| Util.strip_page(page) } if options[:strip]
       end
 
       @database.change_book(book_id, opts)
