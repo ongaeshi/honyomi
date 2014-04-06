@@ -20,7 +20,7 @@ module Honyomi
     end
 
     def test_init
-      assert_equal "", command("init")
+      assert_match /Create database to/, command("init")
       assert_match /Database already exists/, command("init")
     end
     private

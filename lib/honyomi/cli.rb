@@ -10,6 +10,7 @@ module Honyomi
       begin
         core = Core.new
         core.init_database
+        puts "Create database to \"#{core.db_path}\""
       rescue Groonga::FileExists
         puts "Database already exists in \"#{core.db_path}\""
       end
