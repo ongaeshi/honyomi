@@ -57,6 +57,7 @@ module Honyomi
       
       book.title = options[:title] if options[:title]
       book.path  = options[:path]  if options[:path]
+      book.timestamp = options[:timestamp] if options[:timestamp]
 
       if options[:pages]
         pages = options[:pages]

@@ -58,6 +58,7 @@ module Honyomi
     option :title, :aliases => '-t', :type => :string,  :desc => 'Change title'
     option :path,  :type => :string,  :desc => 'Change file path'
     option :strip, :type => :boolean, :desc => 'Remove spaces'
+    option :timestamp, :type => :string, :desc => 'Change timestamp'
     def edit(*args)
       core = Core.new
       core.load_database

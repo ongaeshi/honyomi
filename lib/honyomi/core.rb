@@ -39,8 +39,9 @@ module Honyomi
 
     def edit(book_id, options)
       opts = {}
-      opts[:title] = options[:title] if options[:title]
-      opts[:path]  = options[:path]  if options[:path]
+      opts[:title]     = options[:title]                 if options[:title]
+      opts[:path]      = options[:path]                  if options[:path]
+      opts[:timestamp] = Time.parse(options[:timestamp]) if options[:timestamp]
 
       if options[:strip]
         opts[:pages] = @database.book_pages(book_id).map do |page|
