@@ -14,6 +14,7 @@ module Honyomi
                            title:    "",
                            author:   "",
                            page_num: 0,
+                           timestamp: Time.new,
                            )
       @pages.setup_columns(book:    @books,
                            text:    "",
@@ -35,8 +36,13 @@ module Honyomi
         # New book
         path = Util.filename_to_utf8(path)
         title = options[:title] || File.basename(path, File.extname(path))
+        timestamp = options[:timestamp] || Time.now
 
-        book = @books << { path: path, title: title, page_num: pages.size }
+        book = @books.add(path: path,
+                          title: title,
+                          page_num: pages.size,
+                          timestamp: timestamp,
+                          )
 
         pages.each_with_index do |page, index|
           @pages["#{book.id}:#{index+1}"] = { book: book, text: page, page_no: index+1 }
