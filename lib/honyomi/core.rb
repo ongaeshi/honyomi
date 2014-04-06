@@ -119,7 +119,7 @@ EOF
     end
 
     def db_dir
-      ENV['HONYOMI_DATABASE_DIR'] || File.join(home_dir, 'db')
+      File.join(home_dir, 'db')
     end
 
     def db_path
@@ -130,7 +130,7 @@ EOF
 
     def home_dir
       unless @home_dir
-        @home_dir = @opts[:home_dir] || File.join(default_home, '.honyomi')
+        @home_dir = @opts[:home_dir] || ENV['HONYOMI_DATABASE_DIR'] || File.join(default_home, '.honyomi')
         FileUtils.mkdir_p(@home_dir) unless File.exist?(@home_dir)
       end
       
