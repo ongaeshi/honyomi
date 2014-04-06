@@ -4,6 +4,8 @@ honyomi is a e-book (pdf) search engine. It have command line interface and web 
 
 honyomi is "本読み". "Read a book" is meaning.
 
+![honyomi-01.png]()
+
 ## Installation
 
     $ gem install honyomi
@@ -51,9 +53,9 @@ $ honyomi add /path/to/this_is_book.pdf
 A 1 this_is_book (10 pages)
 ```
 
-### Edit a title
+### Edit e-book
 
-Specify book id.
+Change title. Specify book id.
 
 ```
 $ honyomi edit 1 -t "This is Book"
@@ -72,7 +74,7 @@ $ honyomi list
 2 That is Book (20 pages)
 ```
 
-Specify book id.
+Show detail. Specify book id.
 
 ```
 $ honyomi list 1
@@ -97,4 +99,6 @@ aaa <<bbb>> ccc
 ```
 $ honyomi web
 ```
+
+![honyomi-02.png]()
 
