@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Honyomi::VERSION
   spec.authors       = ["ongaeshi"]
   spec.email         = ["ongaeshi0621@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.summary       = %q{e-book (pdf) search engine, command line interface, and web application}
+  spec.description   = %q{honyomi is a e-book (pdf) search engine. It have command line interface and web application. It will accelerate the e-book of your life.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
