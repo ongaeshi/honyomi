@@ -29,7 +29,12 @@ module Honyomi
       end
 
       args.each do |arg|
-        book, status = core.add(arg, options)
+        begin
+          book, status = core.add(arg, options)
+        rescue Errno::ENOENT => e
+          puts "Not found 'pdftotext' command (poppler, xpdf)"
+          exit -1
+        end
 
         unless book
           puts "Not exist: #{arg}"
