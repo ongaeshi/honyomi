@@ -14,24 +14,6 @@ And, need 'pdftotext' command (poppler, xpdf ..)
 
 ## Usage
 
-```
-$ honyomi
-honyomi 0.0.1
-
-Commands:
-  honyomi add file1 [file2 ...]           # Add pdf files
-  honyomi edit book_id [options]          # Edit book info
-  honyomi help [COMMAND]                  # Describe available commands or one specific command
-  honyomi init                            # Create database in ENV['HONYOMI_DATABASE_DIR'] or '~/.honyomi'
-  honyomi list [book_id1 book_id2 ...]    # List books
-  honyomi remove book_id1 [book_id2 ...]  # Remove books
-  honyomi search query                    # Search pages
-  honyomi web                             # Web search interface
-
-Options:
-  -h, [--help]  # Help message
-```
-
 ### Create a database
 
 ```
