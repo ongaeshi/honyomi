@@ -77,10 +77,11 @@ module Honyomi
         books.each do |book|
           if args.include?(book.id)
             results << <<EOF
-id:    #{book.id.to_s}
-title: #{book.title}
-path:  #{book.path}
-pages: #{book.page_num}
+id:        #{book.id.to_s}
+title:     #{book.title}
+path:      #{book.path}
+pages:     #{book.page_num}
+timestamp: #{book.timestamp}
 
 EOF
           end
