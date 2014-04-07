@@ -4,7 +4,7 @@ Honyomi is ebook (pdf) search engine written by Ruby. It have command line inter
 
 Honyomi is "本読み". "Read a book" is meaning.
 
-![honyomi-01.png]()
+![honyomi-01.png](images/honyomi-01.png)
 
 ## Installation
 
@@ -82,5 +82,6 @@ aaa <<bbb>> ccc
 $ honyomi web
 ```
 
-![honyomi-02.png]()
+![honyomi-02.png](images/honyomi-02.png)
+
 
