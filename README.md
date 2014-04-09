@@ -4,16 +4,18 @@ Honyomi is ebook (pdf) search engine written by Ruby. It have command line inter
 
 Honyomi is "本読み". "Read a book" is meaning.
 
+[Milkode](https://github.com/ongaeshi/milkode) are brothers.
+
 ![honyomi-01.png](images/honyomi-01.png)
 
 ## Installation
 
     $ gem install honyomi
 
-When you faild to install Rroonga, Please refer -> [File: install — rroonga - Ranguba](http://ranguba.org/rroonga/en/file.install.html)
+When you faild to install Rroonga, Please refer.
+* [File: install — rroonga - Ranguba](http://ranguba.org/rroonga/en/file.install.html)
 
 And need external tools.
-
 * pdftotext - For reading pdf (poppler, xpdf)
 
 ## Usage
