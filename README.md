@@ -10,7 +10,11 @@ Honyomi is "本読み". "Read a book" is meaning.
 
     $ gem install honyomi
 
-And, need 'pdftotext' command (poppler, xpdf ..)
+When you faild to install Rroonga, Please refer -> [File: install — rroonga - Ranguba](http://ranguba.org/rroonga/en/file.install.html)
+
+And need external tools.
+
+* pdftotext - For reading pdf (poppler, xpdf)
 
 ## Usage
 
@@ -82,6 +86,6 @@ aaa <<bbb>> ccc
 $ honyomi web
 ```
 
-![honyomi-02.png](images/honyomi-02.png)
+![honyomi-03.gif](images/honyomi-03.gif)
 
 
