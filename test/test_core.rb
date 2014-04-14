@@ -21,6 +21,21 @@ module Honyomi
       end
     end
 
+    def test_add_by_relative_path
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+
+        absolute_path = File.expand_path(datafile("test.pdf"))
+        relative_path = Pathname.new(datafile("test.pdf")).relative_path_from(Pathname.new(Dir.getwd)).to_s
+        assert absolute_path != relative_path
+
+        core.add(relative_path)
+
+        assert_equal absolute_path, core.database.books[1].path
+      end
+    end
+
     def test_add_same_name
       Dir.mktmpdir do |dir|
         core = Core.new({home_dir: dir})
