@@ -24,6 +24,7 @@ module Honyomi
 
     def add(filename, options = {})
       if File.exist?(filename)
+        filename = File.expand_path(filename)
         options = options.dup
         pages = Pdf.new(filename).pages
         pages = pages.map { |page| Util.strip_page(page) } if options[:strip]
