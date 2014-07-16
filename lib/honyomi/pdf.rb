@@ -8,7 +8,7 @@ module Honyomi
 
       Dir.mktmpdir do |dir|
         outfile = File.join(dir, "pdf.txt")
-        system("pdftotext #{filename.gsub(' ', '\ ')} #{outfile}") # Need pdftotext (poppler, xpdf)
+        system("pdftotext", filename, outfile) # Need pdftotext (poppler, xpdf)
         @text = File.read(outfile)
       end
     end
