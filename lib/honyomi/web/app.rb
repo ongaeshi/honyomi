@@ -48,8 +48,19 @@ EOF
 #{r.join("\n")}
 EOF
   else
+    r = @database.books.map { |book|
+      <<EOF
+<li>#{book.id}: <a href="/v/#{book.id}">#{book.title}</a> (#{book.page_num}P)</li>
+EOF
+    }.reverse
+
     @content = <<EOF
-<div class="result">#{@database.books.size} books, #{@database.pages.size} pages.</div>
+<div class="matches">#{@database.books.size} books, #{@database.pages.size} pages.</div>
+<div class="result">
+  <ul>
+#{r.join("\n")}
+  </ul>
+</div>
 EOF
   end
 
