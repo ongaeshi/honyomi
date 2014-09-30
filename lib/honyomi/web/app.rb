@@ -15,6 +15,58 @@ get '/' do
   @database = $database
 
   if @params[:query] && !@params[:query].empty?
+    search_home
+  else
+    home
+  end
+end
+
+post '/search' do
+  redirect "/?query=#{escape(params[:query])}"
+end
+
+get '/v/:id' do
+  @database = $database
+
+  book = @database.books[params[:id].to_i]
+
+  if params[:raw] == '1'
+    raw_all(book)
+  elsif params[:pdf] == '1'
+    send_file(book.path, :disposition => 'inline')
+  elsif params[:dl] == '1'
+    send_file(book.path, :disposition => 'download')
+  else
+    if params[:page]
+      raw_page(book, params[:page].to_i)
+    else
+      book_home(book)
+    end
+  end
+end
+
+helpers do
+
+  def home
+    r = @database.books.map { |book|
+      <<EOF
+<li>#{book.id}: <a href="/v/#{book.id}">#{book.title}</a> (#{book.page_num}P)</li>
+EOF
+    }.reverse
+
+    @content = <<EOF
+<div class="matches">#{@database.books.size} books, #{@database.pages.size} pages.</div>
+<div class="result">
+  <ul>
+#{r.join("\n")}
+  </ul>
+</div>
+EOF
+
+    haml :index
+  end
+
+  def search_home
     results = @database.search(@params[:query])
 
     page_entries = results.paginate([["_score", :desc]], :page => 1, :size => 20)
@@ -47,51 +99,9 @@ EOF
 <div class="matches">#{books.size} books, #{results.size} pages</div>
 #{r.join("\n")}
 EOF
-  else
-    r = @database.books.map { |book|
-      <<EOF
-<li>#{book.id}: <a href="/v/#{book.id}">#{book.title}</a> (#{book.page_num}P)</li>
-EOF
-    }.reverse
 
-    @content = <<EOF
-<div class="matches">#{@database.books.size} books, #{@database.pages.size} pages.</div>
-<div class="result">
-  <ul>
-#{r.join("\n")}
-  </ul>
-</div>
-EOF
+    haml :index
   end
-
-  haml :index
-end
-
-post '/search' do
-  redirect "/?query=#{escape(params[:query])}"
-end
-
-get '/v/:id' do
-  @database = $database
-
-  book = @database.books[params[:id].to_i]
-
-  if params[:raw] == '1'
-    raw_all(book)
-  elsif params[:pdf] == '1'
-    send_file(book.path, :disposition => 'inline')
-  elsif params[:dl] == '1'
-    send_file(book.path, :disposition => 'download')
-  else
-    if params[:page]
-      raw_page(book, params[:page].to_i)
-    else
-      book_home(book)
-    end
-  end
-end
-
-helpers do
 
   def book_home(book)
     @navbar_href = "/v/#{book.id}"
