@@ -79,7 +79,7 @@ get '/v/:id' do
   if params[:raw] == '1'
     pages = @database.book_pages(book.id)
 
-    @navbar_href = "#1"
+    @navbar_href = "/v/#{book.id}"
     @navbar_title = book.title
 
     @content = pages.map { |page|
@@ -97,7 +97,7 @@ EOF
   elsif params[:dl] == '1'
     send_file(book.path, :disposition => 'download')
   else
-    @navbar_href = ""
+    @navbar_href = "/v/#{book.id}"
     @navbar_title = book.title
 
     pages = @database.book_pages(book.id)
