@@ -101,18 +101,28 @@ EOF
     @navbar_title = book.title
 
     pages = @database.book_pages(book.id)
-    page = pages[params[:page].to_i]
-    file_mb = File.stat(page.book.path).size / (1024 * 1024)
+    file_mb = File.stat(book.path).size / (1024 * 1024)
 
-    @content = <<EOF
+    if params[:page]
+      page = pages[params[:page].to_i]
+
+      @content = <<EOF
 <div class="landing-page" id="#{page.page_no}">
   <div class="landing-page-no"><i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;
-  <a href="/v/#{page.book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{page.book.id}?raw=1##{page.page_no}">Raw</a></div>
+  <a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1##{page.page_no}">Raw</a></div>
   <pre>#{escape_html page.text}</pre>
 </div>
 EOF
+      haml :raw
+    else
+      @content = <<EOF
+<div class="result">
+  <div class="matches">#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1">Raw</a></div>
+</div>
+EOF
+      haml :index
+    end
 
-    haml :raw
   end
 end
 

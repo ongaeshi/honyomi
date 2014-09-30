@@ -47,7 +47,12 @@
 .result ul {
     font-size: 120%;
     list-style: none;
-    /* list-style-position: inside; */
+    padding-left: 0px;
+}
+
+.landing-page ul {
+    font-size: 120%;
+    list-style: none;
     padding-left: 0px;
 }
 
