@@ -77,6 +77,36 @@ get '/v/:id' do
   book = @database.books[params[:id].to_i]
 
   if params[:raw] == '1'
+    raw_all(book)
+  elsif params[:pdf] == '1'
+    send_file(book.path, :disposition => 'inline')
+  elsif params[:dl] == '1'
+    send_file(book.path, :disposition => 'download')
+  else
+    if params[:page]
+      raw_page(book, params[:page].to_i)
+    else
+      book_home(book)
+    end
+  end
+end
+
+helpers do
+
+  def book_home(book)
+    @navbar_href = "/v/#{book.id}"
+    @navbar_title = book.title
+    file_mb = File.stat(book.path).size / (1024 * 1024)
+
+    @content = <<EOF
+<div class="result">
+  <div class="matches">#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1">Raw</a></div>
+</div>
+EOF
+    haml :index
+  end
+
+  def raw_all(book)
     pages = @database.book_pages(book.id)
 
     @navbar_href = "/v/#{book.id}"
@@ -92,37 +122,21 @@ EOF
     }.join("\n")
 
     haml :raw
-  elsif params[:pdf] == '1'
-    send_file(book.path, :disposition => 'inline')
-  elsif params[:dl] == '1'
-    send_file(book.path, :disposition => 'download')
-  else
+  end
+
+  def raw_page(book, page_no)
     @navbar_href = "/v/#{book.id}"
     @navbar_title = book.title
-
-    pages = @database.book_pages(book.id)
+    page = @database.book_pages(book.id)[page_no]
     file_mb = File.stat(book.path).size / (1024 * 1024)
 
-    if params[:page]
-      page = pages[params[:page].to_i]
-
-      @content = <<EOF
+    @content = <<EOF
 <div class="landing-page" id="#{page.page_no}">
   <div class="landing-page-no"><i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;
   <a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1##{page.page_no}">Raw</a></div>
   <pre>#{escape_html page.text}</pre>
 </div>
 EOF
-      haml :raw
-    else
-      @content = <<EOF
-<div class="result">
-  <div class="matches">#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1">Raw</a></div>
-</div>
-EOF
-      haml :index
-    end
-
+    haml :raw
   end
 end
-
