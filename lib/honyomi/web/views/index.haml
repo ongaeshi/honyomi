@@ -6,5 +6,6 @@
       %form(class="form-inline" method="post" action="/search")
         .form-group
           %input(class="form-control" type="text" size=40 name="query" value="#{@params[:query]}")
+          %input(type="hidden" name="book_id" value="#{@book_id}")
           %input(class="btn btn-primary" type="submit" value="Search")
       = @content

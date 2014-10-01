@@ -22,7 +22,11 @@ get '/' do
 end
 
 post '/search' do
-  redirect "/?query=#{escape(params[:query])}"
+  if params[:book_id] && !@params[:book_id].empty?
+    redirect "/v/#{@params[:book_id]}?query=#{escape(params[:query])}"
+  else
+    redirect "/?query=#{escape(params[:query])}"
+  end
 end
 
 get '/v/:id' do
@@ -40,7 +44,11 @@ get '/v/:id' do
     if params[:page]
       raw_page(book, params[:page].to_i)
     else
-      book_home(book)
+      if @params[:query] && !@params[:query].empty?
+        search_book_home(book)
+      else
+        book_home(book)
+      end
     end
   end
 end
@@ -104,6 +112,7 @@ EOF
   end
 
   def book_home(book)
+    @book_id = book.id
     @navbar_href = "/v/#{book.id}"
     @navbar_title = book.title
     file_mb = File.stat(book.path).size / (1024 * 1024)
@@ -113,6 +122,44 @@ EOF
   <div class="matches">#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1">Raw</a></div>
 </div>
 EOF
+    haml :index
+  end
+
+  def search_book_home(book)
+    @book_id = book.id
+    @navbar_href = "/v/#{book.id}"
+    @navbar_title = book.title
+
+    results = @database.search(@params[:query] + " book: #{book.id}")
+
+    page_entries = results.paginate([["page_no", :asc]], :page => 1, :size => 20)
+    snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
+
+    books = {}
+
+    results.each do |page|
+      books[page.book.path] = 1
+    end
+
+    r = page_entries.map do |page|
+      <<EOF
+  <div class="result">
+    <div class="result-header"><a href="/v/#{page.book.id}?page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
+    <div class="row result-sub-header">
+      <div class="col-xs-6"></div>
+    </div>
+    <div class="result-body">
+      #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
+    </div>
+  </div>
+EOF
+    end
+
+    @content = <<EOF
+<div class="matches">#{books.size} books, #{results.size} pages</div>
+#{r.join("\n")}
+EOF
+
     haml :index
   end
 
