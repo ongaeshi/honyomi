@@ -75,40 +75,10 @@ EOF
   end
 
   def search_home
-    results = @database.search(@params[:query])
-
-    page_entries = results.paginate([["_score", :desc]], :page => 1, :size => 20)
-    snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
-
-    books = {}
-
-    results.each do |page|
-      books[page.book.path] = 1
-    end
-
-    r = page_entries.map do |page|
-      query_plus  = escape "#{@params[:query]} book:#{page.book.id}"
-      query_minus = escape "#{@params[:query]} -book:#{page.book.id}"
-
-      <<EOF
-  <div class="result">
-    <div class="result-header"><a href="/v/#{page.book.id}?page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
-    <div class="row result-sub-header">
-      <div class="col-xs-6"><a href="/?query=#{query_plus}">Filter+</a> <a href="/?query=#{query_minus}">Filter-</a></div>
-    </div>
-    <div class="result-body">
-      #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
-    </div>
-  </div>
-EOF
-    end
-
-    @content = <<EOF
-<div class="matches">#{books.size} books, #{results.size} pages</div>
-#{r.join("\n")}
-EOF
-
-    haml :index
+    search_common(@params[:query],
+                  [["_score", :desc]],
+                  true
+                  )
   end
 
   def book_home(book)
@@ -130,37 +100,10 @@ EOF
     @navbar_href = "/v/#{book.id}"
     @navbar_title = book.title
 
-    results = @database.search(@params[:query] + " book: #{book.id}")
-
-    page_entries = results.paginate([["page_no", :asc]], :page => 1, :size => 20)
-    snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
-
-    books = {}
-
-    results.each do |page|
-      books[page.book.path] = 1
-    end
-
-    r = page_entries.map do |page|
-      <<EOF
-  <div class="result">
-    <div class="result-header"><a href="/v/#{page.book.id}?page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
-    <div class="row result-sub-header">
-      <div class="col-xs-6"></div>
-    </div>
-    <div class="result-body">
-      #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
-    </div>
-  </div>
-EOF
-    end
-
-    @content = <<EOF
-<div class="matches">#{books.size} books, #{results.size} pages</div>
-#{r.join("\n")}
-EOF
-
-    haml :index
+    search_common(@params[:query] + " book: #{book.id}",
+                  [["page_no", :asc]],
+                  false
+                  )
   end
 
   def raw_all(book)
@@ -195,5 +138,47 @@ EOF
 </div>
 EOF
     haml :raw
+  end
+
+  def search_common(query, sort_keys, is_filter)
+    results = @database.search(query)
+
+    page_entries = results.paginate(sort_keys, :page => 1, :size => 20)
+    snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
+
+    books = {}
+
+    results.each do |page|
+      books[page.book.path] = 1
+    end
+
+    r = page_entries.map do |page|
+      if is_filter
+        query_plus  = escape "#{query} book:#{page.book.id}"
+        query_minus = escape "#{query} -book:#{page.book.id}"
+        filter_str = "<div class=\"col-xs-6\"><a href=\"/?query=#{query_plus}\">Filter+</a> <a href=\"/?query=#{query_minus}\">Filter-</a></div>"
+      else
+        filter_str = ""
+      end
+
+      <<EOF
+  <div class="result">
+    <div class="result-header"><a href="/v/#{page.book.id}?page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
+    <div class="row result-sub-header">
+      #{filter_str}
+    </div>
+    <div class="result-body">
+      #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
+    </div>
+  </div>
+EOF
+    end
+
+    @content = <<EOF
+<div class="matches">#{books.size} books, #{results.size} pages</div>
+#{r.join("\n")}
+EOF
+
+    haml :index
   end
 end
