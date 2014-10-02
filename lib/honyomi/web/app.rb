@@ -151,9 +151,9 @@ EOF
     pagination_str = ""
     if (page - 1) * PAGE_SIZE + page_entries.count < results.count
       pagination_str = <<EOF
-<div class='pagination'>
-   <a href='#{url + "?query=#{escape(@params[:query])}&page=#{page + 1}"}' rel='next'>next &gt;&gt;</a>
-</div>
+<ul class="pager">
+  <li><a href='#{url + "?query=#{escape(@params[:query])}&page=#{page + 1}"}' rel='next'>Next</a></li>
+</ul>
 EOF
     end
 
