@@ -151,8 +151,8 @@ EOF
     pagination_str = ""
     if (page - 1) * PAGE_SIZE + page_entries.count < results.count
       pagination_str = <<EOF
-<div class='pagination pagination-centered'>
-  <a href='#{url("?query=#{escape(@params[:query])}&page=#{page + 1}")}' rel='next'>next &gt;&gt;</a>
+<div class='pagination'>
+   <a href='#{url + "?query=#{escape(@params[:query])}&page=#{page + 1}"}' rel='next'>next &gt;&gt;</a>
 </div>
 EOF
     end
@@ -189,7 +189,9 @@ EOF
 
     @content = <<EOF
 <div class="matches">#{books.size} books, #{results.size} pages</div>
+<div class="autopagerize_page_element">
 #{r.join("\n")}
+</div>
 #{pagination_str}
 EOF
 
