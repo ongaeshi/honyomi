@@ -140,19 +140,18 @@ EOF
     haml :raw
   end
 
-  PAGE_SIZE = 20
+  RPAGE_SIZE = 20
 
   def search_common(query, sort_keys, is_filter)
     results = @database.search(query)
 
-    page = @params[:page] ? @params[:page].to_i : 1
-
-    page_entries = results.paginate(sort_keys, :page => page, :size => PAGE_SIZE)
+    rpage = @params[:rpage] ? @params[:rpage].to_i : 1
+    rpage_entries = results.paginate(sort_keys, :page => rpage, :size => RPAGE_SIZE)
     pagination_str = ""
-    if (page - 1) * PAGE_SIZE + page_entries.count < results.count
+    if (rpage - 1) * RPAGE_SIZE + rpage_entries.count < results.count
       pagination_str = <<EOF
 <ul class="pager">
-  <li><a href='#{url + "?query=#{escape(@params[:query])}&page=#{page + 1}"}' rel='next'>Next</a></li>
+  <li><a href='#{url + "?query=#{escape(@params[:query])}&rpage=#{rpage + 1}"}' rel='next'>Next</a></li>
 </ul>
 EOF
     end
@@ -165,7 +164,7 @@ EOF
       books[page.book.path] = 1
     end
 
-    r = page_entries.map do |page|
+    r = rpage_entries.map do |page|
       if is_filter
         query_plus  = escape "#{query} book:#{page.book.id}"
         query_minus = escape "#{query} -book:#{page.book.id}"
