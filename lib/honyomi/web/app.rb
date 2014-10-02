@@ -140,10 +140,23 @@ EOF
     haml :raw
   end
 
+  PAGE_SIZE = 20
+
   def search_common(query, sort_keys, is_filter)
     results = @database.search(query)
 
-    page_entries = results.paginate(sort_keys, :page => 1, :size => 20)
+    page = @params[:page] ? @params[:page].to_i : 1
+
+    page_entries = results.paginate(sort_keys, :page => page, :size => PAGE_SIZE)
+    pagination_str = ""
+    if (page - 1) * PAGE_SIZE + page_entries.count < results.count
+      pagination_str = <<EOF
+<div class='pagination pagination-centered'>
+  <a href='#{url("?query=#{escape(@params[:query])}&page=#{page + 1}")}' rel='next'>next &gt;&gt;</a>
+</div>
+EOF
+    end
+
     snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
 
     books = {}
@@ -177,6 +190,7 @@ EOF
     @content = <<EOF
 <div class="matches">#{books.size} books, #{results.size} pages</div>
 #{r.join("\n")}
+#{pagination_str}
 EOF
 
     haml :index
