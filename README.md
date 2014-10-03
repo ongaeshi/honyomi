@@ -18,7 +18,7 @@ When you faild to install Rroonga, Please refer.
 And need external tools.
 * pdftotext - For reading pdf (poppler, xpdf)
 
-If you install to server, Please refer.
+## Install to server
 * [ongaeshi/honyomi-web](https://github.com/ongaeshi/honyomi-web)
 
 ## Usage
