@@ -121,7 +121,7 @@ EOF
 EOF
     }.join("\n")
 
-    haml :raw
+    haml :index
   end
 
   def raw_page(book, page_no)
@@ -137,7 +137,7 @@ EOF
   <pre>#{escape_html page.text}</pre>
 </div>
 EOF
-    haml :raw
+    haml :index
   end
 
   RPAGE_SIZE = 20
