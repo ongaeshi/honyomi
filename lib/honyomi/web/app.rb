@@ -106,12 +106,7 @@ EOF
     pages = @database.book_pages(book.id)
 
     @content = pages.map { |page|
-      <<EOF
-<div class="page" id="#{page.page_no}">
-  <div class="no"><i class="fa fa-file-text-o"></i> <a href="##{page.page_no}">P#{page.page_no}</a></div>
-  <pre>#{escape_html page.text}</pre>
-</div>
-EOF
+      render_page(page, with_number: true)
     }.join("\n")
 
     haml :index
@@ -124,11 +119,7 @@ EOF
     @header_title = header_title_book(book)
     @header_info = header_info_book(book, page)
 
-    @content = <<EOF
-<div class="page" id="#{page.page_no}">
-  <pre>#{escape_html page.text}</pre>
-</div>
-EOF
+    @content = render_page(page)
 
     haml :index
   end
@@ -203,5 +194,16 @@ EOF
     else
       %Q|<i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1##{page.page_no}">Raw</a></div>|
     end
+  end
+
+  def render_page(page, options = {})
+    with_number = options[:with_number] ? %Q|<div class="no"><i class="fa fa-file-text-o"></i> <a href="##{page.page_no}">P#{page.page_no}</a></div>| : ""
+
+<<EOF
+<div class="page" id="#{page.page_no}">
+  #{with_number}
+  <pre>#{escape_html page.text}</pre>
+</div>
+EOF
   end
 end
