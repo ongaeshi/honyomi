@@ -56,6 +56,8 @@ end
 helpers do
 
   def home
+    @header_info = %Q|#{@database.books.size} books, #{@database.pages.size} pages.|
+
     r = @database.books.map { |book|
       <<EOF
 <li>#{book.id}: <a href="/v/#{book.id}">#{book.title}</a> (#{book.page_num}P)</li>
@@ -63,7 +65,6 @@ EOF
     }.reverse
 
     @content = <<EOF
-<div class="matches">#{@database.books.size} books, #{@database.pages.size} pages.</div>
 <div class="result">
   <ul>
 #{r.join("\n")}
@@ -84,13 +85,8 @@ EOF
   def book_home(book)
     @book_id = book.id
     @header_title = header_title_book(book)
-    file_mb = File.stat(book.path).size / (1024 * 1024)
-
-    @content = <<EOF
-<div class="result">
-  <div class="matches">#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1">Raw</a></div>
-</div>
-EOF
+    @header_info = header_info_book(book)
+    @content = ""
     haml :index
   end
 
@@ -107,6 +103,7 @@ EOF
   def raw_all(book)
     @book_id = book.id
     @header_title = header_title_book(book)
+    @header_info = header_info_book(book)
 
     pages = @database.book_pages(book.id)
 
@@ -123,19 +120,18 @@ EOF
   end
 
   def raw_page(book, page_no)
+    page = @database.book_pages(book.id)[page_no]
+
     @book_id = book.id
     @header_title = header_title_book(book)
-
-    page = @database.book_pages(book.id)[page_no]
-    file_mb = File.stat(book.path).size / (1024 * 1024)
+    @header_info = header_info_book(book, page)
 
     @content = <<EOF
 <div class="landing-page" id="#{page.page_no}">
-  <div class="landing-page-no"><i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;
-  <a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1##{page.page_no}">Raw</a></div>
   <pre>#{escape_html page.text}</pre>
 </div>
 EOF
+
     haml :index
   end
 
@@ -163,6 +159,8 @@ EOF
       books[page.book.path] = 1
     end
 
+    @header_info = %Q|#{books.size} books, #{results.size} pages|
+
     r = rpage_entries.map do |page|
       if is_filter
         query_plus  = escape "#{query} book:#{page.book.id}"
@@ -186,7 +184,6 @@ EOF
     end
 
     @content = <<EOF
-<div class="matches">#{books.size} books, #{results.size} pages</div>
 <div class="autopagerize_page_element">
 #{r.join("\n")}
 </div>
@@ -198,5 +195,15 @@ EOF
 
   def header_title_book(book)
     "<a href='/v/#{book.id}'>#{book.title}</a>"
+  end
+
+  def header_info_book(book, page = nil)
+    file_mb = File.stat(book.path).size / (1024 * 1024)
+
+    if page.nil?
+      %Q|#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1">Raw</a>|
+    else
+      %Q|<i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="result-file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1##{page.page_no}">Raw</a></div>|
+    end
   end
 end
