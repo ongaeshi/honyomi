@@ -107,10 +107,11 @@ EOF
   end
 
   def raw_all(book)
-    pages = @database.book_pages(book.id)
-
+    @book_id = book.id
     @navbar_href = "/v/#{book.id}"
     @navbar_title = book.title
+
+    pages = @database.book_pages(book.id)
 
     @content = pages.map { |page|
       <<EOF
@@ -125,6 +126,7 @@ EOF
   end
 
   def raw_page(book, page_no)
+    @book_id = book.id
     @navbar_href = "/v/#{book.id}"
     @navbar_title = book.title
     page = @database.book_pages(book.id)[page_no]
