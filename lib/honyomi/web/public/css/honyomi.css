@@ -1,3 +1,7 @@
+/* header */
+.header {
+}
+
 .header .title {
     font-size: 130%;
     margin: 0px 0px 10px 0px;
@@ -7,27 +11,34 @@
     margin: 10px 0px 0px 5px;
 }
 
-.result {
+/* content */
+.content {
     margin: 10px 0px 0px 5px;
 }
 
-.result-header {
+/* .content .home */
+.content ul {
+    font-size: 120%;
+    list-style: none;
+    padding-left: 0px;
+}
+
+/* .content .result */
+.result .title {
     font-size: 120%;
 }
 
-.result-sub-header {
+.result .info {
     /* margin: 5px 0px 0px 0px; */
     font-size: 100%;
 }
 
-.result-file-size {
-    font-size: 95%;
-}
-
-.result-body {
+.result .main {
     margin: 5px 0px 0px 0px;
     font-size: 95%;
 }
+
+/* .content .raw */
 
 .raw-page {
     margin: 0px 20px;
@@ -45,15 +56,15 @@
     padding: 0px 0px 10px 0px;
 }
 
-.result ul {
-    font-size: 120%;
-    list-style: none;
-    padding-left: 0px;
-}
-
 .landing-page ul {
     font-size: 120%;
     list-style: none;
     padding-left: 0px;
 }
+
+/* common */
+.file-size {
+    font-size: 95%;
+}
+
 
