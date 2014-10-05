@@ -3,8 +3,9 @@
 .container
   .row
     .col-md-12
-      #book-title
-        <a href="#{@navbar_href}">#{@navbar_title}</a>
+      .header
+        .title
+          = @header_title
       %form(class="form-inline" method="post" action="/search")
         .form-group
           %input(class="form-control" type="text" size=40 name="query" value="#{@params[:query]}")

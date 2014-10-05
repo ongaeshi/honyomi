@@ -83,8 +83,7 @@ EOF
 
   def book_home(book)
     @book_id = book.id
-    @navbar_href = "/v/#{book.id}"
-    @navbar_title = book.title
+    @header_title = header_title_book(book)
     file_mb = File.stat(book.path).size / (1024 * 1024)
 
     @content = <<EOF
@@ -97,8 +96,7 @@ EOF
 
   def search_book_home(book)
     @book_id = book.id
-    @navbar_href = "/v/#{book.id}"
-    @navbar_title = book.title
+    @header_title = header_title_book(book)
 
     search_common(@params[:query] + " book: #{book.id}",
                   [["page_no", :asc]],
@@ -108,8 +106,7 @@ EOF
 
   def raw_all(book)
     @book_id = book.id
-    @navbar_href = "/v/#{book.id}"
-    @navbar_title = book.title
+    @header_title = header_title_book(book)
 
     pages = @database.book_pages(book.id)
 
@@ -127,8 +124,8 @@ EOF
 
   def raw_page(book, page_no)
     @book_id = book.id
-    @navbar_href = "/v/#{book.id}"
-    @navbar_title = book.title
+    @header_title = header_title_book(book)
+
     page = @database.book_pages(book.id)[page_no]
     file_mb = File.stat(book.path).size / (1024 * 1024)
 
@@ -197,5 +194,9 @@ EOF
 EOF
 
     haml :index
+  end
+
+  def header_title_book(book)
+    "<a href='/v/#{book.id}'>#{book.title}</a>"
   end
 end

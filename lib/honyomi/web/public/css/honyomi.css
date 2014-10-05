@@ -1,6 +1,8 @@
-#book-title {
+.header .title {
     font-size: 130%;
+    margin: 0px 0px 10px 0px;
 }
+
 .search-header {
     margin: 0px 0px 10px 0px;
 }
