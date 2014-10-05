@@ -202,7 +202,9 @@ EOF
 <<EOF
 <div class="page" id="#{page.page_no}">
   #{with_number}
-  <pre>#{escape_html page.text}</pre>
+  <div class="main">
+    #{escape_html(page.text).gsub("\n\n", "<br/><br/>")}
+  </div>
 </div>
 EOF
   end

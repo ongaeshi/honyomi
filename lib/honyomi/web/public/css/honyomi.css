@@ -48,6 +48,11 @@
     padding: 20px 0px 10px 0px;
 }
 
+.page .main {
+    color: #000000;
+    background-color: #E9E6DF;
+}
+
 /* common */
 .file-size {
     font-size: 95%;
