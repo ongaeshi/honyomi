@@ -34,15 +34,15 @@ get '/v/:id' do
 
   book = @database.books[params[:id].to_i]
 
-  if params[:raw] == '1'
-    raw_all(book)
+  if params[:text] == '1'
+    text_all(book)
   elsif params[:pdf] == '1'
     send_file(book.path, :disposition => 'inline')
   elsif params[:dl] == '1'
     send_file(book.path, :disposition => 'download')
   else
     if params[:page]
-      raw_page(book, params[:page].to_i)
+      text_page(book, params[:page].to_i)
     else
       if @params[:query] && !@params[:query].empty?
         search_book_home(book)
@@ -98,7 +98,7 @@ EOF
                   )
   end
 
-  def raw_all(book)
+  def text_all(book)
     @book_id = book.id
     @header_title = header_title_book(book)
     @header_info = header_info_book(book)
@@ -112,7 +112,7 @@ EOF
     haml :index
   end
 
-  def raw_page(book, page_no)
+  def text_page(book, page_no)
     page = @database.book_pages(book.id)[page_no]
 
     @book_id = book.id
@@ -190,9 +190,9 @@ EOF
     file_mb = File.stat(book.path).size / (1024 * 1024)
 
     if page.nil?
-      %Q|#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1">Raw</a>|
+      %Q|#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1">Text</a>|
     else
-      %Q|<i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?raw=1##{page.page_no}">Raw</a>|
+      %Q|<i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1##{page.page_no}">Text</a>|
     end
   end
 
