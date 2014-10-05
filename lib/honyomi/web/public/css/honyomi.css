@@ -25,6 +25,10 @@
 
 /* .content .result */
 .result .title {
+    margin: 10px 0px 0px 0px;
+}
+
+.result .title {
     font-size: 120%;
 }
 
@@ -41,7 +45,7 @@
 /* .content .raw */
 
 .page {
-    margin: 0px 20px;
+    /* margin: 0px 0px; */
 }
 
 .page .no {
@@ -49,8 +53,7 @@
 }
 
 .page .main {
-    color: #000000;
-    background-color: #E9E6DF;
+    background-color: #fbfbfb;
 }
 
 /* common */
