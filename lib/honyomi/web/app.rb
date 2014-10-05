@@ -107,8 +107,8 @@ EOF
 
     @content = pages.map { |page|
       <<EOF
-<div class="raw-page" id="#{page.page_no}">
-  <div class="raw-page-no"><i class="fa fa-file-text-o"></i> <a href="##{page.page_no}">P#{page.page_no}</a></div>
+<div class="page" id="#{page.page_no}">
+  <div class="no"><i class="fa fa-file-text-o"></i> <a href="##{page.page_no}">P#{page.page_no}</a></div>
   <pre>#{escape_html page.text}</pre>
 </div>
 EOF
@@ -125,7 +125,7 @@ EOF
     @header_info = header_info_book(book, page)
 
     @content = <<EOF
-<div class="landing-page" id="#{page.page_no}">
+<div class="page" id="#{page.page_no}">
   <pre>#{escape_html page.text}</pre>
 </div>
 EOF

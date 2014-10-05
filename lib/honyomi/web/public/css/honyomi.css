@@ -40,26 +40,12 @@
 
 /* .content .raw */
 
-.raw-page {
+.page {
     margin: 0px 20px;
 }
 
-.raw-page-no {
-    padding: 60px 0px 10px 0px;
-}
-
-.landing-page {
-    margin: 0px 20px;
-}
-
-.landing-page-no {
-    padding: 0px 0px 10px 0px;
-}
-
-.landing-page ul {
-    font-size: 120%;
-    list-style: none;
-    padding-left: 0px;
+.page .no {
+    padding: 20px 0px 10px 0px;
 }
 
 /* common */
