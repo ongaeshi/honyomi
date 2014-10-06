@@ -1,5 +1,6 @@
 require 'haml'
 require 'honyomi/database'
+require 'honyomi/util'
 require 'sinatra'
 require 'sinatra/reloader' if ENV['SINATRA_RELOADER']
 
@@ -104,9 +105,10 @@ EOF
     @header_info = header_info_book(book, @params[:query])
 
     pages = @database.book_pages(book.id)
+    keywords = Util.extract_keywords(@params[:query])
 
     @content = pages.map { |page|
-      render_page(page, with_number: true)
+      render_page(page, keywords: keywords, with_number: true)
     }.join("\n")
 
     haml :index
@@ -114,12 +116,13 @@ EOF
 
   def text_page(book, page_no)
     page = @database.book_pages(book.id)[page_no]
+    keywords = Util.extract_keywords(@params[:query])
 
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
     @header_info = header_info_book(book, @params[:query], page)
 
-    @content = render_page(page)
+    @content = render_page(page, keywords: keywords)
 
     haml :index
   end
@@ -140,7 +143,7 @@ EOF
 EOF
     end
 
-    snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 5})
+    snippet = results.expression.snippet([["<span class=\"highlight\">", "</span>"]], {html_escape: true, normalize: true, max_results: 5})
 
     books = {}
 
@@ -201,11 +204,15 @@ EOF
   def render_page(page, options = {})
     with_number = options[:with_number] ? %Q|<div class="no"><i class="fa fa-file-text-o"></i> <a href="##{page.page_no}">P#{page.page_no}</a></div>| : ""
 
+    text = escape_html(page.text)
+    text = Util.highlight_keywords(text, options[:keywords], 'highlight') if options[:keywords]
+    text = text.gsub("\n\n", "<br/><br/>")
+
 <<EOF
 <div class="page" id="#{page.page_no}">
   #{with_number}
   <div class="main">
-    #{escape_html(page.text).gsub("\n\n", "<br/><br/>")}
+    #{text}
   </div>
 </div>
 EOF
