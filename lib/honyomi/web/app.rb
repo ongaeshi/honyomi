@@ -161,7 +161,7 @@ EOF
 
       <<EOF
   <div class="result">
-    <div class="title"><a href="/v/#{page.book.id}?page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
+    <div class="title"><a href="/v/#{page.book.id}?query=#{escape(@params[:query])}&page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
     <div class="row info">
       #{filter_str}
     </div>
