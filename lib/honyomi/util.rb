@@ -91,5 +91,21 @@ module Honyomi
 
       result
     end
+
+    def extract_keywords(query)
+      query.split.reduce([]) do |a, e|
+        e = e.gsub(/^\(|\)|AND|OR$/, "")
+
+        if e =~ /^"(.+)"$/
+          a  + [$1]
+        elsif e =~ /^-/
+          a
+        elsif e =~ /:/
+          a
+        else
+          a + [e]
+        end
+      end
+    end
   end
 end
