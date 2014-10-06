@@ -82,7 +82,7 @@ EOF
 
   def book_home(book)
     @book_id = book.id
-    @header_title = header_title_book(book)
+    @header_title = header_title_book(book, @params[:query])
     @header_info = header_info_book(book, @params[:query])
     @content = ""
     haml :index
@@ -90,7 +90,7 @@ EOF
 
   def search_book_home(book)
     @book_id = book.id
-    @header_title = header_title_book(book)
+    @header_title = header_title_book(book, @params[:query])
 
     search_common(@params[:query] + " book: #{book.id}",
                   [["page_no", :asc]],
@@ -100,7 +100,7 @@ EOF
 
   def text_all(book)
     @book_id = book.id
-    @header_title = header_title_book(book)
+    @header_title = header_title_book(book, @params[:query])
     @header_info = header_info_book(book, @params[:query])
 
     pages = @database.book_pages(book.id)
@@ -116,7 +116,7 @@ EOF
     page = @database.book_pages(book.id)[page_no]
 
     @book_id = book.id
-    @header_title = header_title_book(book)
+    @header_title = header_title_book(book, @params[:query])
     @header_info = header_info_book(book, @params[:query], page)
 
     @content = render_page(page)
@@ -182,8 +182,9 @@ EOF
     haml :index
   end
 
-  def header_title_book(book)
-    "<a href='/v/#{book.id}'>#{book.title}</a>"
+  def header_title_book(book, query)
+    query = query ? "?query=#{query}" : ""
+    "<a href='/v/#{book.id}#{query}'>#{book.title}</a>"
   end
 
   def header_info_book(book, query, page = nil)
