@@ -140,7 +140,7 @@ EOF
 EOF
     end
 
-    snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 10})
+    snippet = results.expression.snippet([["<strong>", "</strong>"]], {html_escape: true, normalize: true, max_results: 5})
 
     books = {}
 
