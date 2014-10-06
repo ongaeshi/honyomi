@@ -83,7 +83,7 @@ EOF
   def book_home(book)
     @book_id = book.id
     @header_title = header_title_book(book)
-    @header_info = header_info_book(book)
+    @header_info = header_info_book(book, @params[:query])
     @content = ""
     haml :index
   end
@@ -101,7 +101,7 @@ EOF
   def text_all(book)
     @book_id = book.id
     @header_title = header_title_book(book)
-    @header_info = header_info_book(book)
+    @header_info = header_info_book(book, @params[:query])
 
     pages = @database.book_pages(book.id)
 
@@ -117,7 +117,7 @@ EOF
 
     @book_id = book.id
     @header_title = header_title_book(book)
-    @header_info = header_info_book(book, page)
+    @header_info = header_info_book(book, @params[:query], page)
 
     @content = render_page(page)
 
@@ -186,13 +186,14 @@ EOF
     "<a href='/v/#{book.id}'>#{book.title}</a>"
   end
 
-  def header_info_book(book, page = nil)
+  def header_info_book(book, query, page = nil)
+    query = query ? "&query=#{query}" : ""
     file_mb = File.stat(book.path).size / (1024 * 1024)
 
     if page.nil?
-      %Q|#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1">Text</a>|
+      %Q|#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}">Text</a>|
     else
-      %Q|<i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1##{page.page_no}">Text</a>|
+      %Q|<i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}##{page.page_no}">Text</a>|
     end
   end
 
