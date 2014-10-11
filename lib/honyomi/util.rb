@@ -42,7 +42,7 @@ module Honyomi
       return "" if src.nil?
 
       words = nil
-      if Groonga::VERSION[0] >= 4
+      if Groonga::VERSION[0] >= 3
         words = Groonga::PatriciaTrie.create(key_type: "ShortText", normalizer: "NormalizerAuto")
       else
         words = Groonga::PatriciaTrie.create(key_type: "ShortText", key_normalize: true)
