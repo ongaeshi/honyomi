@@ -41,7 +41,12 @@ module Honyomi
     def highlight_keywords(src, keywords, css_class)
       return "" if src.nil?
 
-      words = Groonga::PatriciaTrie.create(:key_type => "ShortText", :key_normalize => true)
+      words = nil
+      if Groonga::VERSION[0] >= 4
+        words = Groonga::PatriciaTrie.create(key_type: "ShortText", normalizer: "NormalizerAuto")
+      else
+        words = Groonga::PatriciaTrie.create(key_type: "ShortText", key_normalize: true)
+      end
       keywords.each { |keword| words.add(keword) }
 
       other_text_handler = Proc.new { |string| ERB::Util.h(string) }
