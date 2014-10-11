@@ -39,6 +39,8 @@ module Honyomi
     end
 
     def highlight_keywords(src, keywords, css_class)
+      return "" if src.nil?
+
       words = Groonga::PatriciaTrie.create(:key_type => "ShortText", :key_normalize => true)
       keywords.each { |keword| words.add(keword) }
 
