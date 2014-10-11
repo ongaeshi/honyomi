@@ -53,6 +53,8 @@ module Honyomi
     end
 
     def extract_keywords(query)
+      return [] if query.nil?
+
       query.split.reduce([]) do |a, e|
         e = e.gsub(/^\(|\)|AND|OR$/, "")
 
