@@ -70,7 +70,11 @@ module Honyomi
         elsif e =~ /:/
           a
         else
-          a + [e]
+          if e.empty?
+            a
+          else
+            a + [e]
+          end
         end
       end
     end
