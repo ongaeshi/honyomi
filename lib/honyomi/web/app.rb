@@ -2,7 +2,10 @@ require 'haml'
 require 'honyomi/database'
 require 'honyomi/util'
 require 'sinatra'
-require 'sinatra/reloader' if ENV['SINATRA_RELOADER']
+if ENV['SINATRA_RELOADER']
+  require 'sinatra/reloader'
+  also_reload '../../**/*.rb'
+end
 
 include Honyomi
 
