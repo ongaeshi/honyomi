@@ -207,8 +207,7 @@ EOF
   def render_page(page, options = {})
     with_number = options[:with_number] ? %Q|<div class="no"><i class="fa fa-file-text-o"></i> <a href="##{page.page_no}">P#{page.page_no}</a></div>| : ""
 
-    text = escape_html(page.text)
-    text = Util.highlight_keywords(text, options[:keywords], 'highlight') if options[:keywords]
+    text = Util.highlight_keywords(page.text, options[:keywords], 'highlight') if options[:keywords]
     text = text.gsub("\n\n", "<br/><br/>")
 
 <<EOF
