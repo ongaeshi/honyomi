@@ -60,19 +60,36 @@ end
 helpers do
 
   def home
-    @header_info = %Q|#{@database.books.size} books, #{@database.pages.size} pages.|
+    @header_info = %Q|<a href="/">#{@database.books.size}</a> books, <a href="/?b=1">#{@database.bookmarks.size}</a> bookmarks.|
 
-    r = @database.books.map { |book|
-      <<EOF
-<li>#{book.id}: <a href="/v/#{book.id}">#{book.title}</a> (#{book.page_num}P)</li>
+    if @params[:b] == '1'
+      r = @database.bookmarks.map { |bookmark| # @todo sort by date
+        book = bookmark.page.book
+        title = bookmark.comment || book.title
+
+        <<EOF
+<li><a href="/v/#{book.id}&page=#{page.page_no}">#{book.title}</a> (P#{page.page_no})</li>
 EOF
-    }.reverse
+      }.reverse
 
-    @content = <<EOF
+      @content = <<EOF
 <ul>
 #{r.join("\n")}
 </ul>
 EOF
+    else
+      r = @database.books.map { |book|
+        <<EOF
+<li>#{book.id}: <a href="/v/#{book.id}">#{book.title}</a> (#{book.page_num}P)</li>
+EOF
+      }.reverse
+
+      @content = <<EOF
+<ul>
+#{r.join("\n")}
+</ul>
+EOF
+    end
 
     haml :index
   end
