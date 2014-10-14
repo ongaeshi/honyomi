@@ -184,13 +184,20 @@ EOF
 
       <<EOF
   <div class="result">
-    <div class="title"><a href="/v/#{page.book.id}?query=#{escape(@params[:query])}&page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
+    <div class="title">
+      <div class="ss-box">#{favstar}</div>
+      <div class="ss-box"><a href="/v/#{page.book.id}?query=#{escape(@params[:query])}&page=#{page.page_no}">#{page.book.title}</a> (P#{page.page_no})</div>
+      <div class="ss-end"></div>
+    </div>
+
     <div class="row info">
       #{filter_str}
     </div>
+
     <div class="main">
       #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
     </div>
+
   </div>
 EOF
     end
@@ -235,5 +242,10 @@ EOF
   </div>
 </div>
 EOF
+  end
+
+  def favstar
+    classes = false ? "star favorited" : "star"
+    "<a href=\"javascript:\" class=\"#{classes}\" >Favorite Me</a>"
   end
 end
