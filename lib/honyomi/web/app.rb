@@ -81,11 +81,12 @@ helpers do
 
     if @params[:b] == '1'
       r = @database.bookmarks.map { |bookmark| # @todo sort by date
-        book = bookmark.page.book
+        page = bookmark.page
+        book = page.book
         title = bookmark.comment || book.title
 
         <<EOF
-<li><a href="/v/#{book.id}&page=#{page.page_no}">#{book.title}</a> (P#{page.page_no})</li>
+<li><a href="/v/#{book.id}?page=#{page.page_no}">#{book.title}</a> (P#{page.page_no})</li>
 EOF
       }.reverse
 
