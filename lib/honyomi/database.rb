@@ -107,5 +107,9 @@ module Honyomi
         nil
       end
     end
+
+    def add_bookmark(page)
+      @bookmarks["#{page.book.id}:#{page.page_no}"] = { page: page, timestamp: Time.now }
+    end
   end
 end
