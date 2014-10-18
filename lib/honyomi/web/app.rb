@@ -57,6 +57,23 @@ get '/v/:id' do
   end
 end
 
+post '/command' do
+  @database = $database
+
+  case params[:kind]
+  when 'favorite'
+    page = @database.pages["#{params[:id].to_i}:#{params[:page_no].to_i}"]
+
+    if params[:favorited] == 'true'
+      @database.add_bookmark(page)
+    else
+      # @database.remove_bookmark(page)
+    end
+
+    ""
+  end
+end
+
 helpers do
 
   def home
