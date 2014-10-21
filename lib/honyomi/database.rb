@@ -111,5 +111,9 @@ module Honyomi
     def add_bookmark(page)
       @bookmarks["#{page.book.id}:#{page.page_no}"] = { page: page, timestamp: Time.now }
     end
+
+    def delete_bookmark(page)
+      @bookmarks.delete { |bookmark| bookmark.page == page }
+    end
   end
 end

@@ -67,7 +67,7 @@ post '/command' do
     if params[:favorited] == 'true'
       @database.add_bookmark(page)
     else
-      # @database.remove_bookmark(page)
+      @database.delete_bookmark(page)
     end
 
     ""
