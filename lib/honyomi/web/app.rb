@@ -242,7 +242,7 @@ EOF
     if page.nil?
       %Q|#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}">Text</a>|
     else
-      %Q|<i class="fa fa-file-text-o"></i> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}##{page.page_no}">Text</a>|
+      %Q|<div class="ss-box">#{favstar(page)}</div> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}##{page.page_no}">Text</a>|
     end
   end
 
