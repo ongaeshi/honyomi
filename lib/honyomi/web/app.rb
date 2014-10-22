@@ -263,7 +263,7 @@ EOF
   end
 
   def favstar(page)
-    classes = false ? "star favorited" : "star"
+    classes = @database.bookmark?(page) ? "star favorited" : "star"
     "<a href=\"javascript:\" class=\"#{classes}\" honyomi-id=\"#{page.book.id}\" honyomi-page-no=\"#{page.page_no}\">Favorite Me</a>"
   end
 end

@@ -115,5 +115,9 @@ module Honyomi
     def delete_bookmark(page)
       @bookmarks.delete { |bookmark| bookmark.page == page }
     end
+
+    def bookmark?(page)
+      @bookmarks["#{page.book.id}:#{page.page_no}"]
+    end
   end
 end
