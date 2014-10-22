@@ -83,17 +83,27 @@ helpers do
       r = @database.bookmarks.map { |bookmark| # @todo sort by date
         page = bookmark.page
         book = page.book
-        title = bookmark.comment || book.title
+        title = book.title
+        content = bookmark.comment || page.text
+        content = content[0, 255]
 
         <<EOF
-<li><a href="/v/#{book.id}?page=#{page.page_no}">#{book.title}</a> (P#{page.page_no})</li>
+  <div class="result">
+    <div class="title">
+      <div><a href="/v/#{book.id}?page=#{page.page_no}">#{book.title}</a> (P#{page.page_no})</div>
+    </div>
+
+    <div class="main">
+      <div class="result-body-element">#{content}</div>
+    </div>
+  </div>
 EOF
       }.reverse
 
       @content = <<EOF
-<ul>
+<div class="autopagerize_page_element">
 #{r.join("\n")}
-</ul>
+</div>
 EOF
     else
       r = @database.books.map { |book|
