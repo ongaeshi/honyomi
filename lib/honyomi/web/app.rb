@@ -252,7 +252,19 @@ EOF
     file_mb = File.stat(book.path).size / (1024 * 1024)
 
     if page.nil?
-      %Q|#{book.page_num} pages. <a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}">Text</a>|
+      pages = @params[:b] == '1' ? "<a href=\"/v/#{book.id}\">#{book.page_num}</a>" : "<strong>#{book.page_num}</strong>"
+
+      bm = @database.books_bookmark(book)
+      bm_text = ". "
+      if bm.count > 0
+        if @params[:b] == '1'
+          bm_text = ", <strong>#{bm.count}</strong> bookmarks. "
+        else
+          bm_text = ", <a href=\"/v/#{book.id}?b=1\">#{bm.count}</a> bookmarks. "
+        end
+      end
+
+      %Q|#{pages} pages#{bm_text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}">Text</a>|
     else
       %Q|<div class="ss-box">#{favstar(page)}</div> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}##{page.page_no}">Text</a>|
     end
