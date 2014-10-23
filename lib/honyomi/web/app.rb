@@ -80,7 +80,9 @@ helpers do
     @header_info = %Q|<a href="/">#{@database.books.size}</a> books, <a href="/?b=1">#{@database.bookmarks.size}</a> bookmarks.|
 
     if @params[:b] == '1'
-      r = @database.bookmarks.map { |bookmark| # @todo sort by date
+      sorted = @database.bookmarks.sort([{:key => "timestamp", :order => "ascending"}])
+
+      r = sorted.map { |bookmark|
         page = bookmark.page
         book = page.book
         title = book.title
