@@ -77,9 +77,8 @@ end
 helpers do
 
   def home
-    @header_info = %Q|<a href="/">#{@database.books.size}</a> books, <a href="/?b=1">#{@database.bookmarks.size}</a> bookmarks.|
-
     if @params[:b] == '1'
+      @header_info = %Q|<a href="/">#{@database.books.size}</a> books, <strong>#{@database.bookmarks.size}</strong> bookmarks.|
       sorted = @database.bookmarks.sort([{:key => "timestamp", :order => "ascending"}])
 
       r = sorted.map { |bookmark|
@@ -108,6 +107,7 @@ EOF
 </div>
 EOF
     else
+      @header_info = %Q|<strong>#{@database.books.size}</strong> books, <a href="/?b=1">#{@database.bookmarks.size}</a> bookmarks.|
       r = @database.books.map { |book|
         <<EOF
 <li>#{book.id}: <a href="/v/#{book.id}">#{book.title}</a> (#{book.page_num}P)</li>
