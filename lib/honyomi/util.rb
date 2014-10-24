@@ -40,6 +40,7 @@ module Honyomi
 
     def highlight_keywords(src, keywords, css_class)
       return "" if src.nil?
+      return src if keywords.nil?
 
       words = nil
       if Groonga::VERSION[0] >= 3
