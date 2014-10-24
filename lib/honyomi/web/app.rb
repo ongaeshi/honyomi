@@ -201,7 +201,12 @@ EOF
       books[page.book.path] = 1
     end
 
-    @header_info = %Q|#{books.size} books, #{results.size} pages|
+    if is_filter
+      @header_info = %Q|#{books.size} books, #{results.size} pages|
+    else
+      @header_info = %Q|#{results.size} pages|
+    end
+
 
     r = rpage_entries.map do |page|
       if is_filter
