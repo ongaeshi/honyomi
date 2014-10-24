@@ -131,6 +131,8 @@ EOF
                   )
   end
 
+  PAGE_RPAGE = 10
+
   def book_home(book)
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
@@ -138,10 +140,27 @@ EOF
     @content = ""
 
     pages = @database.book_pages(@book_id)
+    rpage = @params[:rpage] ? @params[:rpage].to_i : 1
 
-    @content = pages.take(20).map { |page|
+    main_contents = pages.to_a[(rpage - 1) * PAGE_RPAGE, PAGE_RPAGE].map { |page|
       render_page(page, with_number: true)
-    }.join("\n")
+    }
+
+    pagination_str = ""
+    if rpage * PAGE_RPAGE < pages.count
+      pagination_str = <<EOF
+<ul class="pager">
+  <li><a href='#{url + "?rpage=#{rpage + 1}"}' rel='next'>Next</a></li>
+</ul>
+EOF
+    end
+
+    @content = <<EOF
+<div class="autopagerize_page_element">
+#{main_contents.join("\n")}
+</div>
+#{pagination_str}
+EOF
 
     haml :index
   end
