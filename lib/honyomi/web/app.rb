@@ -136,6 +136,13 @@ EOF
     @header_title = header_title_book(book, @params[:query])
     @header_info = header_info_book(book, @params[:query])
     @content = ""
+
+    pages = @database.book_pages(@book_id)
+
+    @content = pages.take(20).map { |page|
+      render_page(page, with_number: true)
+    }.join("\n")
+
     haml :index
   end
 
@@ -278,7 +285,7 @@ EOF
   def render_page(page, options = {})
     with_number = options[:with_number] ? %Q|<div class="no"><div class="ss-box">#{favstar(page)}</div> <a href="##{page.page_no}">P#{page.page_no}</a></div>| : ""
 
-    text = Util.highlight_keywords(page.text, options[:keywords], 'highlight') if options[:keywords]
+    text = Util.highlight_keywords(page.text, options[:keywords], 'highlight')
     text = text.gsub("\n\n", "<br/><br/>")
 
 <<EOF
