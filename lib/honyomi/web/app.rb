@@ -196,9 +196,9 @@ EOF
 
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
-    @header_info = header_info_book(book, @params[:query], page)
+    @header_info = header_info_book(book, @params[:query])
 
-    @content = render_page(page, keywords: keywords)
+    @content = render_page(page, keywords: keywords, with_number: true)
 
     haml :index
   end
