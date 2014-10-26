@@ -303,7 +303,15 @@ EOF
 
   def render_page(page, options = {})
     book = page.book
-    with_number = options[:with_number] ? %Q|<div class="no"><div class="ss-box">#{favstar(page)}</div> <a href="##{page.page_no}">P#{page.page_no}</a> &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}"><i class="fa fa-file-text-o"></i></a></div>| : ""
+    with_number = ""
+    if options[:with_number]
+      with_number = <<EOF
+<div class="no row">
+  <div class="col-xs-3"><div class="ss-box">#{favstar(page)}</div> <a href="##{page.page_no}">P#{page.page_no}</a></div>
+  <div class="col-xs-offset-8 col-xs-1"><a href="/v/#{book.id}?pdf=1#page=#{page.page_no}"><i class="fa fa-file-text-o"></i></a></div>
+</div>
+EOF
+    end
 
     text = Util.highlight_keywords(page.text, options[:keywords], 'highlight')
     text = text.gsub("\n\n", "<br/><br/>")
