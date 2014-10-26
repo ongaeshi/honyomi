@@ -174,6 +174,15 @@ EOF
     pages = @database.book_pages(@book_id)
     page_index = page_no - 1
 
+    prev_link = ""
+    if page_index > 0
+      prev_link = <<EOF
+<ul class="pager">
+  <li><a href='#{url + "?page=#{[page_no - PAGE_SIZE, 1].max}"}' rel='next'>Prev</a></li>
+</ul>
+EOF
+end
+
     main_contents = pages.to_a[page_index, PAGE_SIZE].map { |page|
       render_page(page, keywords: keywords, with_number: true)
     }
@@ -188,6 +197,7 @@ EOF
     end
 
     @content = <<EOF
+#{prev_link}
 <div class="autopagerize_page_element">
 #{main_contents.join("\n")}
 </div>
