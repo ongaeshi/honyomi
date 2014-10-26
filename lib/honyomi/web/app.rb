@@ -178,7 +178,7 @@ EOF
     if page_index > 0
       prev_link = <<EOF
 <ul class="pager">
-  <li><a href='#{url + "?page=#{[page_no - PAGE_SIZE, 1].max}"}' rel='next'>Prev</a></li>
+  <li><a href='#{url + "?page=#{[page_no - PAGE_SIZE, 1].max}"}' >Prev</a></li>
 </ul>
 EOF
 end
