@@ -168,7 +168,7 @@ EOF
 
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
-    @header_info = header_info_book(book, @params[:query], page)
+    @header_info = header_info_book(book, @params[:query])
     @content = ""
 
     pages = @database.book_pages(@book_id)
@@ -282,7 +282,7 @@ EOF
     "<a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}'>#{book.title}</a>"
   end
 
-  def header_info_book(book, query, page = nil)
+  def header_info_book(book, query)
     query = query ? "&query=#{query}" : ""
     file_mb = File.stat(book.path).size / (1024 * 1024)
 
@@ -302,7 +302,8 @@ EOF
   end
 
   def render_page(page, options = {})
-    with_number = options[:with_number] ? %Q|<div class="no"><div class="ss-box">#{favstar(page)}</div> <a href="##{page.page_no}">P#{page.page_no}</a></div>| : ""
+    book = page.book
+    with_number = options[:with_number] ? %Q|<div class="no"><div class="ss-box">#{favstar(page)}</div> <a href="##{page.page_no}">P#{page.page_no}</a> &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}"><i class="fa fa-file-text-o"></i></a></div>| : ""
 
     text = Util.highlight_keywords(page.text, options[:keywords], 'highlight')
     text = text.gsub("\n\n", "<br/><br/>")
