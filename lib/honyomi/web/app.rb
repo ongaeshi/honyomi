@@ -164,10 +164,11 @@ EOF
 
   def text_page(book, page_no)
     keywords = Util.extract_keywords(@params[:query])
+    page = @database.pages["#{book.id}:#{page_no}"]
 
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
-    @header_info = header_info_book(book, @params[:query])
+    @header_info = header_info_book(book, @params[:query], page)
     @content = ""
 
     pages = @database.book_pages(@book_id)
@@ -275,23 +276,19 @@ EOF
     query = query ? "&query=#{query}" : ""
     file_mb = File.stat(book.path).size / (1024 * 1024)
 
-    if page.nil?
-      pages = @params[:b] == '1' ? "<a href=\"/v/#{book.id}\">#{book.page_num}</a>" : "<strong>#{book.page_num}</strong>"
+    pages = @params[:b] == '1' ? "<a href=\"/v/#{book.id}\">#{book.page_num}</a>" : "<strong>#{book.page_num}</strong>"
 
-      bm = @database.books_bookmark(book)
-      bm_text = ". "
-      if bm.count > 0
-        if @params[:b] == '1'
-          bm_text = ", <strong>#{bm.count}</strong> bookmarks. "
-        else
-          bm_text = ", <a href=\"/v/#{book.id}?b=1\">#{bm.count}</a> bookmarks. "
-        end
+    bm = @database.books_bookmark(book)
+    bm_text = ". "
+    if bm.count > 0
+      if @params[:b] == '1'
+        bm_text = ", <strong>#{bm.count}</strong> bookmarks. "
+      else
+        bm_text = ", <a href=\"/v/#{book.id}?b=1\">#{bm.count}</a> bookmarks. "
       end
-
-      %Q|#{pages} pages#{bm_text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}">Text</a>|
-    else
-      %Q|<div class="ss-box">#{favstar(page)}</div> P#{page.page_no} &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}##{page.page_no}">Text</a>|
     end
+
+    %Q|#{pages} pages#{bm_text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}">Text</a>|
   end
 
   def render_page(page, options = {})
