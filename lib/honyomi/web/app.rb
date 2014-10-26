@@ -131,38 +131,8 @@ EOF
                   )
   end
 
-  PAGE_RPAGE = 10
-
   def book_home(book)
-    @book_id = book.id
-    @header_title = header_title_book(book, @params[:query])
-    @header_info = header_info_book(book, @params[:query])
-    @content = ""
-
-    pages = @database.book_pages(@book_id)
-    rpage = @params[:rpage] ? @params[:rpage].to_i : 1
-
-    main_contents = pages.to_a[(rpage - 1) * PAGE_RPAGE, PAGE_RPAGE].map { |page|
-      render_page(page, with_number: true)
-    }
-
-    pagination_str = ""
-    if rpage * PAGE_RPAGE < pages.count
-      pagination_str = <<EOF
-<ul class="pager">
-  <li><a href='#{url + "?rpage=#{rpage + 1}"}' rel='next'>Next</a></li>
-</ul>
-EOF
-    end
-
-    @content = <<EOF
-<div class="autopagerize_page_element">
-#{main_contents.join("\n")}
-</div>
-#{pagination_str}
-EOF
-
-    haml :index
+    text_page(book, 1)
   end
 
   def search_book_home(book)
@@ -190,15 +160,38 @@ EOF
     haml :index
   end
 
+  PAGE_SIZE = 5
+
   def text_page(book, page_no)
-    page = @database.book_pages(book.id)[page_no]
     keywords = Util.extract_keywords(@params[:query])
 
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
     @header_info = header_info_book(book, @params[:query])
+    @content = ""
 
-    @content = render_page(page, keywords: keywords, with_number: true)
+    pages = @database.book_pages(@book_id)
+    page_index = page_no - 1
+
+    main_contents = pages.to_a[page_index, PAGE_SIZE].map { |page|
+      render_page(page, keywords: keywords, with_number: true)
+    }
+
+    pagination_str = ""
+    if page_index + PAGE_SIZE < pages.count
+      pagination_str = <<EOF
+<ul class="pager">
+  <li><a href='#{url + "?page=#{page_no + PAGE_SIZE}"}' rel='next'>Next</a></li>
+</ul>
+EOF
+    end
+
+    @content = <<EOF
+<div class="autopagerize_page_element">
+#{main_contents.join("\n")}
+</div>
+#{pagination_str}
+EOF
 
     haml :index
   end
