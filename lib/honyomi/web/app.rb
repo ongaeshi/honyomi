@@ -50,6 +50,8 @@ get '/v/:id' do
     else
       if @params[:query] && !@params[:query].empty?
         search_book_home(book)
+      elsif @params[:b] == '1'
+        book_bookmark(book)
       else
         book_home(book)
       end
@@ -274,6 +276,40 @@ EOF
 #{pagination_str}
 EOF
 
+    haml :index
+  end
+
+  def book_bookmark(book)
+    @book_id = book.id
+    @header_title = header_title_book(book, @params[:query])
+    @header_info = header_info_book(book, @params[:query])
+    sorted = @database.books_bookmark(book).sort([{:key => "timestamp", :order => "ascending"}])
+
+    r = sorted.map { |bookmark|
+      page = bookmark.page
+      book = page.book
+      title = book.title
+      content = bookmark.comment || page.text
+      content = content[0, 255]
+
+      <<EOF
+  <div class="result">
+    <div class="title">
+      <div><a href="/v/#{book.id}?page=#{page.page_no}">#{book.title}</a> (P#{page.page_no})</div>
+    </div>
+
+    <div class="main">
+      <div class="result-body-element">#{content}</div>
+    </div>
+  </div>
+EOF
+    }.reverse
+
+    @content = <<EOF
+<div class="autopagerize_page_element">
+#{r.join("\n")}
+</div>
+EOF
     haml :index
   end
 
