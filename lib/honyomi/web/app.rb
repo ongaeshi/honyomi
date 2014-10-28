@@ -81,33 +81,7 @@ helpers do
   def home
     if @params[:b] == '1'
       @header_info = %Q|<a href="/">#{@database.books.size}</a> books, <strong>#{@database.bookmarks.size}</strong> bookmarks.|
-      sorted = @database.bookmarks.sort([{:key => "timestamp", :order => "ascending"}])
-
-      r = sorted.map { |bookmark|
-        page = bookmark.page
-        book = page.book
-        title = book.title
-        content = bookmark.comment || page.text
-        content = content[0, 255]
-
-        <<EOF
-  <div class="result">
-    <div class="title">
-      <div><a href="/v/#{book.id}?page=#{page.page_no}">#{book.title}</a> (P#{page.page_no})</div>
-    </div>
-
-    <div class="main">
-      <div class="result-body-element">#{content}</div>
-    </div>
-  </div>
-EOF
-      }.reverse
-
-      @content = <<EOF
-<div class="autopagerize_page_element">
-#{r.join("\n")}
-</div>
-EOF
+      render_bookmarks(@database.bookmarks)
     else
       @header_info = %Q|<strong>#{@database.books.size}</strong> books, <a href="/?b=1">#{@database.bookmarks.size}</a> bookmarks.|
       r = @database.books.map { |book|
@@ -121,9 +95,8 @@ EOF
 #{r.join("\n")}
 </ul>
 EOF
+      haml :index
     end
-
-    haml :index
   end
 
   def search_home
@@ -283,7 +256,11 @@ EOF
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
     @header_info = header_info_book(book, @params[:query])
-    sorted = @database.books_bookmark(book).sort([{:key => "timestamp", :order => "ascending"}])
+    render_bookmarks(@database.books_bookmark(book))
+  end
+
+  def render_bookmarks(bookmakrs)
+    sorted = bookmakrs
 
     r = sorted.map { |bookmark|
       page = bookmark.page
