@@ -7,6 +7,11 @@ if ENV['SINATRA_RELOADER']
   also_reload '../../**/*.rb'
 end
 
+SEARCH_RPAGE = 20
+
+BOOKMARK_RPAGE = 20
+BOOKMARK_COMMENT_LENGTH = 255
+
 include Honyomi
 
 set :haml, :format => :html5
@@ -182,15 +187,13 @@ EOF
     haml :index
   end
 
-  RPAGE_SIZE = 20
-
   def search_common(query, sort_keys, is_filter)
     results = @database.search(query)
 
     rpage = @params[:rpage] ? @params[:rpage].to_i : 1
-    rpage_entries = results.paginate(sort_keys, :page => rpage, :size => RPAGE_SIZE)
+    rpage_entries = results.paginate(sort_keys, :page => rpage, :size => SEARCH_RPAGE)
     pagination_str = ""
-    if (rpage - 1) * RPAGE_SIZE + rpage_entries.count < results.count
+    if (rpage - 1) * SEARCH_RPAGE + rpage_entries.count < results.count
       pagination_str = <<EOF
 <ul class="pager">
   <li><a href='#{url + "?query=#{escape(@params[:query])}&rpage=#{rpage + 1}"}' rel='next'>Next</a></li>
@@ -259,15 +262,16 @@ EOF
     render_bookmarks(@database.books_bookmark(book))
   end
 
-  def render_bookmarks(bookmakrs)
-    sorted = bookmakrs
+  def render_bookmarks(bookmarks)
+    rpage = @params[:rpage] ? @params[:rpage].to_i : 1
+    sorted = bookmarks.sort([{key: "timestamp", order: "descending"}], offset: (rpage - 1) * BOOKMARK_RPAGE, limit: BOOKMARK_RPAGE)
 
     r = sorted.map { |bookmark|
       page = bookmark.page
       book = page.book
       title = book.title
-      content = bookmark.comment || page.text
-      content = content[0, 255]
+      content = bookmark.comment || page.text || ""
+      content = content[0, BOOKMARK_COMMENT_LENGTH]
 
       <<EOF
   <div class="result">
@@ -280,12 +284,23 @@ EOF
     </div>
   </div>
 EOF
-    }.reverse
+    }
+
+    pagination_str = ""
+    if rpage * BOOKMARK_RPAGE < bookmarks.count
+      pagination_str = <<EOF
+<ul class="pager">
+  <li><a href='#{url + "?b=1&rpage=#{rpage + 1}"}' rel='next'>Next</a></li>
+</ul>
+EOF
+    end
+    
 
     @content = <<EOF
 <div class="autopagerize_page_element">
 #{r.join("\n")}
 </div>
+#{pagination_str}
 EOF
     haml :index
   end
