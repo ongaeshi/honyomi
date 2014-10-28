@@ -66,7 +66,29 @@
 .highlight {
     /* background-color: #B4D5FF; */
     /* background-color: #FFF17A; */
-    background-color: #FEEFA2;
+    /* background-color: #FEEFA2; */
+    background-color: #c0deff;
     font-weight: bold;
+}
+
+.ss-box {
+    float: left;
+    margin-right: 5px;
+}
+
+.ss-end {
+    clear: both;
+}
+
+.star {
+     text-indent: -5000px;
+     display: block;
+     background: transparent url("/image/star.png") 20px;
+     height: 20px;
+     width: 20px;
+}
+
+.star.favorited {
+     background-position: 0px;
 }
 

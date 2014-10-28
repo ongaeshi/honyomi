@@ -5,10 +5,12 @@ module Honyomi
   class Database
     attr_reader :books
     attr_reader :pages
+    attr_reader :bookmarks
 
     def initialize
       @books = GrnMini::Array.new("Books")
       @pages = GrnMini::Hash.new("Pages")
+      @bookmarks = GrnMini::Hash.new("Bookmarks")
 
       @books.setup_columns(path:     "",
                            title:    "",
@@ -19,7 +21,12 @@ module Honyomi
       @pages.setup_columns(book:    @books,
                            text:    "",
                            page_no: 0,
+                           bookmark: @bookmarks,
                            )
+      @bookmarks.setup_columns(page:    @pages,
+                               comment: "",
+                               timestamp: Time.new,
+                               )
     end
 
     def add_book(path, pages, options = {})
@@ -99,6 +106,22 @@ module Honyomi
       else
         nil
       end
+    end
+
+    def add_bookmark(page)
+      @bookmarks["#{page.book.id}:#{page.page_no}"] = { page: page, timestamp: Time.now }
+    end
+
+    def delete_bookmark(page)
+      @bookmarks.delete { |bookmark| bookmark.page == page }
+    end
+
+    def bookmark?(page)
+      @bookmarks["#{page.book.id}:#{page.page_no}"]
+    end
+
+    def books_bookmark(book)
+      @bookmarks.select { |record| record.page.book == book }
     end
   end
 end
