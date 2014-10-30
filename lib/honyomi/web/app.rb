@@ -32,7 +32,13 @@ end
 
 post '/search' do
   if params[:book_id] && !@params[:book_id].empty?
-    redirect "/v/#{@params[:book_id]}?query=#{escape(params[:query])}"
+    q = Query.new(params[:query])
+
+    if q.jump_page_no
+      redirect "/v/#{@params[:book_id]}?page=#{q.jump_page_no}&query=#{escape(q.src)}"
+    else
+      redirect "/v/#{@params[:book_id]}?query=#{escape(q.src)}"
+    end
   else
     redirect "/?query=#{escape(params[:query])}"
   end
@@ -119,7 +125,7 @@ EOF
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
 
-    search_common(@params[:query] + " book: #{book.id}",
+    search_common(@params[:query] + " book:#{book.id}",
                   [["page_no", :asc]],
                   false
                   )
@@ -188,7 +194,7 @@ EOF
   end
 
   def search_common(query, sort_keys, is_filter)
-    results = @database.search(query)
+    results = @database.search(Query.new(query).query)
 
     rpage = @params[:rpage] ? @params[:rpage].to_i : 1
     rpage_entries = results.paginate(sort_keys, :page => rpage, :size => SEARCH_RPAGE)

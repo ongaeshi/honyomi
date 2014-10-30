@@ -1,4 +1,5 @@
 require 'honyomi'
+require 'honyomi/query'
 require 'grn_mini'
 
 module Honyomi
