@@ -18,6 +18,33 @@ module Honyomi
       parse
     end
 
+    def add_p_to_number
+      kp = OPTIONS.flatten.join('|')
+      parts = @src.scan(/(?:(#{kp}):)?(?:"(.+)"|(\S+))/)
+
+      q = []
+
+      parts.each do |key, quoted_value, value|
+        if quoted_value
+          text = %Q|"#{quoted_value}"|
+        else
+          text = value
+        end
+        
+        unless (key)
+          begin
+            q << "p:#{Integer(text)}"
+          rescue ArgumentError
+            q << text
+          end
+        else
+          q << "#{key}:#{text}"
+        end
+      end
+
+      q.join(" ")
+    end
+
     private
 
     def parse
@@ -49,9 +76,9 @@ module Honyomi
             q << "page_no:#{text}"
           end
         end
-
-        @query = q.join(" ")
       end
+
+      @query = q.join(" ")
     end
   end
 end

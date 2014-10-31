@@ -53,5 +53,10 @@ module Honyomi
       q = Query.new("aaa (\"ddd bbb\" OR t:CCC)")
       assert_equal "aaa (\"ddd bbb\" OR book.title:@CCC)", q.query
     end
+
+    def test_add_p_to_number
+      q = Query.new("111 hello")
+      assert_equal "p:111 hello", q.add_p_to_number
+    end
   end
 end

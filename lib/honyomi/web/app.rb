@@ -31,16 +31,16 @@ get '/' do
 end
 
 post '/search' do
-  if params[:book_id] && !@params[:book_id].empty?
-    q = Query.new(params[:query])
+  q = Query.new(params[:query])
 
+  if params[:book_id] && !@params[:book_id].empty?
     if q.jump_page_no
       redirect "/v/#{@params[:book_id]}?page=#{q.jump_page_no}&query=#{escape(q.src)}"
     else
       redirect "/v/#{@params[:book_id]}?query=#{escape(q.src)}"
     end
   else
-    redirect "/?query=#{escape(params[:query])}"
+    redirect "/?query=#{escape(q.add_p_to_number)}"
   end
 end
 
