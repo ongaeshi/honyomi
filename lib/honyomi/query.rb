@@ -5,6 +5,7 @@ module Honyomi
     attr_reader :src
     attr_reader :query
     attr_reader :jump_page_no
+    attr_reader :key
     
     OPTIONS = [
                ['book'  , 'b'],
@@ -15,6 +16,7 @@ module Honyomi
     def initialize(src)
       @src = src
       @query = ""
+      init_hash
       parse
     end
 
@@ -47,6 +49,14 @@ module Honyomi
 
     private
 
+    def init_hash
+      @key = {}
+
+      OPTIONS.flatten.each do |key|
+        @key[key] = []
+      end
+    end
+
     def parse
       kp = OPTIONS.flatten.join('|')
       parts = @src.scan(/(?:(#{kp}):)?(?:"(.+)"|(\S+))/)
@@ -69,10 +79,13 @@ module Honyomi
         else
           case key
           when 'book', 'b'
+            @key['book'] << text
             q << "book:#{text}"
           when 'title', 't'
+            @key['title'] << text
             q << "book.title:@#{text}"
           when 'page', 'p'
+            @key['page'] << text
             q << "page_no:#{text}"
           end
         end
