@@ -11,15 +11,15 @@ module Honyomi
 
     def test_jump_page_no
       q = Query.new("111")
-      assert_equal "", q.query
+      assert_equal "page_no:111", q.query
       assert_equal 111, q.jump_page_no
       
       q = Query.new("111 123")
-      assert_equal "", q.query
+      assert_equal "page_no:111 page_no:123", q.query
       assert_equal 123, q.jump_page_no
 
       q = Query.new("aaa 222")
-      assert_equal "aaa", q.query
+      assert_equal "aaa page_no:222", q.query
       assert_equal 222, q.jump_page_no
     end
 
@@ -52,11 +52,6 @@ module Honyomi
 
       q = Query.new("aaa (\"ddd bbb\" OR t:CCC)")
       assert_equal "aaa (\"ddd bbb\" OR book.title:@CCC)", q.query
-    end
-
-    def test_add_p_to_number
-      q = Query.new("111 hello")
-      assert_equal "p:111 hello", q.add_p_to_number
     end
   end
 end
