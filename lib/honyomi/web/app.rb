@@ -171,9 +171,9 @@ EOF
 EOF
 end
 
-    main_contents = pages.to_a[page_index, PAGE_SIZE].map { |page|
+    main_contents = (pages.to_a[page_index, PAGE_SIZE] || []).map do |page|
       render_page(page, keywords: keywords, with_number: true)
-    }
+    end
 
     pagination_str = ""
     if page_index + PAGE_SIZE < pages.count
