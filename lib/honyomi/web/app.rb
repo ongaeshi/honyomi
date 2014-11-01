@@ -246,7 +246,7 @@ EOF
     </div>
 
     <div class="main">
-      #{snippet.execute(page.text).map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
+      #{snippet.execute(page.text || "").map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
     </div>
 
   </div>
