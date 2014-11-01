@@ -233,6 +233,16 @@ EOF
         filter_str = ""
       end
 
+      content = page.text || ""
+
+      main_contents = snippet.execute(content).map { |segment|
+        "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"
+      }.join("\n")
+
+      if main_contents.empty?
+        main_contents = "<div class=\"result-body-element\">#{content[0, BOOKMARK_COMMENT_LENGTH]}</div>"
+      end
+
       <<EOF
   <div class="result">
     <div class="title">
@@ -246,7 +256,7 @@ EOF
     </div>
 
     <div class="main">
-      #{snippet.execute(page.text || "").map {|segment| "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"}.join("\n") }
+      #{main_contents}
     </div>
 
   </div>
