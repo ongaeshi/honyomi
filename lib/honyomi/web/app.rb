@@ -382,7 +382,7 @@ EOF
     attr << %Q|honyomi-page-no="#{page.page_no}"|
     attr << %Q|honyomi-title="#{page.book.title}"|
     bm = @database.bookmark_from_page(page)
-    attr << %Q|honyomi-comment="#{bm.comment.gsub("\n", "&#13;")}"| if bm
+    attr << %Q|honyomi-comment="#{bm.comment.gsub("\n", "&#13;")}"| if bm && bm.comment
 
     "<a href=\"javascript:\" id=\"star-#{page.book.id}-#{page.page_no}\" class=\"#{classes}\" #{attr.join(" ")}>Favorite Me</a>"
   end
