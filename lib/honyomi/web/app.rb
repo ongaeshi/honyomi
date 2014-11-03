@@ -169,7 +169,7 @@ EOF
   <li><a href='#{url + "?page=#{[page_no - PAGE_SIZE, 1].max}"}' >Prev</a></li>
 </ul>
 EOF
-end
+    end
 
     main_contents = (pages.to_a[page_index, PAGE_SIZE] || []).map do |page|
       render_page(page, keywords: keywords, with_number: true)
