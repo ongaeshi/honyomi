@@ -13,5 +13,19 @@
             %input(class="btn btn-primary" type="submit" value="Search")
         .info
           = @header_info
+
+        #modal-bookmark-new.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+          .modal-dialog
+            .modal-content
+              .modal-header
+                %button.close{"data-dismiss" => "modal", :type => "button"}
+                  %span{"aria-hidden" => "true"} &times;
+                  %span.sr-only Close
+                %h4#myModalLabel.modal-title Modal title
+              .modal-body
+                \...
+              .modal-footer
+                %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+                %button.btn.btn-primary{:type => "button"} Save changes
       .content
         = @content
