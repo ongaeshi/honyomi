@@ -121,6 +121,10 @@ module Honyomi
       @bookmarks["#{page.book.id}:#{page.page_no}"]
     end
 
+    def bookmark_from_page(page)
+      @bookmarks["#{page.book.id}:#{page.page_no}"]
+    end
+
     def books_bookmark(book)
       @bookmarks.select { |record| record.page.book == book }
     end
