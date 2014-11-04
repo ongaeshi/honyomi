@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'haml'
 require 'honyomi/database'
 require 'honyomi/util'
@@ -291,8 +292,10 @@ EOF
       page = bookmark.page
       book = page.book
       title = book.title
-      content = bookmark.comment || page.text || ""
-      content = content[0, BOOKMARK_COMMENT_LENGTH]
+      content = []
+      content << bookmark.comment if bookmark.comment
+      content << page.text if page.text
+      content = content.join(" | ")[0, BOOKMARK_COMMENT_LENGTH]
 
       <<EOF
   <div class="result">
