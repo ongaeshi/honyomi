@@ -86,7 +86,7 @@ post '/command' do
     end
 
   when 'favorite-update'
-    @database.bookmarks["#{params[:id].to_i}:#{params[:page_no].to_i}"].comment = params[:comment]
+    @database.update_bookmark_comment(params[:id].to_i, params[:page_no].to_i, params[:comment])
   end
 
   ""
