@@ -97,7 +97,7 @@ helpers do
   def home
     if @params[:b] == '1'
       @header_info = %Q|<a href="/">#{@database.books.size}</a> books, <strong>#{@database.bookmarks.size}</strong> bookmarks.|
-      render_bookmarks(@database.bookmarks)
+      render_bookmarks(@database.bookmarks, [{key: "timestamp", order: "descending"}])
     else
       @header_info = %Q|<strong>#{@database.books.size}</strong> books, <a href="/?b=1">#{@database.bookmarks.size}</a> bookmarks.|
       r = @database.books.map { |book|
@@ -280,12 +280,12 @@ EOF
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
     @header_info = header_info_book(book, @params[:query])
-    render_bookmarks(@database.books_bookmark(book))
+    render_bookmarks(@database.books_bookmark(book), [{key: "page.page_no", order: "ascending"}])
   end
 
-  def render_bookmarks(bookmarks)
+  def render_bookmarks(bookmarks, sort_keys)
     rpage = @params[:rpage] ? @params[:rpage].to_i : 1
-    sorted = bookmarks.sort([{key: "timestamp", order: "descending"}], offset: (rpage - 1) * BOOKMARK_RPAGE, limit: BOOKMARK_RPAGE)
+    sorted = bookmarks.sort(sort_keys, offset: (rpage - 1) * BOOKMARK_RPAGE, limit: BOOKMARK_RPAGE)
 
     r = sorted.map { |bookmark|
       page = bookmark.page
