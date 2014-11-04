@@ -365,12 +365,25 @@ EOF
 EOF
     end
 
+    comment = ""
+
+    bm = @database.bookmark_from_page(page)
+
+    if  bm && bm.comment && !bm.comment.empty?
+      comment = <<EOF
+  <div class="comment">
+#{Util.render_bookmark_comment_to_html(bm.comment)}
+  </div>
+EOF
+    end
+
     text = Util.highlight_keywords(page.text, options[:keywords], 'highlight')
     text = text.gsub("\n\n", "<br/><br/>")
 
 <<EOF
 <div class="page" id="#{page.page_no}">
   #{with_number}
+  #{comment}
   <div class="main">
     #{text}
   </div>

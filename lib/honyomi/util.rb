@@ -79,5 +79,10 @@ module Honyomi
         end
       end
     end
+
+    def render_bookmark_comment_to_html(comment)
+      comment.gsub("\n", "<br/>")
+    end
+
   end
 end
