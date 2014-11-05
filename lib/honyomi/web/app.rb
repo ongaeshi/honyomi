@@ -300,7 +300,9 @@ EOF
       <<EOF
   <div class="result">
     <div class="title">
+      <div class="ss-box">#{favstar(page)}</div>
       <div><a href="/v/#{book.id}?page=#{page.page_no}">#{book.title}</a> (P#{page.page_no})</div>
+      <div class="ss-end"></div>
     </div>
 
     <div class="main">
