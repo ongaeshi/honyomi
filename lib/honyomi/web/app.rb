@@ -374,7 +374,7 @@ EOF
     if  bm && bm.comment && !bm.comment.empty?
       comment = <<EOF
   <div class="comment">
-#{Util.render_bookmark_comment_to_html(bm.comment)}
+#{Util.render_bookmark_comment_to_html(bm)}
   </div>
 EOF
     end
