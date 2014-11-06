@@ -82,6 +82,13 @@ module Honyomi
 
     def render_bookmark_comment_to_html(c)
       comment = CGI.escape_html(c)
+
+      URI.extract(comment, %w{http https}).uniq.each do |uri|
+        unless uri.match(/(\.jpg|\.jpeg|\.png)/)
+          comment.gsub!(uri, %Q{<a href="#{uri}">#{uri}</a>})
+        end
+      end
+
       comment.gsub("\n", "<br/>")
     end
 
