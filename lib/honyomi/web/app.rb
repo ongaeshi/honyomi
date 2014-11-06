@@ -86,11 +86,11 @@ post '/command' do
       @database.delete_bookmark(page)
     end
 
+    ""
   when 'favorite-update'
-    @database.update_bookmark_comment(params[:id].to_i, params[:page_no].to_i, params[:comment])
+    bm = @database.update_bookmark_comment(params[:id].to_i, params[:page_no].to_i, params[:comment])
+    Util.render_bookmark_comment_to_html(bm)
   end
-
-  ""
 end
 
 helpers do

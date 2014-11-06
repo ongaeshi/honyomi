@@ -121,6 +121,7 @@ module Honyomi
       bm = @bookmarks["#{id}:#{page_no}"]
       bm.comment = comment
       bm.timestamp = Time.now
+      bm
     end
 
     def bookmark?(page)
