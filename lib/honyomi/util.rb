@@ -80,7 +80,8 @@ module Honyomi
       end
     end
 
-    def render_bookmark_comment_to_html(comment)
+    def render_bookmark_comment_to_html(c)
+      comment = CGI.escape_html(c)
       comment.gsub("\n", "<br/>")
     end
 
