@@ -402,6 +402,6 @@ EOF
     bm = @database.bookmark_from_page(page)
     attr << %Q|honyomi-comment="#{escape_html(bm.comment).gsub("\n", "&#13;")}"| if bm && bm.comment
 
-    "<a href=\"javascript:\" id=\"star-#{page.book.id}-#{page.page_no}\" class=\"#{classes}\" #{attr.join(" ")}>Favorite Me</a>"
+    "<a href=\"javascript:\" id=\"star-#{page.book.id}-#{page.page_no}\" class=\"#{classes}\" #{attr.join(" ")}>Star</a>"
   end
 end
