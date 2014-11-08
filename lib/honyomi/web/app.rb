@@ -293,8 +293,8 @@ EOF
       book = page.book
       title = book.title
       content = []
-      content << bookmark.comment if bookmark.comment
-      content << page.text if page.text
+      content << escape_html(bookmark.comment) if bookmark.comment
+      content << escape_html(page.text) if page.text
       content = content.join(" | ")[0, BOOKMARK_COMMENT_LENGTH]
 
       <<EOF
