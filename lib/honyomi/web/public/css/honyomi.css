@@ -52,6 +52,13 @@
     padding: 20px 0px 10px 0px;
 }
 
+.page .comment {
+    background-color: #f0f0f0;
+    border: solid 1px #d0d0d0;
+    font-size: 95%;
+    margin-bottom: 2px;
+}
+
 .page .main {
     background-color: #fbfbfb;
     border: solid 1px #d0d0d0;

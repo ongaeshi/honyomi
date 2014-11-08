@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'haml'
 require 'honyomi/database'
 require 'honyomi/util'
@@ -86,6 +87,9 @@ post '/command' do
     end
 
     ""
+  when 'favorite-update'
+    bm = @database.update_bookmark_comment(params[:id].to_i, params[:page_no].to_i, params[:comment])
+    Util.render_bookmark_comment_to_html(bm)
   end
 end
 
@@ -94,7 +98,7 @@ helpers do
   def home
     if @params[:b] == '1'
       @header_info = %Q|<a href="/">#{@database.books.size}</a> books, <strong>#{@database.bookmarks.size}</strong> bookmarks.|
-      render_bookmarks(@database.bookmarks)
+      render_bookmarks(@database.bookmarks, [{key: "timestamp", order: "descending"}])
     else
       @header_info = %Q|<strong>#{@database.books.size}</strong> books, <a href="/?b=1">#{@database.bookmarks.size}</a> bookmarks.|
       r = @database.books.map { |book|
@@ -169,7 +173,7 @@ EOF
   <li><a href='#{url + "?page=#{[page_no - PAGE_SIZE, 1].max}"}' >Prev</a></li>
 </ul>
 EOF
-end
+    end
 
     main_contents = (pages.to_a[page_index, PAGE_SIZE] || []).map do |page|
       render_page(page, keywords: keywords, with_number: true)
@@ -277,24 +281,28 @@ EOF
     @book_id = book.id
     @header_title = header_title_book(book, @params[:query])
     @header_info = header_info_book(book, @params[:query])
-    render_bookmarks(@database.books_bookmark(book))
+    render_bookmarks(@database.books_bookmark(book), [{key: "page.page_no", order: "ascending"}])
   end
 
-  def render_bookmarks(bookmarks)
+  def render_bookmarks(bookmarks, sort_keys)
     rpage = @params[:rpage] ? @params[:rpage].to_i : 1
-    sorted = bookmarks.sort([{key: "timestamp", order: "descending"}], offset: (rpage - 1) * BOOKMARK_RPAGE, limit: BOOKMARK_RPAGE)
+    sorted = bookmarks.sort(sort_keys, offset: (rpage - 1) * BOOKMARK_RPAGE, limit: BOOKMARK_RPAGE)
 
     r = sorted.map { |bookmark|
       page = bookmark.page
       book = page.book
       title = book.title
-      content = bookmark.comment || page.text || ""
-      content = content[0, BOOKMARK_COMMENT_LENGTH]
+      content = []
+      content << escape_html(bookmark.comment) if bookmark.comment
+      content << escape_html(page.text) if page.text
+      content = content.join(" | ")[0, BOOKMARK_COMMENT_LENGTH]
 
       <<EOF
   <div class="result">
     <div class="title">
+      <div class="ss-box">#{favstar(page)}</div>
       <div><a href="/v/#{book.id}?page=#{page.page_no}">#{book.title}</a> (P#{page.page_no})</div>
+      <div class="ss-end"></div>
     </div>
 
     <div class="main">
@@ -359,12 +367,25 @@ EOF
 EOF
     end
 
+    comment = ""
+
+    bm = @database.bookmark_from_page(page)
+
+    if  bm && bm.comment && !bm.comment.empty?
+      comment = <<EOF
+  <div class="comment">
+#{Util.render_bookmark_comment_to_html(bm)}
+  </div>
+EOF
+    end
+
     text = Util.highlight_keywords(page.text, options[:keywords], 'highlight')
     text = text.gsub("\n\n", "<br/><br/>")
 
 <<EOF
 <div class="page" id="#{page.page_no}">
   #{with_number}
+  #{comment}
   <div class="main">
     #{text}
   </div>
@@ -374,6 +395,13 @@ EOF
 
   def favstar(page)
     classes = @database.bookmark?(page) ? "star favorited" : "star"
-    "<a href=\"javascript:\" class=\"#{classes}\" honyomi-id=\"#{page.book.id}\" honyomi-page-no=\"#{page.page_no}\">Favorite Me</a>"
+    attr = []
+    attr << %Q|honyomi-id="#{page.book.id}"|
+    attr << %Q|honyomi-page-no="#{page.page_no}"|
+    attr << %Q|honyomi-title="#{page.book.title}"|
+    bm = @database.bookmark_from_page(page)
+    attr << %Q|honyomi-comment="#{escape_html(bm.comment).gsub("\n", "&#13;")}"| if bm && bm.comment
+
+    "<a href=\"javascript:\" id=\"star-#{page.book.id}-#{page.page_no}\" class=\"#{classes}\" #{attr.join(" ")}>Favorite Me</a>"
   end
 end

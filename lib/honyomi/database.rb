@@ -117,7 +117,18 @@ module Honyomi
       @bookmarks.delete { |bookmark| bookmark.page == page }
     end
 
+    def update_bookmark_comment(id, page_no, comment)
+      bm = @bookmarks["#{id}:#{page_no}"]
+      bm.comment = comment
+      bm.timestamp = Time.now
+      bm
+    end
+
     def bookmark?(page)
+      @bookmarks["#{page.book.id}:#{page.page_no}"]
+    end
+
+    def bookmark_from_page(page)
       @bookmarks["#{page.book.id}:#{page.page_no}"]
     end
 
