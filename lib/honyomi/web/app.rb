@@ -292,10 +292,24 @@ EOF
       page = bookmark.page
       book = page.book
       title = book.title
+
       content = []
-      content << escape_html(bookmark.comment) if bookmark.comment
-      content << escape_html(page.text) if page.text
-      content = content.join(" | ")[0, BOOKMARK_COMMENT_LENGTH]
+      content << bookmark.comment if bookmark.comment
+      content << page.text if page.text
+
+      r = []
+      rest = BOOKMARK_COMMENT_LENGTH
+      content.each do |e|
+        if e.length > rest
+          r << e[0, rest]
+          break
+        else
+          r << e
+          rest -= e.length
+        end
+      end
+
+      content = r.map { |e| "<p>#{escape_html(e)}</p>" }.join("\n")
 
       <<EOF
   <div class="result">
