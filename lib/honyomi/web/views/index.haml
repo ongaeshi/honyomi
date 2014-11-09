@@ -11,6 +11,7 @@
             %input(class="form-control" type="text" size=40 name="query" value="#{@params[:query]}")
             %input(type="hidden" name="book_id" value="#{@book_id}")
             %input(class="btn btn-primary" type="submit" value="Search")
+            %input#clear(class="btn btn-default" name="clear" type="submit" value="Clear")
         .info
           = @header_info
 

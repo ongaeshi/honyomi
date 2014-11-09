@@ -99,3 +99,9 @@
      background-position: 0px;
 }
 
+input#clear {
+    /* margin-left: 0px; */
+    width: 64px;
+    height: 36px;
+    font-size: 12px;
+}
