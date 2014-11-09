@@ -10,7 +10,8 @@
           .form-group
             %input(class="form-control" type="text" size=40 name="query" value="#{@params[:query]}")
             %input(type="hidden" name="book_id" value="#{@book_id}")
-            %input(class="btn btn-primary" type="submit" value="Search")
+            %input(type="submit" value="Search" class="btn btn-primary")
+            %input#clear(type="button" value="Clear" class="btn btn-default" onclick="click_clear_button()")
         .info
           = @header_info
 
