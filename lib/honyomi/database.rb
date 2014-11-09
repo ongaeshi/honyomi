@@ -16,6 +16,7 @@ module Honyomi
       @books.setup_columns(path:     "",
                            title:    "",
                            author:   "",
+                           url:      "",
                            page_num: 0,
                            timestamp: Time.new,
                            )
@@ -49,6 +50,7 @@ module Honyomi
         book = @books.add(path: path,
                           title: title,
                           author: "",
+                          url:    "",
                           page_num: pages.size,
                           timestamp: timestamp,
                           )
@@ -66,6 +68,7 @@ module Honyomi
       
       book.title = options[:title] if options[:title]
       book.author = options[:author] if options[:author]
+      book.url = options[:url] if options[:url]
       book.path  = options[:path]  if options[:path]
       book.timestamp = options[:timestamp] if options[:timestamp]
 
