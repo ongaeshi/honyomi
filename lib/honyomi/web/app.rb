@@ -347,7 +347,7 @@ EOF
 
   def header_title_book(book, query)
     query = query ? "?query=#{query}" : ""
-    "<a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}'>#{book.title}</a> <span class='edit-link'>- Edit</span>"
+    "<a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}' id=\"book-title\">#{book.title}</a> <span class='edit-link'>- Edit</span>"
   end
 
   def header_info_book(book, query)
