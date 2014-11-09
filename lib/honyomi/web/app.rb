@@ -96,6 +96,7 @@ post '/command' do
                           {
                             title: params[:title],
                             author: params[:author],
+                            url: params[:url],
                           })
     ""
   end
@@ -362,7 +363,7 @@ EOF
 </div>
 <div class="etc">
   <span id="book-author">#{book.author}</span>
-  <span id="book-url"><a href="#{book.url}">#{book.url}</a></span>
+  <span><a id="book-url" href="#{book.url}">#{book.url}</a></span>
 </div>
 EOF
   end
