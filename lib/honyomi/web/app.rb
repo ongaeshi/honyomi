@@ -360,7 +360,7 @@ EOF
 <div class="title">
   <a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}' id="book-title" honyomi-book-id="#{book.id}">#{book.title}</a> <span class='edit-link'>- <a href="#">Edit</a></span>
 </div>
-<div class="author">#{book.author}</div>
+<div id="book-author" class="author">#{book.author}</div>
 EOF
   end
 
