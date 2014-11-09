@@ -40,6 +40,7 @@ module Honyomi
 
     def edit(book_id, options)
       opts = {}
+      opts[:author]    = options[:author]                if options[:author]
       opts[:title]     = options[:title]                 if options[:title]
       opts[:path]      = options[:path]                  if options[:path]
       opts[:timestamp] = Time.parse(options[:timestamp]) if options[:timestamp]
@@ -81,6 +82,7 @@ module Honyomi
             results << <<EOF
 id:        #{book.id.to_s}
 title:     #{book.title}
+author:    #{book.author}
 path:      #{book.path}
 pages:     #{book.page_num}
 timestamp: #{book.timestamp}

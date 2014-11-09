@@ -3,8 +3,15 @@
 }
 
 .header .title {
-    font-size: 130%;
     margin: 0px 0px 10px 0px;
+}
+
+.header .title .title {
+    font-size: 130%;
+}
+
+.header .title .author {
+    font-size: 100%;
 }
 
 .header .info {

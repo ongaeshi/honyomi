@@ -48,6 +48,7 @@ module Honyomi
 
         book = @books.add(path: path,
                           title: title,
+                          author: "",
                           page_num: pages.size,
                           timestamp: timestamp,
                           )
@@ -64,6 +65,7 @@ module Honyomi
       book = @books[book_id]
       
       book.title = options[:title] if options[:title]
+      book.author = options[:author] if options[:author]
       book.path  = options[:path]  if options[:path]
       book.timestamp = options[:timestamp] if options[:timestamp]
 
