@@ -64,6 +64,7 @@ module Honyomi
       book = @books[book_id]
       
       book.title = options[:title] if options[:title]
+      book.author = options[:author] if options[:author]
       book.path  = options[:path]  if options[:path]
       book.timestamp = options[:timestamp] if options[:timestamp]
 
