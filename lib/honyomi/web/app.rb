@@ -92,7 +92,11 @@ post '/command' do
     Util.render_bookmark_comment_to_html(bm)
 
   when 'title-form-save'
-    @database.change_book(params[:id].to_i, {title: params[:title]})
+    @database.change_book(params[:id].to_i,
+                          {
+                            title: params[:title],
+                            author: params[:author],
+                          })
     ""
   end
 end
@@ -356,9 +360,7 @@ EOF
 <div class="title">
   <a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}' id="book-title" honyomi-book-id="#{book.id}">#{book.title}</a> <span class='edit-link'>- <a href="#">Edit</a></span>
 </div>
-<div class="author">
-  #{book.author}
-</div>
+<div class="author">#{book.author}</div>
 EOF
   end
 
