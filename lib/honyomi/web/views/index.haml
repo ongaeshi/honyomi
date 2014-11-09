@@ -6,6 +6,26 @@
       .header
         .title
           = @header_title
+
+        .title-form.hide
+          %form.form-horizontal(role="form")
+            .form-group
+              %label.col-sm-1.control-label(for="title-form-title")
+                Title
+              .col-sm-11
+                %input#title-form-title.form-control(type="text")
+            .form-group
+              %label.col-sm-1.control-label(for="title-form-author")
+                Author
+              .col-sm-11
+                %input#title-form-author.form-control(type="text")
+            .form-group
+              .pull-right
+                %input(type="submit" value="Save" id="title-form-save" class="btn btn-default")
+                or
+                %a(href="#" id="title-form-cancel")
+                  Cancel
+
         %form(class="form-inline" method="post" action="/search")
           .form-group
             %input(class="form-control" type="text" size=40 name="query" value="#{@params[:query]}")

@@ -85,11 +85,15 @@ post '/command' do
     else
       @database.delete_bookmark(page)
     end
-
     ""
+
   when 'favorite-update'
     bm = @database.update_bookmark_comment(params[:id].to_i, params[:page_no].to_i, params[:comment])
     Util.render_bookmark_comment_to_html(bm)
+
+  when 'title-form-save'
+    @database.change_book(params[:id].to_i, {title: params[:title]})
+    ""
   end
 end
 
@@ -347,7 +351,7 @@ EOF
 
   def header_title_book(book, query)
     query = query ? "?query=#{query}" : ""
-    "<a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}'>#{book.title}</a>"
+    "<a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}' id=\"book-title\" honyomi-book-id=\"#{book.id}\">#{book.title}</a> <span class='edit-link'>- <a href=\"#\">Edit</a></span>"
   end
 
   def header_info_book(book, query)
