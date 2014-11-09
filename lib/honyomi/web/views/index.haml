@@ -8,18 +8,23 @@
           = @header_title
 
         .title-form.hide
-          %form(class="form-inline")
+          %form.form-horizontal(role="form")
             .form-group
-              %label(for="title-form-title")
+              %label.col-sm-1.control-label(for="title-form-title")
                 Title
-              %input(type="text" id="title-form-title")
-              %label(for="title-form-author")
+              .col-sm-11
+                %input#title-form-title.form-control(type="text")
+            .form-group
+              %label.col-sm-1.control-label(for="title-form-author")
                 Author
-              %input(type="text" id="title-form-author")
-              %input(type="button" value="Save" id="title-form-save" class="btn btn-default")
-              or
-              %a(href="#" id="title-form-cancel")
-                Cancel
+              .col-sm-11
+                %input#title-form-author.form-control(type="text")
+            .form-group
+              .pull-right
+                %input(type="button" value="Save" id="title-form-save" class="btn btn-default")
+                or
+                %a(href="#" id="title-form-cancel")
+                  Cancel
 
         %form(class="form-inline" method="post" action="/search")
           .form-group
