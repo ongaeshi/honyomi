@@ -82,6 +82,7 @@ module Honyomi
             results << <<EOF
 id:        #{book.id.to_s}
 title:     #{book.title}
+author:    #{book.author}
 path:      #{book.path}
 pages:     #{book.page_num}
 timestamp: #{book.timestamp}
