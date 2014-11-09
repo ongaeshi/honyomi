@@ -108,4 +108,9 @@ input#clear {
 
 .edit-link {
     color: #8f8f8f;
-};
+}
+
+.edit-link a {
+    color: #8f8f8f;
+}
+
