@@ -48,6 +48,7 @@ module Honyomi
 
         book = @books.add(path: path,
                           title: title,
+                          author: "",
                           page_num: pages.size,
                           timestamp: timestamp,
                           )
