@@ -96,6 +96,7 @@ post '/command' do
                           {
                             title: params[:title],
                             author: params[:author],
+                            url: params[:url],
                           })
     ""
   end
@@ -360,7 +361,10 @@ EOF
 <div class="title">
   <a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}' id="book-title" honyomi-book-id="#{book.id}">#{book.title}</a> <span class='edit-link'>- <a href="#">Edit</a></span>
 </div>
-<div id="book-author" class="author">#{book.author}</div>
+<div class="etc">
+  <span id="book-author">#{book.author}</span>
+  <span><a id="book-url" href="#{book.url}">#{book.url}</a></span>
+</div>
 EOF
   end
 

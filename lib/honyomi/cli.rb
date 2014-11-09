@@ -61,8 +61,9 @@ module Honyomi
     # end
 
     desc "edit book_id [options]", "Edit book info"
-    option :author, :aliases => '-a', :type => :string,  :desc => 'Change author'
     option :title, :aliases => '-t', :type => :string,  :desc => 'Change title'
+    option :author, :aliases => '-a', :type => :string,  :desc => 'Change author'
+    option :url, :aliases => '-u', :type => :string,  :desc => 'Change url'
     option :path,  :type => :string,  :desc => 'Change file path'
     option :strip, :type => :boolean, :desc => 'Remove spaces'
     option :no_strip, :type => :boolean, :desc => 'Not remove spaces'
