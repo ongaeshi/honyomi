@@ -13,17 +13,17 @@
               %label.col-sm-1.control-label(for="title-form-title")
                 Title
               .col-sm-11
-                %input#title-form-title.form-control(type="text")
+                %input#title-form-title.form-control(type="text"  placeholder="Title of book (required)")
             .form-group
               %label.col-sm-1.control-label(for="title-form-author")
                 Author
               .col-sm-11
-                %input#title-form-author.form-control(type="text")
+                %input#title-form-author.form-control(type="text" placeholder="Author of book (optional)")
             .form-group
               %label.col-sm-1.control-label(for="title-form-url")
                 URL
               .col-sm-11
-                %input#title-form-url.form-control(type="text")
+                %input#title-form-url.form-control(type="text" placeholder="Website for this book (optional)")
             .form-group
               .pull-right
                 %input(type="submit" value="Save" id="title-form-save" class="btn btn-default")
