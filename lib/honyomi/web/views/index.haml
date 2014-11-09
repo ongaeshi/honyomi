@@ -6,6 +6,21 @@
       .header
         .title
           = @header_title
+
+        .title-form.hide
+          %form(class="form-inline")
+            .form-group
+              %label(for="title-form-title")
+                Title
+              %input(type="text" id="title-form-title")
+              %label(for="title-form-author")
+                Author
+              %input(type="text" id="title-form-author")
+              %input(type="button" value="Save" id="title-form-save" class="btn btn-default")
+              or
+              %a(href="#" id="title-form-cancel")
+                Cancel
+
         %form(class="form-inline" method="post" action="/search")
           .form-group
             %input(class="form-control" type="text" size=40 name="query" value="#{@params[:query]}")
