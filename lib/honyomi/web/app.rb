@@ -31,6 +31,10 @@ get '/' do
   end
 end
 
+get '/help' do
+  haml :help
+end
+
 post '/search' do
   q = Query.new(params[:query])
 

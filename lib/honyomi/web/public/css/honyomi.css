@@ -121,3 +121,8 @@ input#clear {
     color: #8f8f8f;
 }
 
+/* help */
+
+#help h3 {
+    font-size: 120%;
+}

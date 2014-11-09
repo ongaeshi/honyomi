@@ -1,0 +1,55 @@
+!!!
+
+.container
+  #help
+    %h1 Help
+
+    %ol
+      %li <a href="#search">Search</a>
+      %li <a href="#filter-options">Filter options</a>
+      %li <a href="#bookmark">Bookmark</a>
+
+    %h2#search Search
+
+    %h3 Keyword
+    %pre
+      :preserve
+        hello
+
+    %h3 Phrase Search
+    %pre
+      :preserve
+        "hello world"
+
+    %h3 Jump to 32 page
+    %pre
+      :preserve
+        32
+
+    %h2#filter-options Filter options
+
+    %h3 Book Id
+    %pre
+      :preserve
+        b:11 hello
+
+    %h3 Book Id (NOT)
+    %pre
+      :preserve
+        -b:11 hello
+
+    %h3 Book Title
+    %pre
+      :preserve
+        t:hello world
+
+    %h3 Page Number
+    %pre
+      :preserve
+        p:>100 p:<200  world
+
+    %h2#bookmark Bookmark
+    %ol
+      %li If you click the star, you can bookmark the page
+      %li When you click star again, you can write a memo
+
