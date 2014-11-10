@@ -213,7 +213,7 @@ EOF
   end
 
   def search_common(query, sort_keys, is_filter)
-    results = @database.search(Query.new(query))
+    results, snippet = @database.search(Query.new(query))
 
     rpage = @params[:rpage] ? @params[:rpage].to_i : 1
     rpage_entries = results.paginate(sort_keys, :page => rpage, :size => SEARCH_RPAGE)
@@ -225,8 +225,6 @@ EOF
 </ul>
 EOF
     end
-
-    snippet = results.expression.snippet([["<span class=\"highlight\">", "</span>"]], {html_escape: true, normalize: true, max_results: 5})
 
     books = {}
 
