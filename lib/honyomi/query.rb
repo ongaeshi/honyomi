@@ -3,7 +3,7 @@
 module Honyomi
   class Query
     attr_reader :src
-    attr_reader :query
+    attr_reader :page_query
     attr_reader :bookmark_query
     attr_reader :jump_page_no
     attr_reader :key
@@ -16,7 +16,6 @@ module Honyomi
 
     def initialize(src)
       @src = src
-      @query = ""
       init_hash
       parse
     end
@@ -72,7 +71,7 @@ module Honyomi
         end
       end
 
-      @query = page_query.join(" ")
+      @page_query = page_query.join(" ")
       @bookmark_query = bookmark_query.join(" ")
     end
   end

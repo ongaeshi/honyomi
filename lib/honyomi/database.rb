@@ -97,7 +97,7 @@ module Honyomi
     end
 
     def search(query)
-      @pages.select(query, default_column: "text")
+      @pages.select(query.page_query, default_column: "text")
     end
 
     def book_pages(book_id)

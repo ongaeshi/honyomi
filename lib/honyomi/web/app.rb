@@ -213,7 +213,7 @@ EOF
   end
 
   def search_common(query, sort_keys, is_filter)
-    results = @database.search(Query.new(query).query)
+    results = @database.search(Query.new(query))
 
     rpage = @params[:rpage] ? @params[:rpage].to_i : 1
     rpage_entries = results.paginate(sort_keys, :page => rpage, :size => SEARCH_RPAGE)
