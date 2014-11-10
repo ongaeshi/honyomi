@@ -53,5 +53,22 @@ module Honyomi
       q = Query.new("aaa (\"ddd bbb\" OR t:CCC)")
       assert_equal "aaa (\"ddd bbb\" OR book.title:@CCC)", q.query
     end
+
+    def test_bookmark_query
+      q = Query.new("aaa")
+      assert_equal "aaa", q.bookmark_query
+
+      q = Query.new("aaa t:bbb")
+      assert_equal "aaa page.book.title:@bbb", q.bookmark_query
+
+      q = Query.new("aaa b:11")
+      assert_equal "aaa page.book:11", q.bookmark_query
+
+      q = Query.new("aaa p:12")
+      assert_equal "aaa page.book.page_no:12", q.bookmark_query
+
+      q = Query.new("aaa (\"ddd bbb\" OR t:CCC)")
+      assert_equal "aaa (\"ddd bbb\" OR page.book.title:@CCC)", q.bookmark_query
+    end
   end
 end

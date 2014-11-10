@@ -4,6 +4,7 @@ module Honyomi
   class Query
     attr_reader :src
     attr_reader :query
+    attr_reader :bookmark_query
     attr_reader :jump_page_no
     attr_reader :key
     
@@ -34,7 +35,8 @@ module Honyomi
       kp = OPTIONS.flatten.join('|')
       parts = @src.scan(/(?:(#{kp}):)?(?:"(.+)"|(\S+))/)
 
-      q = []
+      page_query = []
+      bookmark_query = []
 
       parts.each do |key, quoted_value, value|
         if quoted_value
@@ -46,26 +48,32 @@ module Honyomi
         unless (key)
           begin
             @jump_page_no = Integer(text)
-            q << "page_no:#{text}"
+            page_query << "page_no:#{text}"
+            bookmark_query << "page_no:#{text}"
           rescue ArgumentError
-            q << text
+            page_query << text
+            bookmark_query << text
           end
         else
           case key
           when 'book', 'b'
             @key['book'] << text
-            q << "book:#{text}"
+            page_query << "book:#{text}"
+            bookmark_query << "page.book:#{text}"
           when 'title', 't'
             @key['title'] << text
-            q << "book.title:@#{text}"
+            page_query << "book.title:@#{text}"
+            bookmark_query << "page.book.title:@#{text}"
           when 'page', 'p'
             @key['page'] << text
-            q << "page_no:#{text}"
+            page_query << "page_no:#{text}"
+            bookmark_query << "page.book.page_no:#{text}"
           end
         end
       end
 
-      @query = q.join(" ")
+      @query = page_query.join(" ")
+      @bookmark_query = bookmark_query.join(" ")
     end
   end
 end
