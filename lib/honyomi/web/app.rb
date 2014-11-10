@@ -248,9 +248,16 @@ EOF
         filter_str = ""
       end
 
-      content = page.text || ""
+      bm = @database.bookmark_from_page(page)
+      content = bm ? bm.comment : ""
 
       main_contents = snippet.execute(content).map { |segment|
+        "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"
+      }.join("\n")
+
+      content = page.text || ""
+
+      main_contents += snippet.execute(content).map { |segment|
         "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"
       }.join("\n")
 
