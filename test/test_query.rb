@@ -70,5 +70,10 @@ module Honyomi
       q = Query.new("aaa (\"ddd bbb\" OR t:CCC)")
       assert_equal "aaa (\"ddd bbb\" OR page.book.title:@CCC)", q.bookmark_query
     end
+
+    def test_minus
+      q = Query.new("aaa -book:10")
+      assert_equal "aaa -page.book:10", q.bookmark_query
+    end
   end
 end
