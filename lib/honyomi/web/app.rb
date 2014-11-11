@@ -249,21 +249,12 @@ EOF
       end
 
       bm = @database.bookmark_from_page(page)
-      content = bm ? (bm.comment || "") : ""
+      comment_hits = snippet.execute(bm ? (bm.comment || "") : "")
+      text_hits = snippet.execute(page.text || "")
 
-      main_contents = snippet.execute(content).map { |segment|
-        "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"
-      }.join("\n")
-
-      content = page.text || ""
-
-      main_contents += snippet.execute(content).map { |segment|
-        "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"
-      }.join("\n")
-
-      if main_contents.empty?
-        main_contents = "<div class=\"result-body-element\">#{content[0, BOOKMARK_COMMENT_LENGTH]}</div>"
-      end
+      main_contents =
+        wrap_result_body_element(comment_hits) +
+        wrap_result_body_element(text_hits)
 
       <<EOF
   <div class="result">
@@ -444,5 +435,13 @@ EOF
     attr << %Q|honyomi-comment="#{escape_html(bm.comment).gsub("\n", "&#13;")}"| if bm && bm.comment
 
     "<a href=\"javascript:\" id=\"star-#{page.book.id}-#{page.page_no}\" class=\"#{classes}\" #{attr.join(" ")}>Star</a>"
+  end
+
+  def wrap_result_body_element(hits)
+    r = hits.map { |segment|
+      "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"
+    }.join("\n")
+
+    "<p>#{r}</p>"
   end
 end
