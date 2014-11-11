@@ -97,7 +97,18 @@ module Honyomi
     end
 
     def search(query)
-      @pages.select(query, default_column: "text")
+      match_pages = @pages.select(query.page_query, default_column: "text")
+      snippet = match_pages.expression.snippet([["<span class=\"highlight\">", "</span>"]], {html_escape: true, normalize: true, max_results: 5})
+
+      match_bookmarks = @bookmarks.select do |record|
+        record.match(query.bookmark_query) do |target|
+          target.comment * 10
+        end
+      end
+
+      group_by_page = match_bookmarks.group("page")
+
+      return group_by_page.union!(match_pages), snippet
     end
 
     def book_pages(book_id)

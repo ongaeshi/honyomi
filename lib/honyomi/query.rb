@@ -3,7 +3,8 @@
 module Honyomi
   class Query
     attr_reader :src
-    attr_reader :query
+    attr_reader :page_query
+    attr_reader :bookmark_query
     attr_reader :jump_page_no
     attr_reader :key
     
@@ -15,7 +16,6 @@ module Honyomi
 
     def initialize(src)
       @src = src
-      @query = ""
       init_hash
       parse
     end
@@ -32,40 +32,61 @@ module Honyomi
 
     def parse
       kp = OPTIONS.flatten.join('|')
-      parts = @src.scan(/(?:(#{kp}):)?(?:"(.+)"|(\S+))/)
+      parts = @src.scan(/(-)?(?:(#{kp}):)?(?:"(.+)"|(\S+))/)
 
-      q = []
+      page_query = []
+      bookmark_query = []
 
-      parts.each do |key, quoted_value, value|
+      parts.each do |minus, key, quoted_value, value|
         if quoted_value
           text = %Q|"#{quoted_value}"|
         else
           text = value
         end
-        
+
         unless (key)
           begin
             @jump_page_no = Integer(text)
-            q << "page_no:#{text}"
+            page_query     << make_query(minus, text, "page_no")
+            bookmark_query << make_query(minus, text, "page_no")
           rescue ArgumentError
-            q << text
+            page_query     << make_query(minus, text)
+            bookmark_query << make_query(minus, text)
           end
         else
           case key
           when 'book', 'b'
-            @key['book'] << text
-            q << "book:#{text}"
+            @key['book']   << text
+            page_query     << make_query(minus, text, "book")
+            bookmark_query << make_query(minus, text, "page.book")
           when 'title', 't'
-            @key['title'] << text
-            q << "book.title:@#{text}"
+            @key['title']  << text
+            page_query     << make_query(minus, text, "book.title:@")
+            bookmark_query << make_query(minus, text, "page.book.title:@")
           when 'page', 'p'
-            @key['page'] << text
-            q << "page_no:#{text}"
+            @key['page']   << text
+            page_query     << make_query(minus, text, "page_no")
+            bookmark_query << make_query(minus, text, "page.book.page_no")
           end
         end
       end
 
-      @query = q.join(" ")
+      @page_query = page_query.join(" ")
+      @bookmark_query = bookmark_query.join(" ")
+    end
+
+    def make_query(minus, text, key = nil)
+      m = minus ? "-" : ""
+
+      if key
+        if key[/@$/]
+         "#{m}#{key}#{text}"
+        else
+         "#{m}#{key}:#{text}"
+        end
+      else
+        "#{m}#{text}"
+      end
     end
   end
 end

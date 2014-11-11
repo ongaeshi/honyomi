@@ -213,7 +213,7 @@ EOF
   end
 
   def search_common(query, sort_keys, is_filter)
-    results = @database.search(Query.new(query).query)
+    results, snippet = @database.search(Query.new(query))
 
     rpage = @params[:rpage] ? @params[:rpage].to_i : 1
     rpage_entries = results.paginate(sort_keys, :page => rpage, :size => SEARCH_RPAGE)
@@ -225,8 +225,6 @@ EOF
 </ul>
 EOF
     end
-
-    snippet = results.expression.snippet([["<span class=\"highlight\">", "</span>"]], {html_escape: true, normalize: true, max_results: 5})
 
     books = {}
 
@@ -250,15 +248,13 @@ EOF
         filter_str = ""
       end
 
-      content = page.text || ""
+      bm = @database.bookmark_from_page(page)
+      comment_hits = snippet.execute(bm ? (bm.comment || "") : "")
+      text_hits = snippet.execute(page.text || "")
 
-      main_contents = snippet.execute(content).map { |segment|
-        "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"
-      }.join("\n")
-
-      if main_contents.empty?
-        main_contents = "<div class=\"result-body-element\">#{content[0, BOOKMARK_COMMENT_LENGTH]}</div>"
-      end
+      main_contents =
+        wrap_result_body_element(comment_hits) +
+        wrap_result_body_element(text_hits)
 
       <<EOF
   <div class="result">
@@ -439,5 +435,13 @@ EOF
     attr << %Q|honyomi-comment="#{escape_html(bm.comment).gsub("\n", "&#13;")}"| if bm && bm.comment
 
     "<a href=\"javascript:\" id=\"star-#{page.book.id}-#{page.page_no}\" class=\"#{classes}\" #{attr.join(" ")}>Star</a>"
+  end
+
+  def wrap_result_body_element(hits)
+    r = hits.map { |segment|
+      "<div class=\"result-body-element\">" + segment.gsub("\n", "") + "</div>"
+    }.join("\n")
+
+    "<p>#{r}</p>"
   end
 end
