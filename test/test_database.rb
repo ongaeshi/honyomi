@@ -113,13 +113,13 @@ class TestDatabase < MiniTest::Test
       db.add_book("/path/to/book2.pdf", ["2aa", "2bb"])
       db.add_book("/path/to/book3.pdf", ["3aa", "3bb", "3cc"])
 
-      results = db.search("1aa")
+      results, _ = db.search(Honyomi::Query.new("1aa"))
       assert_equal 1, results.size
 
-      results = db.search("aa")
+      results, _ = db.search(Honyomi::Query.new("aa"))
       assert_equal 3, results.size
 
-      results = db.search("bb OR cc")
+      results, _ = db.search(Honyomi::Query.new("bb OR cc"))
       assert_equal 3, results.size
     end
   end
