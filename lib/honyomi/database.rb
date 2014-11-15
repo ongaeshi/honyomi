@@ -103,7 +103,9 @@ module Honyomi
       match_pages = @pages.select(query.page_query, default_column: "text")
 
       if options[:cli]
-        snippet = match_pages.expression.snippet([['<<', '>>']], {normalize: true})
+        snippet = match_pages.expression.snippet([ ['<<',
+                                                    '>>'] ],
+                                                 {normalize: true})
       else
         snippet = match_pages.expression.snippet([["<span class=\"highlight\">", "</span>"]], {html_escape: true, normalize: true, max_results: 5})
       end
