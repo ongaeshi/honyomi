@@ -48,7 +48,7 @@ module Honyomi
           begin
             @jump_page_no = Integer(text)
             page_query     << make_query(minus, text, "page_no")
-            bookmark_query << make_query(minus, text, "page_no")
+            bookmark_query << make_query(minus, text, "page.page_no")
           rescue ArgumentError
             page_query     << make_query(minus, text)
             bookmark_query << make_query(minus, text)
