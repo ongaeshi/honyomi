@@ -60,7 +60,7 @@ module Honyomi
     end
 
     def search(query)
-      @database.search(query)
+      @database.search(Query.new(query), cli: true)
     end
 
     def list(args = [], options = {})
