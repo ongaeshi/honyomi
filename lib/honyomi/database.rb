@@ -3,6 +3,8 @@ require 'honyomi/query'
 require 'grn_mini'
 
 module Honyomi
+  class HonyomiError < Exception ; end
+
   class Database
     attr_reader :books
     attr_reader :pages
@@ -65,6 +67,7 @@ module Honyomi
 
     def change_book(book_id, options = {})
       book = @books[book_id]
+      raise HonyomiError, "Invalid book id: #{book_id}" unless book.valid_id?
       
       book.title = options[:title] if options[:title]
       book.author = options[:author] if options[:author]

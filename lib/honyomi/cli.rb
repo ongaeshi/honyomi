@@ -72,9 +72,14 @@ module Honyomi
       core = Core.new
       core.load_database
 
-      book_id = args[0].to_i
-      core.edit(book_id, options)
-      puts core.list([book_id])
+      begin 
+        book_id = args[0].to_i
+        core.edit(book_id, options)
+        puts core.list([book_id])
+      rescue HonyomiError => e
+        puts e
+        exit -1
+      end
     end
 
     desc "remove book_id1 [book_id2 ...]", "Remove books"
