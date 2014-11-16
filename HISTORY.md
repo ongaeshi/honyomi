@@ -1,5 +1,30 @@
 # HISTORY - Honyomi
 
+## 1.0 - 2014-11-15
+
+* Bookmark a page
+  * Click star
+  * Is also attached comments
+    * Link page no (P111)
+    * Auto link http://...
+    * Ctrl+Enter: Shortcut to Update
+
+* Edit a book information on web
+  * Title, Author, URL
+
+* Convenient search query
+  * `123`: Jump to page
+  * `b:11 hello`: Book Id
+  * `-b:11 hello`: Book Id (NOT)
+  * `t:hello world`: Book Title
+  * `p:>100 p:<200  world`: Page Number
+
+* Help
+
+* Clear Button
+
+* Impliment Util.highlight_keywords using Groonga::PatriciaTrie#tag_keys instead of Pure Ruby
+
 ## 0.2 - 2014-10-07
 
 * Improve search result
