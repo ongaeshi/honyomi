@@ -62,9 +62,15 @@ module Honyomi
         id_length = books.max { |book| book.id.to_s.length }
         id_length = id_length ? id_length.id.to_s.length : 0
 
-        books.map do |book|
-          # "#{book.id} #{book.title} (#{book.page_num} pages) #{book.path}"
-          "#{book.id.to_s.rjust(id_length)} #{book.title} (#{book.page_num} pages)"
+        if options[:path]
+          books.map do |book|
+            "#{book.id.to_s.rjust(id_length)} #{book.path}"
+          end
+        else
+          books.map do |book|
+            # "#{book.id} #{book.title} (#{book.page_num} pages) #{book.path}"
+            "#{book.id.to_s.rjust(id_length)} #{book.title} (#{book.page_num} pages)"
+          end
         end
       else
         results = []

@@ -110,6 +110,7 @@ module Honyomi
     end
 
     desc "list [book_id1 book_id2 ...]", "List books"
+    option :path, :type => :boolean,  :desc => 'Display path'
     option :title, :aliases => '-t', :type => :string,  :desc => 'Filter title'
     def list(*args)
       core = Core.new
