@@ -94,5 +94,12 @@ module Honyomi
       comment.gsub("\n", "<br/>")
     end
 
+    def home_dir
+      ENV['HONYOMI_DATABASE_DIR'] || File.join(default_home, '.honyomi')
+    end
+
+    def default_home
+      File.expand_path '~'
+    end
   end
 end
