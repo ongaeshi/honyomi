@@ -40,7 +40,10 @@ post '/upload' do
   @database = $database
 
   if params[:file]
-    save_path = File.join("/Users/ongaeshi/tmp/honyomi_upload", params[:file][:filename]) # TODO: private path
+    save_dir = File.join(Util.home_dir, "book")
+    FileUtils.mkdir_p(save_dir) unless File.exist?(save_dir)
+
+    save_path = File.join(save_dir, params[:file][:filename])
 
     File.open(save_path, 'wb') do |f|
       # p params[:file][:tempfile]
