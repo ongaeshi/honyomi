@@ -31,6 +31,10 @@ get '/' do
   end
 end
 
+get '/add' do
+  haml :add
+end
+
 get '/help' do
   haml :help
 end
