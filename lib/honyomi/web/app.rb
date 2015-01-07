@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'haml'
+require 'honyomi/core'
 require 'honyomi/database'
 require 'honyomi/util'
 require 'sinatra'
@@ -36,14 +37,19 @@ get '/add' do
 end
 
 post '/upload' do
+  @database = $database
+
   if params[:file]
     save_path = File.join("/Users/ongaeshi/tmp/honyomi_upload", params[:file][:filename]) # TODO: private path
 
     File.open(save_path, 'wb') do |f|
       # p params[:file][:tempfile]
       f.write params[:file][:tempfile].read
-      @message = "Upload Success"
     end
+
+    @database.add_from_pdf(save_path)
+
+    @message = "Upload Success"
   else
     @message = "Upload Failed"
   end

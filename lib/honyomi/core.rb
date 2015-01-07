@@ -23,16 +23,7 @@ module Honyomi
     end
 
     def add(filename, options = {})
-      if File.exist?(filename)
-        filename = File.expand_path(filename)
-        options = options.dup
-        pages = Pdf.new(filename).pages
-        pages = pages.map { |page| Util.strip_page(page) } if options[:strip]
-        options[:timestamp] = File.stat(filename).mtime
-        @database.add_book(filename, pages, options)
-      else
-        nil
-      end
+      @database.add_from_pdf(filename, options)
     end
 
     def update(book_id, options)
