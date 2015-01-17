@@ -39,18 +39,20 @@ end
 post '/upload' do
   @database = $database
 
-  if params[:file]
+  if params[:files]
     save_dir = File.join(Util.home_dir, "book")
     FileUtils.mkdir_p(save_dir) unless File.exist?(save_dir)
 
-    save_path = File.join(save_dir, params[:file][:filename])
+    params[:files].each do |file|
+      save_path = File.join(save_dir, file[:filename])
 
-    File.open(save_path, 'wb') do |f|
-      # p params[:file][:tempfile]
-      f.write params[:file][:tempfile].read
+      File.open(save_path, 'wb') do |f|
+        # p file[:tempfile]
+        f.write file[:tempfile].read
+      end
+
+      @database.add_from_pdf(save_path)
     end
-
-    @database.add_from_pdf(save_path)
 
     @message = "Upload Success"
   else
