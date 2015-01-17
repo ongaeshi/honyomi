@@ -3,6 +3,9 @@
 .container
   %h1 Add books
 
+  .droparea{:ondragover => "droparea_ondragover(event);", :ondrop => "droparea_ondrop(event)" }
+    Drag & Drop file.
+
   %form{:action => "/upload", :method => "post", :enctype => "multipart/form-data"}
     %input{:type => "file", :name => "file"}
     %input{:type => "submit", :name => "submit"} 
