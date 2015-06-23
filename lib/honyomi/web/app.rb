@@ -33,10 +33,16 @@ get '/' do
 end
 
 get '/add' do
-  haml :add
+  if !ENV['HONYOMI_DISABLE_WEB_ADD']
+    haml :add
+  else
+    ""
+  end
 end
 
 post '/upload' do
+  return "" if ENV['HONYOMI_DISABLE_WEB_ADD']
+
   @database = $database
 
   if params[:files]
