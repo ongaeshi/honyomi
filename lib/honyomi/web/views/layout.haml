@@ -20,6 +20,10 @@
         %a(class="navbar-brand" href="/")
           Honyomi
       .navbar-collapse.collapse
+        -if !ENV['HONYOMI_DISABLE_WEB_ADD']
+          %ul(class="nav navbar-nav")
+            %li
+              <a href="/add">Add</a>
         %ul(class="nav navbar-nav")
           %li
             <a href="/help">Help</a>

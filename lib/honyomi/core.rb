@@ -23,16 +23,7 @@ module Honyomi
     end
 
     def add(filename, options = {})
-      if File.exist?(filename)
-        filename = File.expand_path(filename)
-        options = options.dup
-        pages = Pdf.new(filename).pages
-        pages = pages.map { |page| Util.strip_page(page) } if options[:strip]
-        options[:timestamp] = File.stat(filename).mtime
-        @database.add_book(filename, pages, options)
-      else
-        nil
-      end
+      @database.add_from_pdf(filename, options)
     end
 
     def update(book_id, options)
@@ -71,9 +62,15 @@ module Honyomi
         id_length = books.max { |book| book.id.to_s.length }
         id_length = id_length ? id_length.id.to_s.length : 0
 
-        books.map do |book|
-          # "#{book.id} #{book.title} (#{book.page_num} pages) #{book.path}"
-          "#{book.id.to_s.rjust(id_length)} #{book.title} (#{book.page_num} pages)"
+        if options[:path]
+          books.map do |book|
+            "#{book.id.to_s.rjust(id_length)} #{book.path}"
+          end
+        else
+          books.map do |book|
+            # "#{book.id} #{book.title} (#{book.page_num} pages) #{book.path}"
+            "#{book.id.to_s.rjust(id_length)} #{book.title} (#{book.page_num} pages)"
+          end
         end
       else
         results = []
@@ -135,15 +132,11 @@ EOF
 
     def home_dir
       unless @home_dir
-        @home_dir = @opts[:home_dir] || ENV['HONYOMI_DATABASE_DIR'] || File.join(default_home, '.honyomi')
+        @home_dir = @opts[:home_dir] || Util.home_dir
         FileUtils.mkdir_p(@home_dir) unless File.exist?(@home_dir)
       end
       
       @home_dir
-    end
-
-    def default_home
-      File.expand_path '~'
     end
   end
 end

@@ -126,3 +126,11 @@ input#clear {
 #help h3 {
     font-size: 120%;
 }
+
+/* add */
+
+.droparea {
+    border : solid 1px black;
+    padding : 100px;
+    background-color : #f0f0f0;
+}

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'haml'
+require 'honyomi/core'
 require 'honyomi/database'
 require 'honyomi/util'
 require 'sinatra'
@@ -29,6 +30,42 @@ get '/' do
   else
     home
   end
+end
+
+get '/add' do
+  if !ENV['HONYOMI_DISABLE_WEB_ADD']
+    haml :add
+  else
+    ""
+  end
+end
+
+post '/upload' do
+  return "" if ENV['HONYOMI_DISABLE_WEB_ADD']
+
+  @database = $database
+
+  if params[:files]
+    save_dir = File.join(Util.home_dir, "book")
+    FileUtils.mkdir_p(save_dir) unless File.exist?(save_dir)
+
+    params[:files].each do |file|
+      save_path = File.join(save_dir, file[:filename])
+
+      File.open(save_path, 'wb') do |f|
+        # p file[:tempfile]
+        f.write file[:tempfile].read
+      end
+
+      @database.add_from_pdf(save_path)
+    end
+
+    @message = "Upload Success"
+  else
+    @message = "Upload Failed"
+  end
+
+  redirect "/"
 end
 
 get '/help' do
