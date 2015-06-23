@@ -1,5 +1,16 @@
 # HISTORY - Honyomi
 
+## 1.1 - 2015-06-23
+
+* Add book on web
+  * Drag & drop OR Dialog
+  * If you want to disable this feature, set ENV["HONYOMI_DISABLE_WEB_ADD"]
+    * $ HONYOMI_DISABLE_WEB_ADD=1 honyomi web
+
+* Fix encode error
+  * Specify file encoding in File.read
+  * Add String#scrub
+
 ## 1.0 - 2014-11-15
 
 * Bookmark a page
