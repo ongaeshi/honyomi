@@ -9,7 +9,7 @@ module Honyomi
       Dir.mktmpdir do |dir|
         outfile = File.join(dir, "pdf.txt")
         system("pdftotext", filename, outfile) # Need pdftotext (poppler, xpdf)
-        @text = File.read(outfile)
+        @text = File.read(outfile, encoding: Encoding::UTF_8)
       end
     end
 
