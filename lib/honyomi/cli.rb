@@ -120,7 +120,7 @@ module Honyomi
     end
 
     desc "web", "Web search interface"
-    option :no_browser, :type => :boolean, :default => false, :aliases => '-n', :type => :boolean, :desc => 'Do not launch browser.'
+    option :no_browser, :type => :boolean, :default => false, :aliases => '-n', :desc => 'Do not launch browser.'
     option :host, :default => '127.0.0.1', :aliases => '-o', :desc => 'Listen on HOST.'
     option :port, :default => 9295, :aliases => '-p', :desc => 'Use PORT.'
     option :server, :default => 'thin', :aliases => '-s', :desc => 'Use SERVER.'
