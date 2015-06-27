@@ -120,6 +120,13 @@ EOF
       end
     end
 
+    def image(id, options = {})
+      pdf = Pdf.new(@database.books[id].path)
+      output_dir = File.join(image_dir, id.to_s)
+      pdf.generate_images(output_dir)
+      puts "Generated images to '#{output_dir}'" if options[:verbose]
+    end
+
     def db_dir
       File.join(home_dir, 'db')
     end
@@ -137,6 +144,10 @@ EOF
       end
       
       @home_dir
+    end
+
+    def image_dir
+      File.join(home_dir, "image")
     end
   end
 end
