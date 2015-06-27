@@ -24,4 +24,15 @@ class TestPdf < MiniTest::Test
       assert_equal 3, pdf.pages.size
     end
   end
+
+  def test_generate_images
+    Dir.mktmpdir do |dir|
+      pdf = Honyomi::Pdf.new(test_pdf)
+      pdf.generate_images(dir)
+
+      Dir.chdir(dir) do
+        assert_equal %w(book-1.jpg book-2.jpg book-3.jpg), Dir.glob("*")
+      end
+    end
+  end
 end

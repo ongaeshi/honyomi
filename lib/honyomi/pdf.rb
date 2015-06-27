@@ -1,5 +1,7 @@
+# coding: utf-8
 require 'honyomi'
 require 'tmpdir'
+require 'fileutils'
 
 module Honyomi
   class Pdf
@@ -18,6 +20,11 @@ module Honyomi
       end
 
       @text.split("\f")
+    end
+
+    def generate_images(output_dir)
+      FileUtils.mkdir_p output_dir
+      system("pdftoppm", "-jpeg", @filename, File.join(output_dir, "book"))
     end
   end
 end
