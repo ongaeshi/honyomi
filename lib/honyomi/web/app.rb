@@ -431,6 +431,8 @@ EOF
 
   def render_page(page, options = {})
     book = page.book
+
+    # with_number
     with_number = ""
     if options[:with_number]
       with_number = <<EOF
@@ -441,6 +443,7 @@ EOF
 EOF
     end
 
+    # comment
     comment = ""
 
     bm = @database.bookmark_from_page(page)
@@ -453,18 +456,26 @@ EOF
 EOF
     end
 
-    text = Util.highlight_keywords(page.text, options[:keywords], 'highlight')
-    text = text.gsub("\n\n", "<br/><br/>")
-
 <<EOF
 <div class="page" id="#{page.page_no}">
   #{with_number}
   #{comment}
+  #{render_page_main(page, options)}
+</div>
+EOF
+  end
+
+  def render_page_main(page, options)
+    book = page.book
+    
+    text = Util.highlight_keywords(page.text, options[:keywords], 'highlight')
+    text = text.gsub("\n\n", "<br/><br/>")
+
+    <<EOF
   <div class="main">
     <div><img src="/v/#{book.id}?image=1&page=#{page.page_no}" width="100%"/></div>
     #{text}
   </div>
-</div>
 EOF
   end
 
