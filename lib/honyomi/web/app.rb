@@ -461,15 +461,17 @@ EOF
   end
 
   def render_page_main(page, options)
-    book = page.book
-    
-    text = Util.highlight_keywords(page.text, options[:keywords], 'highlight')
-    text = text.gsub("\n\n", "<br/><br/>")
+    image_path = Util.image_path(page)
+
+    if File.exist? image_path
+      body = %|<div><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></div>|
+    else
+      body = Util.highlight_keywords(page.text, options[:keywords], 'highlight').gsub("\n\n", "<br/><br/>")
+    end
 
     <<EOF
   <div class="main">
-    <div><img src="/v/#{book.id}?image=1&page=#{page.page_no}" width="100%"/></div>
-    #{text}
+    #{body}
   </div>
 EOF
   end
