@@ -99,6 +99,14 @@ get '/v/:id' do
     send_file(book.path, :disposition => 'inline')
   elsif params[:dl] == '1'
     send_file(book.path, :disposition => 'download')
+  elsif params[:image] == '1'
+    id = params[:id].to_i
+    page = params[:page].to_i
+    send_file("/Users/ongaeshi/.honyomi/image/#{id}/book-#{format("%03d", page)}.jpg") # TODO: Fix directory
+    # TODO: Support file don't exist
+    # TODO: Support crop
+    # TODO: Support dpi
+    # TODO: Support png
   else
     if params[:page]
       text_page(book, params[:page].to_i)
@@ -453,6 +461,7 @@ EOF
   #{with_number}
   #{comment}
   <div class="main">
+    <div><img src="/v/#{book.id}?image=1&page=#{page.page_no}" width="100%"/></div>
     #{text}
   </div>
 </div>
