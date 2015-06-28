@@ -296,6 +296,12 @@ EOF
         wrap_result_body_element(comment_hits) +
         wrap_result_body_element(text_hits)
 
+      image_path = Util.image_path(page)
+
+      if File.exist? image_path
+        main_contents += %|<div><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></div>|
+      end
+
       <<EOF
   <div class="result">
     <div class="title">
