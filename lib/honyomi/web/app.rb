@@ -348,9 +348,12 @@ EOF
       book = page.book
       title = book.title
 
+      image_path = Util.image_path(page)
+      has_image = File.exist? image_path
+
       content = []
       content << bookmark.comment if bookmark.comment
-      content << page.text if page.text
+      content << page.text if !has_image && page.text
 
       r = []
       rest = BOOKMARK_COMMENT_LENGTH
@@ -365,6 +368,10 @@ EOF
       end
 
       content = r.map { |e| "<p>#{escape_html(e)}</p>" }.join("\n")
+
+      if has_image
+        content += %|<p><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></p>|
+      end
 
       <<EOF
   <div class="result">
