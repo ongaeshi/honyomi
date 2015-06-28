@@ -101,5 +101,9 @@ module Honyomi
     def default_home
       File.expand_path '~'
     end
+
+    def count_digit(num)
+      num.to_s.length
+    end
   end
 end
