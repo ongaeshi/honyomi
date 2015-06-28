@@ -100,14 +100,8 @@ get '/v/:id' do
   elsif params[:dl] == '1'
     send_file(book.path, :disposition => 'download')
   elsif params[:image] == '1'
-    id = params[:id].to_i
-    page = params[:page].to_i
-    zerofill = format("%0#{Util.count_digit(book.page_num)}d", page)
-    send_file("#{Util.home_dir}/image/#{id}/book-#{zerofill}.jpg")
-    # TODO: Support file don't exist
-    # TODO: Support crop
-    # TODO: Support dpi
-    # TODO: Support png
+    page = @database.pages["#{params[:id].to_i}:#{params[:page].to_i}"]
+    send_file(Util.image_path(page))
   else
     if params[:page]
       text_page(book, params[:page].to_i)
