@@ -102,7 +102,8 @@ get '/v/:id' do
   elsif params[:image] == '1'
     id = params[:id].to_i
     page = params[:page].to_i
-    send_file("/Users/ongaeshi/.honyomi/image/#{id}/book-#{format("%03d", page)}.jpg") # TODO: Fix directory
+    zerofill = format("%0#{Util.count_digit(book.page_num)}d", page)
+    send_file("/Users/ongaeshi/.honyomi/image/#{id}/book-#{zerofill}.jpg")
     # TODO: Support file don't exist
     # TODO: Support crop
     # TODO: Support dpi
