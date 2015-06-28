@@ -103,7 +103,7 @@ get '/v/:id' do
     id = params[:id].to_i
     page = params[:page].to_i
     zerofill = format("%0#{Util.count_digit(book.page_num)}d", page)
-    send_file("/Users/ongaeshi/.honyomi/image/#{id}/book-#{zerofill}.jpg")
+    send_file("#{Util.home_dir}/image/#{id}/book-#{zerofill}.jpg")
     # TODO: Support file don't exist
     # TODO: Support crop
     # TODO: Support dpi
