@@ -434,7 +434,7 @@ EOF
       bm_text = ", <a href=\"/v/#{book.id}?b=1\"><span class=\"boomark-number\">#{bm.count}</span></a> bookmarks. "
     end
 
-    %Q|#{pages} pages#{bm_text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}">Text</a>|
+    %Q|#{pages} pages#{bm_text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>|
   end
 
   def render_page(page, options = {})
@@ -445,8 +445,13 @@ EOF
     if options[:with_number]
       with_number = <<EOF
 <div class="no row">
-  <div class="col-xs-3"><div class="ss-box">#{favstar(page)}</div> <a href="##{page.page_no}">P#{page.page_no}</a></div>
-  <div class="col-xs-offset-8 col-xs-1"><a href="/v/#{book.id}?pdf=1#page=#{page.page_no}"><i class="fa fa-file-text-o"></i></a></div>
+  <div class="col-xs-8">
+    <div class="ss-box">#{favstar(page)}</div>
+    <a href="##{page.page_no}">P#{page.page_no}</a>
+    &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?image=1&page=#{page.page_no}">Image</a>
+    &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1&page=#{page.page_no}">Text</a>
+    &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>
+  </div>
 </div>
 EOF
     end
