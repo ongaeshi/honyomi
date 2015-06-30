@@ -446,8 +446,7 @@ EOF
   <div class="col-xs-8">
     <div class="ss-box">#{favstar(page)}</div>
     <a href="##{page.page_no}">P#{page.page_no}</a>
-    &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?image=1&page=#{page.page_no}">Image</a>
-    &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1&page=#{page.page_no}">Text</a>
+    &nbsp;&nbsp;&nbsp;<a href="javascript:" class="page-text-toggle">Text</a>
     &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>
   </div>
 </div>
@@ -479,10 +478,15 @@ EOF
   def render_page_main(page, options)
     image_path = Util.image_path(page)
 
-    if File.exist?(image_path) && @params[:text].nil?
-      body = %|<div><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></div>|
+    text = Util.highlight_keywords(page.text, options[:keywords], 'highlight').gsub("\n\n", "<br/><br/>")
+
+    if File.exist?(image_path)
+      body = <<EOF
+<div class="page-text hidden">#{text}</div>
+<div><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></div>
+EOF
     else
-      body = Util.highlight_keywords(page.text, options[:keywords], 'highlight').gsub("\n\n", "<br/><br/>")
+      body = text
     end
 
     <<EOF
