@@ -93,9 +93,7 @@ get '/v/:id' do
 
   book = @database.books[params[:id].to_i]
 
-  if params[:text] == '1'
-    text_all(book)
-  elsif params[:pdf] == '1'
+  if params[:pdf] == '1'
     send_file(book.path, :disposition => 'inline')
   elsif params[:dl] == '1'
     send_file(book.path, :disposition => 'download')
@@ -481,7 +479,7 @@ EOF
   def render_page_main(page, options)
     image_path = Util.image_path(page)
 
-    if File.exist? image_path
+    if File.exist?(image_path) && @params[:text].nil?
       body = %|<div><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></div>|
     else
       body = Util.highlight_keywords(page.text, options[:keywords], 'highlight').gsub("\n\n", "<br/><br/>")
