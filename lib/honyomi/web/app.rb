@@ -93,12 +93,13 @@ get '/v/:id' do
 
   book = @database.books[params[:id].to_i]
 
-  if params[:text] == '1'
-    text_all(book)
-  elsif params[:pdf] == '1'
+  if params[:pdf] == '1'
     send_file(book.path, :disposition => 'inline')
   elsif params[:dl] == '1'
     send_file(book.path, :disposition => 'download')
+  elsif params[:image] == '1'
+    page = @database.pages["#{params[:id].to_i}:#{params[:page].to_i}"]
+    send_file(Util.image_path(page))
   else
     if params[:page]
       text_page(book, params[:page].to_i)
@@ -293,6 +294,12 @@ EOF
         wrap_result_body_element(comment_hits) +
         wrap_result_body_element(text_hits)
 
+      image_path = Util.image_path(page)
+
+      if File.exist? image_path
+        main_contents += %|<div><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></div>|
+      end
+
       <<EOF
   <div class="result">
     <div class="title">
@@ -339,9 +346,12 @@ EOF
       book = page.book
       title = book.title
 
+      image_path = Util.image_path(page)
+      has_image = File.exist? image_path
+
       content = []
       content << bookmark.comment if bookmark.comment
-      content << page.text if page.text
+      content << page.text if !has_image && page.text
 
       r = []
       rest = BOOKMARK_COMMENT_LENGTH
@@ -356,6 +366,10 @@ EOF
       end
 
       content = r.map { |e| "<p>#{escape_html(e)}</p>" }.join("\n")
+
+      if has_image
+        content += %|<p><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></p>|
+      end
 
       <<EOF
   <div class="result">
@@ -418,21 +432,28 @@ EOF
       bm_text = ", <a href=\"/v/#{book.id}?b=1\"><span class=\"boomark-number\">#{bm.count}</span></a> bookmarks. "
     end
 
-    %Q|#{pages} pages#{bm_text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1">Pdf</a>&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?text=1#{query}">Text</a>|
+    %Q|#{pages} pages#{bm_text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?dl=1">Download</a> <span class="file-size">(#{file_mb}M)</span>|
   end
 
   def render_page(page, options = {})
     book = page.book
+
+    # with_number
     with_number = ""
     if options[:with_number]
       with_number = <<EOF
 <div class="no row">
-  <div class="col-xs-3"><div class="ss-box">#{favstar(page)}</div> <a href="##{page.page_no}">P#{page.page_no}</a></div>
-  <div class="col-xs-offset-8 col-xs-1"><a href="/v/#{book.id}?pdf=1#page=#{page.page_no}"><i class="fa fa-file-text-o"></i></a></div>
+  <div class="col-xs-8">
+    <div class="ss-box">#{favstar(page)}</div>
+    <a href="##{page.page_no}">P#{page.page_no}</a>
+    &nbsp;&nbsp;&nbsp;<a href="javascript:" class="page-text-toggle">Text</a>
+    &nbsp;&nbsp;&nbsp;<a href="/v/#{book.id}?pdf=1#page=#{page.page_no}">Pdf</a>
+  </div>
 </div>
 EOF
     end
 
+    # comment
     comment = ""
 
     bm = @database.bookmark_from_page(page)
@@ -445,17 +466,33 @@ EOF
 EOF
     end
 
-    text = Util.highlight_keywords(page.text, options[:keywords], 'highlight')
-    text = text.gsub("\n\n", "<br/><br/>")
-
 <<EOF
 <div class="page" id="#{page.page_no}">
   #{with_number}
   #{comment}
-  <div class="main">
-    #{text}
-  </div>
+  #{render_page_main(page, options)}
 </div>
+EOF
+  end
+
+  def render_page_main(page, options)
+    image_path = Util.image_path(page)
+
+    text = Util.highlight_keywords(page.text, options[:keywords], 'highlight').gsub("\n\n", "<br/><br/>")
+
+    if File.exist?(image_path)
+      body = <<EOF
+<div class="page-text hidden">#{text}</div>
+<div><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></div>
+EOF
+    else
+      body = text
+    end
+
+    <<EOF
+  <div class="main">
+    #{body}
+  </div>
 EOF
   end
 

@@ -10,4 +10,11 @@ class TestUtil < MiniTest::Test
     assert_equal %w(aa), Util::extract_keywords("aa -bb a:c")
   end
 
+  def test_count_digit
+    assert_equal 1, Util::count_digit(0)
+    assert_equal 1, Util::count_digit(1)
+    assert_equal 2, Util::count_digit(10)
+    assert_equal 3, Util::count_digit(100)
+    assert_equal 4, Util::count_digit(9999)
+  end
 end

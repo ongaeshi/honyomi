@@ -130,6 +130,16 @@ module Honyomi
       core.web(options)
     end
 
+    desc "image book_id1 [book_id2 ...]", "Generate page images (Need pdftoppm)"
+    def image(*args)
+      core = Core.new
+      core.load_database
+
+      args.each do |id|
+        core.image(id.to_i, { verbose: true })
+      end
+    end
+
     no_tasks do
       # Override method for support -h 
       # defined in /lib/thor/invocation.rb
