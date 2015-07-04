@@ -44,6 +44,17 @@ $ honyomi add /path/to/this_is_book.pdf
 A 1 this_is_book (10 pages)
 ```
 
+### Add book's image
+
+You can be inline display of the page on the browser.
+
+Need `pdftoppm` command.
+
+```
+$ honyomi image 1
+Generated images to '/Users/ongaeshi/.honyomi/image/1'
+```
+
 ### Edit book
 
 Change title. Specify book id.
