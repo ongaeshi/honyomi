@@ -57,7 +57,7 @@ post '/upload' do
         f.write file[:tempfile].read
       end
 
-      @database.add_from_pdf(save_path)
+      @database.add_from_pdf(save_path, Util.home_dir)
     end
 
     @message = "Upload Success"

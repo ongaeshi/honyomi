@@ -33,17 +33,30 @@ module Honyomi
                                )
     end
 
-    def add_from_pdf(filename, options = {})
+    def add_from_pdf(filename, home_dir, options = {})
       if File.exist?(filename)
         filename = File.expand_path(filename)
         options = options.dup
         pages = Pdf.new(filename).pages
         pages = pages.map { |page| Util.strip_page(page) } if options[:strip]
         options[:timestamp] = File.stat(filename).mtime
-        add_book(filename, pages, options)
+        book, status = add_book(filename, pages, options)
+
+        add_image(book.id, home_dir) if Util.exist_command?('pdftoppm')
+
+        return book, status
       else
         nil
       end
+    end
+
+    def add_image(id, home_dir)
+      output_dir = File.join(home_dir, "image", id.to_s)
+
+      pdf = Pdf.new(books[id].path)
+      pdf.generate_images(output_dir)
+
+      output_dir
     end
 
     def add_book(path, pages, options = {})

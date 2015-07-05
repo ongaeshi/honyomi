@@ -23,11 +23,7 @@ module Honyomi
     end
 
     def add(filename, options = {})
-      book, status = @database.add_from_pdf(filename, options)
-
-      if Util.exist_command? 'pdftoppm'
-        image book.id
-      end
+      book, status = @database.add_from_pdf(filename, home_dir, options)
 
       return book, status
     end
@@ -127,9 +123,7 @@ EOF
     end
 
     def image(id, options = {})
-      pdf = Pdf.new(@database.books[id].path)
-      output_dir = File.join(image_dir, id.to_s)
-      pdf.generate_images(output_dir)
+      output_dir = @database.add_image(id, home_dir)
       puts "Generated images to '#{output_dir}'" if options[:verbose]
     end
 
@@ -150,10 +144,6 @@ EOF
       end
       
       @home_dir
-    end
-
-    def image_dir
-      File.join(home_dir, "image")
     end
   end
 end
