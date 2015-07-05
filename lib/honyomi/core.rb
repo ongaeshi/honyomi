@@ -23,7 +23,13 @@ module Honyomi
     end
 
     def add(filename, options = {})
-      @database.add_from_pdf(filename, options)
+      book, status = @database.add_from_pdf(filename, options)
+
+      if Util.exist_command? 'pdftoppm'
+        image book.id
+      end
+
+      return book, status
     end
 
     def update(book_id, options)
