@@ -1,4 +1,5 @@
 require 'kconv'
+require 'whichr'
 
 module Honyomi
   module Util
@@ -109,6 +110,10 @@ module Honyomi
     def image_path(page)
       zerofill = format("%0#{count_digit(page.book.page_num)}d", page.page_no)
       "#{home_dir}/image/#{page.book.id}/book-#{zerofill}.jpg"
+    end
+
+    def exist_command?(command)
+      !(RubyWhich.new.which(command).empty?)
     end
   end
 end

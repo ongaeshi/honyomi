@@ -17,4 +17,9 @@ class TestUtil < MiniTest::Test
     assert_equal 3, Util::count_digit(100)
     assert_equal 4, Util::count_digit(9999)
   end
+
+  def test_exist_command?
+    assert_equal true, Util::exist_command?('pdftotext')
+    assert_equal false, Util::exist_command?('pdftotexts')
+  end
 end
