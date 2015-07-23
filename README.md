@@ -10,6 +10,12 @@ Honyomi is "本読み". "Read a book" is meaning.
 
 ## Installation
 
+You can use the Docker container.
+
+- [ongaeshi/honyomi Repository | Docker Hub Registry](https://registry.hub.docker.com/u/ongaeshi/honyomi/)
+
+or
+
     $ gem install honyomi
 
 When you faild to install Rroonga, Please refer.
