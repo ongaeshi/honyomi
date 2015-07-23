@@ -1,5 +1,13 @@
 # HISTORY - Honyomi
 
+## 1.3 - 2015-07-24
+
+- Run the image command with the add command if there is 'pdftoppm'
+  - Also when you add from web
+- Reduce the movement amount when you press the 'Prev' button (5 -> 1)
+- Support docker container
+  - [ongaeshi/honyomi Repository | Docker Hub Registry](https://registry.hub.docker.com/u/ongaeshi/honyomi/)
+
 ## 1.2 - 2015-07-03
 
 * Add image command
