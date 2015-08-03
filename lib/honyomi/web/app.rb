@@ -4,6 +4,7 @@ require 'honyomi/core'
 require 'honyomi/database'
 require 'honyomi/util'
 require 'sinatra'
+require 'digest/sha2'
 if ENV['SINATRA_RELOADER']
   require 'sinatra/reloader'
   also_reload '../../**/*.rb'
@@ -19,6 +20,14 @@ include Honyomi
 set :haml, :format => :html5
 
 configure do
+  use Rack::Auth::Basic do |username, password|
+    if ENV['HONYOMI_AUTH_USERNAME'] && ENV['HONYOMI_AUTH_PASSWORD']
+      username == ENV['HONYOMI_AUTH_USERNAME'] && Digest::SHA256.hexdigest(password) == ENV['HONYOMI_AUTH_PASSWORD']
+    else
+      true
+    end
+  end
+  
   $database = Database.new
 end
 
