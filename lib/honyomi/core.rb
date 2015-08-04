@@ -127,6 +127,10 @@ EOF
       puts "Generated images to '#{output_dir}'" if options[:verbose]
     end
 
+    def move(old_path, new_path)
+      p old_path, new_path
+    end
+
     def db_dir
       File.join(home_dir, 'db')
     end
