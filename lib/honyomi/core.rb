@@ -128,7 +128,7 @@ EOF
     end
 
     def move(old_path, new_path)
-      p old_path, new_path
+      @database.move(old_path, new_path)
     end
 
     def db_dir
