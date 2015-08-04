@@ -140,6 +140,14 @@ module Honyomi
       end
     end
 
+    desc "move old_path new_path", "Move the book path"
+    def move(old_path, new_path)
+      core = Core.new
+      core.load_database
+
+      core.move(old_path, new_path)
+    end
+
     no_tasks do
       # Override method for support -h 
       # defined in /lib/thor/invocation.rb

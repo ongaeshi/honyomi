@@ -187,5 +187,16 @@ module Honyomi
     def books_bookmark(book)
       @bookmarks.select { |record| record.page.book == book }
     end
+    
+    def move(old_path, new_path)
+      @books.each do |book|
+        new_book_path = book.path.gsub(old_path.sub(/\/\Z/, ""), new_path.sub(/\/+\Z/, ""))
+
+        if book.path != new_book_path
+          book.path = new_book_path
+          puts "#{book.path} -> #{new_book_path}"
+        end
+      end
+    end
   end
 end
