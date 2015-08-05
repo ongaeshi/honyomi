@@ -1,5 +1,10 @@
 # HISTORY - Honyomi
 
+## 1.4 - 2015-08-05
+
+- Add basic authorization
+- Add 'honyomi move' command
+
 ## 1.3 - 2015-07-24
 
 - Run the image command with the add command if there is 'pdftoppm'
