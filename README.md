@@ -110,4 +110,20 @@ $ honyomi web
 
 ![honyomi-03.gif](images/honyomi-03.gif)
 
+### Basic authorization
+
+1. Get the SHA-2 Hash
+
+```
+$ ruby -r 'digest/sha2' -e 'puts Digest::SHA256.hexdigest("this_is_password")'
+a6a27374ec8f49426e8ee6249125369e8c529f361ffa20ace73de0b92514bb0f
+```
+
+2. It pass to the environment variable
+
+```
+$ HONYOMI_AUTH_USERNAME=ongaeshi HONYOMI_AUTH_PASSWORD=a6a27374ec8f49426e8ee6249125369e8c529f361ffa20ace73de0b92514bb0f honyomi web
+```
+
+
 
