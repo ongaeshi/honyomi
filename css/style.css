@@ -170,11 +170,6 @@ nav ul li {
     margin-bottom: 16pt;
 }
 
-#tweet_button, #hatena_button, #github_button {
-    float: right;
-    margin-right: 5px;
-}
-
 /* --- article --- */
 
 /* --- footer --- */
@@ -204,3 +199,7 @@ footer p {
     margin-bottom: 1em;
 }
 
+footer .parts {
+    float: right;
+    margin-right: 5px;
+}
