@@ -2,7 +2,7 @@
 layout: layout-ja
 title: Rubyで書かれたpdfの全文検索エンジン
 ---
-HonyomiはRubyで書かれたpdfの全文検索エンジンです。大量のpdfを登録して高速に検索することができます。検索結果はページ単位で取得できるため目的のページをすぐに開くことが可能です。
+HonyomiはRubyで書かれたpdfの全文検索エンジンです。大量のpdfを高速に検索することができます。検索結果はページ単位で取得できるため目的のページをすぐに開くことが可能です。
 
 pdfリーダー、pdfビューワーといったソフトウェアを使わずにブラウザだけでpdf文書の[検索](http://honyomi.ongaeshi.me/?query=%E6%97%A5%E6%9C%AC%E8%AA%9E+%E7%89%B9%E5%BE%B4)や[閲覧](http://honyomi.ongaeshi.me/v/6)ができます。
 
