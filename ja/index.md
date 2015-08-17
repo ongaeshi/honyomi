@@ -13,8 +13,7 @@ pdfリーダー、pdfビューワーといったソフトウェアを使わず�
 ## 目次
 
 - [最新情報](./news.html)
-- [特徴](./features.html)
-- [インストール](./install.md)
+- [インストール](./install.html)
 - デモ
   - [本読みの図書館](http://honyomi.ongaeshi.me/)
 - 使い方
