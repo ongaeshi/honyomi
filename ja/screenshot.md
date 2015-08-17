@@ -1,5 +1,5 @@
 ---
-layout: layout
+layout: layout-ja
 title: スクリーンショット
 ---
 ## コンテキストメニューから生成

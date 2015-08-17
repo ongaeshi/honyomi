@@ -8,5 +8,5 @@ Honyomi is ebook (pdf) search engine written by Ruby. It have command line inter
 
 ## Installation
 - [English](https://github.com/ongaeshi/honyomi)
-- [日本語](/ja/index.html)
+- [日本語](/ja/)
 
