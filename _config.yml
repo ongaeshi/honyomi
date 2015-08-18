@@ -3,8 +3,10 @@ safe: true
 # source: <your pages repo>
 # destination: <the build dir>
 lsi: false
-highlighter: true
+# pygments: true
 markdown: kramdown
+kramdown:
+  input: GFM
 
 # my setting
 author:
