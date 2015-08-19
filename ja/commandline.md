@@ -83,7 +83,7 @@ aaa <<bbb>> ccc
 $ honyomi web
 ```
 
-<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-03.gif' />
+詳しい使い方は[Webインターフェース](./webinterface.html)へ
 
 ### Basic認証
 
