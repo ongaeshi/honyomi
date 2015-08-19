@@ -4,12 +4,12 @@ title: 最新情報
 ---
 # 最新情報
 
-## メインの更新履歴
-
 - [ブログ](http://ongaeshi.hatenablog.com/archive/category/honyomi)
   - リリース記事などが載ります
+- [GitHub](https://github.com/ongaeshi/honyomi)
+  - ソースコードとREADME
 - [更新履歴](https://github.com/ongaeshi/honyomi/blob/master/HISTORY.md)
-  - GitHubの更新履歴です
+  - GitHubのHISTORY.mdです
 
 ## その他
 
