@@ -16,9 +16,9 @@ pdfリーダー、pdfビューワーといったソフトウェアを使わず�
 - [インストール](./install.html)
 - デモ
   - [本読みの図書館](http://honyomi.ongaeshi.me/)
-- 使い方
-  - [Webインターフェース]()
-  - [コマンドライン]()
+- [マニュアル](./manual.html)
+  - [Webインターフェース](./webinterface.html)
+  - [コマンドライン](./commandline.html)
 
 <img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-01.png' />
 
