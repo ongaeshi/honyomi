@@ -1,6 +1,22 @@
 @charset "UTF-8";
 
 /**
+ * Main
+ */
+
+h1 {
+    font-size: 48px;
+}
+
+h2 {
+    font-size: 32px;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+/**
  * Code formatting
  */
 pre,
