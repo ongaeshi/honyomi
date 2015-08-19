@@ -6,15 +6,18 @@ title: インストール
 
 Dockerコンテナを使う方法と、RubyGemsからインストールする方法があります。
 
+- [Dockerコンテナを使う](#docker)
+- [RubyGemsからインストール](#rubygems)
+
 ## Dockerコンテナを使う
 
-[ongaeshi/honyomi - Docker Hub](https://hub.docker.com/r/ongaeshi/honyomi/) を使います。GroongaやPopplerといった外部ツールも一緒にインストールしてくれるのでおすすめです。
+DockerHubにある[ongaeshi/honyomi](https://hub.docker.com/r/ongaeshi/honyomi/) を使います。GroongaやPopplerといった外部ツールも一緒にインストールしてくれるのでおすすめです。
 
 ### コンテナのインストールと実行
 
 `my-honyomi`という名前でコンテナを実行します。(名前は好きなもので)
 
-{% highlight text %}
+{% highlight bash %}
 $ docker run --name my-honyomi -it -p 9295:9295 ongaeshi/honyomi
 Thin web server (v1.6.3 codename Protein Powder)
 Maximum connections set to 1024
@@ -24,13 +27,13 @@ Listening on 0.0.0.0:9295, CTRL+C to stop
 
 バックグラウンドで実行します。
 
-{% highlight text %}
+{% highlight bash %}
 $ docker run --name my-honyomi -d -it -p 9295:9295 ongaeshi/honyomi
 {% endhighlight %}
 
 コンテナの起動、停止、削除。
 
-{% highlight text %}
+{% highlight bash %}
 $ docker start my-honyomi
 $ docker stop my-honyomi
 $ docker rm my-honyomi      # Need stop
@@ -38,7 +41,7 @@ $ docker rm my-honyomi      # Need stop
 
 起動したコンテナでシェルを立ち上げます。
 
-{% highlight text %}
+{% highlight bash %}
 $ docker exec -it my-honyomi /bin/bash
 {% endhighlight %}
 
@@ -46,7 +49,7 @@ $ docker exec -it my-honyomi /bin/bash
 
 Honyomiデータベースをコンテナでtar.gzしてからホストにコピーします。
 
-{% highlight text %}
+{% highlight bash %}
 $ docker exec my-honyomi tar czvf /backup.tar.gz /root/.honyomi
 $ docker cp my-honyomi:/backup.tar.gz ~/tmp/
 {% endhighlight %}
@@ -54,7 +57,7 @@ $ docker cp my-honyomi:/backup.tar.gz ~/tmp/
 ホストの`/path/to/honyomi`をHonyomiデータベースとしてコンテナを実行します。
 注意: ホストOSがLinuxじゃないと動きません (See [Mount a host directory as a data volume](https://docs.docker.com/userguide/dockervolumes/#mount-a-host-directory-as-a-data-volume))
 
-{% highlight text %}
+{% highlight bash %}
 $ docker run --name my-honyomi -d -it -p 9295:9295 -v /path/to/honyomi:/root/.honyomi/ ongaeshi/honyomi
 {% endhighlight %}
 
@@ -65,14 +68,14 @@ $ docker run --name my-honyomi -d -it -p 9295:9295 -v /path/to/honyomi:/root/.ho
 
 Honyomiデータベースを破棄せずに最新のHonyomiに更新したいときう使ってください。前述の`-v`を使ってホストの領域をHonyomiデータベースとして使っている場合はコンテナを破棄→再生成の方がよいです。
 
-{% highlight text %}
+{% highlight bash %}
 $ docker exec my-honyomi gem install honyomi
 $ docker restart my-honyomi
 {% endhighlight %}
 
 ## RubyGemsからインストール
 
-{% highlight text %}
+{% highlight bash %}
 $ gem install honyomi
 {% endhighlight %}
 
