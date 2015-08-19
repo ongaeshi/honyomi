@@ -7,9 +7,9 @@ title: 最新情報
 ## メインの更新履歴
 
 - [ブログ](http://ongaeshi.hatenablog.com/archive/category/honyomi)
-  - リリースがあったときはブログを書きます
+  - リリース記事などが載ります
 - [更新履歴](https://github.com/ongaeshi/honyomi/blob/master/HISTORY.md)
-  - GitHubの更新履歴です  
+  - GitHubの更新履歴です
 
 ## その他
 
