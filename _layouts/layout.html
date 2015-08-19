@@ -1,37 +1,55 @@
 <!DOCTYPE html>
-<head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <title>Honyomi - {{ page.title }}</title>
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-</head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Honyomi web page.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Honyomi - {{ page.title }}</title>
 
-<body>
-  <header>
-    <div id="title">
-      <a class="icon" href="/"><img width="100" height="100" src="/images/honyomi-icon.png"></a>
-      <h1>Honyomi</h1>
-      <div id="langs"><a href="/">[English]</a> <a href="/ja/">[Japanese]</a></div>
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.3/material.indigo-pink.min.css">
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.3/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Honyomi</span>
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
+            <!-- <a class="mdl-navigation__link" href="./">HOME</a> -->
+          </nav>
+          <div class="mdl-layout-spacer"></div>
+          <span><a href="/">[English]</a> <a href="/ja/">[Japanese]</a></span>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Honyomi</span>
+        <nav class="mdl-navigation">
+          <!-- <a class="mdl-navigation__link" href="./">HOME</a> -->
+        </nav>
+      </div>
+      
+      <main class="mdl-layout__content">
+        <div class="mdl-grid">
+          <div class="page-content">
+            {{ content }}
+          </div>
+        </div>
+
+        <footer class="mdl-mini-footer">
+          <div class="mdl-mini-footer--left-section">
+            <ul class="mdl-mini-footer--link-list">
+              <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://honyomi.nagoya" data-count="horizontal" data-text="Honyomi - Pdf search engine written by Ruby">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></li>
+              <!-- <li><a href="http://b.hatena.ne.jp/entry/http://honyomi.nagoya" class="hatena-bookmark-button" data-hatena-bookmark-title="Honyomi - Pdf search engine written by Ruby" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li> -->
+              <li>Copyright (c) 2014, 2015 ongaeshi - <a href="http://ongaeshi.me/"><img src="http://www.gravatar.com/avatar/6377451175704e2d367ce508bffc1fa5" alt="web" width="24"/></a></li>
+            </ul>
+          </div>
+        </footer>
+      </main>
+
     </div>
-    
-    <nav>
-      <ul>
-        <!-- <li><a href="./index.html">HOME</a></li> -->
-      </ul>
-    </nav>
-  </header>
-
-  <article>
-    {{ content }}
-  </article>
-</body>
-
-<footer>
-  <div id="toolbar">
-    <div class="parts"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://honyomi.nagoya" data-count="horizontal" data-text="Honyomi - Pdf search engine written by Ruby">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></div>
-    <div class="parts"><a href="http://b.hatena.ne.jp/entry/http://honyomi.nagoya" class="hatena-bookmark-button" data-hatena-bookmark-title="Honyomi - Pdf search engine written by Ruby" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></div>
-    <div class="parts">Copyright (c) 2014, 2015 ongaeshi - <a href="http://ongaeshi.me/"><img src="http://www.gravatar.com/avatar/6377451175704e2d367ce508bffc1fa5" alt="web" width="24"/></a></div>
-  </div>
-</footer>
-
+  </body>
 </html>
-
