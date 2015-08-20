@@ -88,5 +88,7 @@ Rroongaのインストールに失敗するときは以下を参考にしてく�
 - pdftotext - For honyomi add
 - pdftoppm - For honyomi image
 
+### RubyGems経由でサーバーにインストールしたい
 
+- [ongaeshi/honyomi-web](https://github.com/ongaeshi/honyomi-web)
 
