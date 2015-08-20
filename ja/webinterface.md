@@ -8,7 +8,7 @@ title: Webインターフェース
 
 コマンドラインの使い方は[こちら](./commandline.html)。
 
-実際に動くものを[本読みの図書館](http://ongaeshi.honyomi.me)で確認することができます。
+実際に動くものを[本読みの図書館](http://honyomi.ongaeshi.me)で確認することができます。
 
 ## 検索
 
