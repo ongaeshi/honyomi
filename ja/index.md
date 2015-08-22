@@ -20,5 +20,5 @@ pdfリーダー、pdfビューワーといったソフトウェアを使わず�
 - デモ
   - [本読みの図書館](http://library.honyomi.nagoya/)
 
-<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-01.png' />
+<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-03.gif' />
 

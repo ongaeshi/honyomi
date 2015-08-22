@@ -10,5 +10,5 @@ Honyomi is ebook (pdf) search engine written by Ruby. It have command line inter
 - [English](https://github.com/ongaeshi/honyomi)
 - [日本語](/ja/)
 
-<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-01.png' />
+<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-03.gif' />
 
