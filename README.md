@@ -4,9 +4,9 @@
 
 Honyomi is pdf search engine written by Ruby. It have command line interface and web application. It will accelerate the ebook of your life.
 
-You can [search](http://library.honyomi.nagoya/?query=global-set-key) and [browse](http://library.honyomi.nagoya/v/2) the pdf document only in the browser without the use of software such as the pdf reader and pdf viewer. Search results will open immediately the desired page because you can get on a page-by-page basis.
+You can [search](http://library.honyomi.nagoya/?query=global-set-key) and [browse](http://library.honyomi.nagoya/v/2) the pdf document only in the browser.
 
-For your collection books, in-house document database, reference manual.
+Honyomi is "本読み". "Read a book" is meaning. [Milkode](https://github.com/ongaeshi/milkode) are brothers.
 
 - [English](#installation)
 - [日本語](http://honyomi.nagoya/ja/)
