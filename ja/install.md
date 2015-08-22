@@ -11,7 +11,7 @@ Dockerコンテナを使う方法と、RubyGemsからインストールする方
 
 ## Dockerコンテナを使う
 
-DockerHubにある[ongaeshi/honyomi](https://hub.docker.com/r/ongaeshi/honyomi/) を使います。GroongaやPopplerといった外部ツールも一緒にインストールしてくれるのでおすすめです。
+DockerHubにある[ongaeshi/docker-honyomi](https://github.com/ongaeshi/docker-honyomi)を使います。GroongaやPopplerといった外部ツールも一緒にインストールしてくれるのでおすすめです。
 
 ### コンテナのインストールと実行
 
