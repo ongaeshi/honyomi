@@ -15,7 +15,7 @@ Honyomi is "本読み". "Read a book" is meaning. [Milkode](https://github.com/o
 
 You can use the Docker container.
 
-- [ongaeshi/honyomi Repository | Docker Hub Registry](https://registry.hub.docker.com/u/ongaeshi/honyomi/)
+- [ongaeshi/docker-honyomi](https://github.com/ongaeshi/docker-honyomi)
 
 or
 
@@ -127,6 +127,12 @@ a6a27374ec8f49426e8ee6249125369e8c529f361ffa20ace73de0b92514bb0f
 ```
 $ HONYOMI_AUTH_USERNAME=ongaeshi HONYOMI_AUTH_PASSWORD=a6a27374ec8f49426e8ee6249125369e8c529f361ffa20ace73de0b92514bb0f honyomi web
 ```
+
+## Demo
+
+- [library of honyomi](http://library.honyomi.nagoya/)
+
+
 
 
 
