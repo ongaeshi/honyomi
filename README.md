@@ -132,6 +132,9 @@ $ HONYOMI_AUTH_USERNAME=ongaeshi HONYOMI_AUTH_PASSWORD=a6a27374ec8f49426e8ee6249
 
 - [library of honyomi](http://library.honyomi.nagoya/)
 
+## Credit
+
+- Beyond Interaction http://www.bnn.co.jp/books/3746/  CC-BY-NC-SA
 
 
 
