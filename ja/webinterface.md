@@ -4,7 +4,7 @@ title: Webインターフェース
 ---
 # Webインターフェース
 
-<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-03.gif' />
+<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-01.png' />
 
 コマンドラインの使い方は[こちら](./commandline.html)。
 
@@ -59,9 +59,10 @@ p:>100 p:<200  world
 ## ブックマーク
 
 1. 星をクリックするとページをブックマークすることが出来ます
-        %img(src="/image/bookmark-01.png")
-        %img(src="/image/bookmark-02.png")
+<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/bookmark-01.png' />
+<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/bookmark-02.png' />
+
 2. もういちどクリックするとメモを書くことができます
-        %img(src="/image/bookmark-03.png")
+<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/bookmark-03.png' />
 
 
