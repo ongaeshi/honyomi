@@ -2,7 +2,7 @@
 layout: layout-ja
 title: Rubyで書かれたpdfの全文検索エンジン
 ---
-# <img width="100" height="100" src="/images/honyomi-icon.png"> Honyomi 
+# <img width="100" height="100" src="https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-icon.png"> Honyomi
 
 HonyomiはRubyで書かれたpdfの全文検索エンジンです。大量のpdfをデータベースに登録して高速に検索することができます。
 

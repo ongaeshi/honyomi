@@ -2,7 +2,7 @@
 layout: layout
 title: Pdf search engine written by Ruby
 ---
-# <img width="100" height="100" src="/images/honyomi-icon.png"> Honyomi 
+# <img width="100" height="100" src="https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-icon.png"> Honyomi
 
 Honyomi is pdf search engine written by Ruby. It have command line interface and web application. It will accelerate the ebook of your life.
 
