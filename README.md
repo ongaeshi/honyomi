@@ -4,9 +4,10 @@
 
 Honyomi is ebook (pdf) search engine written by Ruby. It have command line interface and web application. It will accelerate the ebook of your life.
 
-Honyomi is "本読み". "Read a book" is meaning.
+Honyomi is "本読み". "Read a book" is meaning. [Milkode](https://github.com/ongaeshi/milkode) are brothers.
 
-[Milkode](https://github.com/ongaeshi/milkode) are brothers.
+- English manual is here
+- [日本語](http://honyomi.nagoya/ja/)
 
 ![honyomi-03.gif](images/honyomi-03.gif)
 
