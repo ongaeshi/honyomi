@@ -15,7 +15,7 @@ Honyomi is "本読み". "Read a book" is meaning. [Milkode](https://github.com/o
 
 ## Installation
 
-You can use the Docker container. With [Kitematic](https://kitematic.com/) it is very easy. For more information and a look at the video above.
+You can use the Docker container. With [Kitematic](https://kitematic.com/) it is very easy! For more information and a look at the video above.
 
 - [ongaeshi/docker-honyomi](https://github.com/ongaeshi/docker-honyomi)
 
