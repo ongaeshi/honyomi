@@ -14,5 +14,5 @@ For your collection books, in-house document database, reference manual.
 - [English](https://github.com/ongaeshi/honyomi)
 - [日本語](/ja/)
 
-<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-03.gif' />
+<img alt='honyomi' src='https://raw.githubusercontent.com/ongaeshi/honyomi/master/images/honyomi-03.gif' style="max-width:100%;" />
 
