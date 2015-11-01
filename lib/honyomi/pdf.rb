@@ -3,6 +3,7 @@ require 'honyomi'
 require 'tmpdir'
 require 'fileutils'
 require "open3"
+require "shellwords"
 
 module Honyomi
   class Pdf
@@ -19,7 +20,7 @@ module Honyomi
         loop do
           page_no = (result.count + 1).to_s
 
-          o, e, s = Open3.capture3("pdftotext -f #{page_no} -l #{page_no} #{@filename} #{outfile}") # Need pdftotext (poppler, xpdf)
+          o, e, s = Open3.capture3("pdftotext -f #{page_no} -l #{page_no} #{Shellwords.escape(@filename)} #{Shellwords.escape(outfile)}") # Need pdftotext (poppler, xpdf)
           break if s.exitstatus != 0
           
           text = File.read(outfile, encoding: Encoding::UTF_8)
