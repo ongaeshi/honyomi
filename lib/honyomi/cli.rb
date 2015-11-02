@@ -19,6 +19,7 @@ module Honyomi
     desc "add file1 [file2 ...]", "Add pdf files"
     option :title, :aliases => '-t', :type => :string,  :desc => 'Specify title'
     option :strip, :type => :boolean, :desc => 'Remove spaces'
+    option :image, :type => :boolean, :desc => "Generate image (Default true)"
     def add(*args)
       core = Core.new
       core.load_database

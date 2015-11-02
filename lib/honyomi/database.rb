@@ -42,7 +42,8 @@ module Honyomi
         options[:timestamp] = File.stat(filename).mtime
         book, status = add_book(filename, pages, options)
 
-        add_image(book.id, home_dir) if Util.exist_command?('pdftoppm')
+        options[:image] = true if options[:image].nil? # Default true
+        add_image(book.id, home_dir) if Util.exist_command?('pdftoppm') && options[:image]
 
         return book, status
       else
