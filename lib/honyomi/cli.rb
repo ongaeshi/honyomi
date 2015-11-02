@@ -3,6 +3,10 @@ require 'thor'
 
 module Honyomi
   class CLI < Thor
+    def self.exit_on_failure?
+      true
+    end
+
     class_option :help, :type => :boolean, :aliases => '-h', :desc => 'Help message'
 
     desc "init", "Create database in ENV['HONYOMI_DATABASE_DIR'] or '~/.honyomi'"
