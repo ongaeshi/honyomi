@@ -60,6 +60,14 @@ module Honyomi
       output_dir
     end
 
+    def delete_image(id, home_dir)
+      output_dir = File.join(home_dir, "image", id.to_s)
+
+      FileUtils.remove_entry_secure(output_dir, true)
+
+      output_dir
+    end
+
     def add_book(path, pages, options = {})
       book = book_from_path(path)
 

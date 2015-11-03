@@ -123,8 +123,13 @@ EOF
     end
 
     def image(id, options = {})
-      output_dir = @database.add_image(id, home_dir)
-      puts "Generated images to '#{output_dir}'" if options[:verbose]
+      unless options[:delete]
+        output_dir = @database.add_image(id, home_dir)
+        puts "Generated images to '#{output_dir}'" if options[:verbose]
+      else
+        output_dir = @database.delete_image(id, home_dir)
+        puts "Delete images from '#{output_dir}'" if options[:verbose]
+      end
     end
 
     def move(old_path, new_path)

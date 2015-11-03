@@ -136,12 +136,13 @@ module Honyomi
     end
 
     desc "image book_id1 [book_id2 ...]", "Generate page images (Need pdftoppm)"
+    option :delete, :type => :boolean, :aliases => '-d', :desc => 'Delete image'
     def image(*args)
       core = Core.new
       core.load_database
 
       args.each do |id|
-        core.image(id.to_i, { verbose: true })
+        core.image(id.to_i, { verbose: true, delete: options[:delete] })
       end
     end
 
