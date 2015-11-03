@@ -36,7 +36,7 @@ module Honyomi
                                )
     end
 
-    def add_from_pdf(filename, home_dir, options = {})
+    def add_from_pdf(filename, options = {})
       if File.exist?(filename)
         filename = File.expand_path(filename)
         options = options.dup
@@ -46,7 +46,7 @@ module Honyomi
         book, status = add_book(filename, pages, options)
 
         options[:image] = true if options[:image].nil? # Default true
-        add_image(book.id, home_dir) if Util.exist_command?('pdftoppm') && options[:image]
+        add_image(book.id) if Util.exist_command?('pdftoppm') && options[:image]
 
         return book, status
       else
@@ -54,21 +54,17 @@ module Honyomi
       end
     end
 
-    def add_image(id, home_dir)
-      output_dir = File.join(home_dir, "image", id.to_s)
-
-      pdf = Pdf.new(books[id].path)
-      pdf.generate_images(output_dir)
-
-      output_dir
+    def image_dir(id)
+      File.join(home_dir, "image", id.to_s)
     end
 
-    def delete_image(id, home_dir)
-      output_dir = File.join(home_dir, "image", id.to_s)
+    def add_image(id)
+      pdf = Pdf.new(books[id].path)
+      pdf.generate_images(image_dir(id))
+    end
 
-      FileUtils.remove_entry_secure(output_dir, true)
-
-      output_dir
+    def delete_image(id)
+      FileUtils.remove_entry_secure(image_dir(id), true)
     end
 
     def add_book(path, pages, options = {})

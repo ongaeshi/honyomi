@@ -23,7 +23,7 @@ module Honyomi
     end
 
     def add(filename, options = {})
-      book, status = @database.add_from_pdf(filename, home_dir, options)
+      book, status = @database.add_from_pdf(filename, options)
 
       return book, status
     end
@@ -123,11 +123,13 @@ EOF
     end
 
     def image(id, options = {})
+      output_dir = @database.image_dir(id)
+
       unless options[:delete]
-        output_dir = @database.add_image(id, home_dir)
+        @database.add_image(id)
         puts "Generated images to '#{output_dir}'" if options[:verbose]
       else
-        output_dir = @database.delete_image(id, home_dir)
+        @database.delete_image(id)
         puts "Delete images from '#{output_dir}'" if options[:verbose]
       end
     end
