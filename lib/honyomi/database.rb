@@ -6,11 +6,14 @@ module Honyomi
   class HonyomiError < Exception ; end
 
   class Database
+    attr_reader :home_dir
     attr_reader :books
     attr_reader :pages
     attr_reader :bookmarks
 
-    def initialize
+    def initialize(home_dir)
+      @home_dir = home_dir
+      
       @books = GrnMini::Array.new("Books")
       @pages = GrnMini::Hash.new("Pages")
       @bookmarks = GrnMini::Hash.new("Bookmarks")

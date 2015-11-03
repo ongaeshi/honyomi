@@ -14,12 +14,12 @@ module Honyomi
     def init_database
       FileUtils.mkdir_p(db_dir)
       Groonga::Database.create(path: db_path)
-      @database = Database.new
+      @database = Database.new(home_dir)
     end
 
     def load_database
       Groonga::Database.open(db_path)
-      @database = Database.new
+      @database = Database.new(home_dir)
     end
 
     def add(filename, options = {})

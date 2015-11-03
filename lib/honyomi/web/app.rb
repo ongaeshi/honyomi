@@ -26,7 +26,7 @@ configure do
     end
   end
   
-  $database = Database.new
+  $database = Database.new(Util.home_dir)
 end
 
 get '/' do
