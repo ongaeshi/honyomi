@@ -126,11 +126,25 @@ EOF
       output_dir = @database.image_dir(id)
 
       unless options[:delete]
+        if options[:verbose]
+          unless File.exist?(output_dir)
+            puts "Generate images to '#{output_dir}'"
+          else
+            puts "Regenerate images to '#{output_dir}'"
+          end
+        end
+
         @database.add_image(id)
-        puts "Generated images to '#{output_dir}'" if options[:verbose]
       else
+        if options[:verbose]
+          if File.exist?(output_dir)
+            puts "Delete images from '#{output_dir}'"
+          else
+            puts "Already deleted '#{output_dir}'"
+          end
+        end
+        
         @database.delete_image(id)
-        puts "Delete images from '#{output_dir}'" if options[:verbose]
       end
     end
 
