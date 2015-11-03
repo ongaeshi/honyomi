@@ -77,12 +77,12 @@ module Honyomi
         core.init_database
 
         core.add(datafile("test2.pdf"))
-        assert_equal "aaa bbb ccc", core.database.pages["1:1"].text.sub(/\n+\Z/, "")
-        assert_equal "dd ee", core.database.pages["1:2"].text.sub(/\n+\Z/, "")
+        assert_equal "aaa bbb ccc", core.database.pages["1:1"].text.sub(/\n*\f*\Z/, "")
+        assert_equal "dd ee", core.database.pages["1:2"].text.sub(/\n*\f*\Z/, "")
 
         core.add(datafile("test2.pdf"), strip: true)
-        assert_equal "aaabbbccc", core.database.pages["1:1"].text.sub(/\n+\Z/, "")
-        assert_equal "ddee", core.database.pages["1:2"].text.sub(/\n+\Z/, "")
+        assert_equal "aaabbbccc", core.database.pages["1:1"].text.sub(/\n*\f*\Z/, "")
+        assert_equal "ddee", core.database.pages["1:2"].text.sub(/\n*\f*\Z/, "")
       end
     end
 
@@ -110,7 +110,7 @@ module Honyomi
         assert_equal "ttt", core.database.books[1].title 
 
         core.edit(1, strip: true)
-        assert_equal "aaabbbccc", core.database.pages["1:1"].text.sub(/\n+\Z/, "")
+        assert_equal "aaabbbccc", core.database.pages["1:1"].text.sub(/\n*\f*\Z/, "")
 
         assert_equal datafile("test2.pdf"), core.database.books[1].path
         core.edit(1, path: datafile("test.pdf"))

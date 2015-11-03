@@ -9,9 +9,9 @@ class TestPdf < MiniTest::Test
     pdf = Honyomi::Pdf.new(test_pdf)
 
     assert_equal         3, pdf.pages.size
-    assert_equal "aaa\n\n", pdf.pages[0]
-    assert_equal "bbb\n\n", pdf.pages[1]
-    assert_equal "ccc\n\n", pdf.pages[2]
+    assert_equal "aaa\n\n\f", pdf.pages[0]
+    assert_equal "bbb\n\n\f", pdf.pages[1]
+    assert_equal "ccc\n\n\f", pdf.pages[2]
   end
 
   def test_file_name_includes_special_characters
