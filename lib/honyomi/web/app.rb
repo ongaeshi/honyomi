@@ -418,7 +418,7 @@ EOF
 
   def header_title_book(book, query)
     query = query ? "?query=#{query}" : ""
-    first_page = @database.pages["#{book.id}:1"]
+    first_page = @database.book_page(book, 1)
     has_image = File.exist?(Util.image_path(first_page))
 
     <<EOF
