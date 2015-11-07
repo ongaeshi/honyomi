@@ -14,16 +14,16 @@ module Honyomi
     def init_database
       FileUtils.mkdir_p(db_dir)
       Groonga::Database.create(path: db_path)
-      @database = Database.new
+      @database = Database.new(home_dir)
     end
 
     def load_database
       Groonga::Database.open(db_path)
-      @database = Database.new
+      @database = Database.new(home_dir)
     end
 
     def add(filename, options = {})
-      book, status = @database.add_from_pdf(filename, home_dir, options)
+      book, status = @database.add_from_pdf(filename, options)
 
       return book, status
     end
@@ -123,12 +123,28 @@ EOF
     end
 
     def image(id, options = {})
+      output_dir = @database.image_dir(id)
+
       unless options[:delete]
-        output_dir = @database.add_image(id, home_dir)
-        puts "Generated images to '#{output_dir}'" if options[:verbose]
+        if options[:verbose]
+          unless File.exist?(output_dir)
+            puts "Generate images to '#{output_dir}'"
+          else
+            puts "Regenerate images to '#{output_dir}'"
+          end
+        end
+
+        @database.add_image(id)
       else
-        output_dir = @database.delete_image(id, home_dir)
-        puts "Delete images from '#{output_dir}'" if options[:verbose]
+        if options[:verbose]
+          if File.exist?(output_dir)
+            puts "Delete images from '#{output_dir}'"
+          else
+            puts "Already deleted '#{output_dir}'"
+          end
+        end
+        
+        @database.delete_image(id)
       end
     end
 

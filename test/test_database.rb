@@ -3,13 +3,13 @@ require 'minitest_helper'
 class TestDatabase < MiniTest::Test
   def test_open
     GrnMini::tmpdb do
-      db = Honyomi::Database.new
+      db = Honyomi::Database.new(nil)
     end
   end
 
   def test_add_book
     GrnMini::tmpdb do
-      db = Honyomi::Database.new
+      db = Honyomi::Database.new(nil)
 
       db.add_book("/path/to/book1.pdf", ["1aa"], title: "Book1")
       db.add_book("/path/to/book2.pdf", ["2aa", "2bb"], title: "Book2")
@@ -45,7 +45,7 @@ class TestDatabase < MiniTest::Test
 
   def test_add_book_title_default
     GrnMini::tmpdb do
-      db = Honyomi::Database.new
+      db = Honyomi::Database.new(nil)
 
       db.add_book("/path/to/book1.pdf", ["1aa"])
       assert_equal "book1", db.books[1].title
@@ -54,7 +54,7 @@ class TestDatabase < MiniTest::Test
 
   def test_add_book_same_path
     GrnMini::tmpdb do
-      db = Honyomi::Database.new
+      db = Honyomi::Database.new(nil)
 
       db.add_book("/path/to/book1.pdf", ["1aa"], title: "Book1")
       db.add_book("/path/to/book2.pdf", ["2aa", "2bb"], title: "Book2")
@@ -70,7 +70,7 @@ class TestDatabase < MiniTest::Test
 
   def test_change_book
     GrnMini::tmpdb do
-      db = Honyomi::Database.new
+      db = Honyomi::Database.new(nil)
 
       db.add_book("/path/to/book1.pdf", ["1aa"], title: "Book1")
       db.add_book("/path/to/book2.pdf", ["2aa", "2bb"], title: "Book2")
@@ -93,7 +93,7 @@ class TestDatabase < MiniTest::Test
 
   def test_delete_book
     GrnMini::tmpdb do
-      db = Honyomi::Database.new
+      db = Honyomi::Database.new(nil)
 
       db.add_book("/path/to/book1.pdf", ["1aa"], title: "Book1")
       db.add_book("/path/to/book2.pdf", ["2aa", "2bb"], title: "Book2")
@@ -108,7 +108,7 @@ class TestDatabase < MiniTest::Test
 
   def test_search
     GrnMini::tmpdb do
-      db = Honyomi::Database.new
+      db = Honyomi::Database.new(nil)
       db.add_book("/path/to/book1.pdf", ["1aa"])
       db.add_book("/path/to/book2.pdf", ["2aa", "2bb"])
       db.add_book("/path/to/book3.pdf", ["3aa", "3bb", "3cc"])
@@ -126,7 +126,7 @@ class TestDatabase < MiniTest::Test
 
   def test_book_pages
     GrnMini::tmpdb do
-      db = Honyomi::Database.new
+      db = Honyomi::Database.new(nil)
       db.add_book("/path/to/book1.pdf", ["1aa"])
       db.add_book("/path/to/book2.pdf", ["2aa", "2bb"])
       db.add_book("/path/to/book3.pdf", ["3aa", "3bb", "3cc"])

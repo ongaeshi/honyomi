@@ -26,7 +26,7 @@ configure do
     end
   end
   
-  $database = Database.new
+  $database = Database.new(Util.home_dir)
 end
 
 get '/' do
@@ -64,7 +64,7 @@ post '/upload' do
         f.write file[:tempfile].read
       end
 
-      @database.add_from_pdf(save_path, Util.home_dir)
+      @database.add_from_pdf(save_path)
     end
 
     @message = "Upload Success"
