@@ -418,10 +418,12 @@ EOF
 
   def header_title_book(book, query)
     query = query ? "?query=#{query}" : ""
+    first_page = @database.pages["#{book.id}:1"]
+    has_image = File.exist?(Util.image_path(first_page))
 
     <<EOF
 <div class="title">
-  <a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}' id="book-title" honyomi-book-id="#{book.id}">#{escape_html(book.title)}</a> <span class='edit-link'>- <a href="#">Edit</a></span>
+  <a href='/#{query}'>HOME</a> &gt; <a href='/v/#{book.id}#{query}' id="book-title" honyomi-book-id="#{book.id}" honyomi-book-image="#{has_image ? "1" : "0"}">#{escape_html(book.title)}</a> <span class='edit-link'>- <a href="#">Edit</a></span>
 </div>
 <div class="etc">
   <span id="book-author">#{escape_html(book.author)}</span>
