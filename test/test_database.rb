@@ -137,4 +137,20 @@ class TestDatabase < MiniTest::Test
       assert_equal 0, db.book_pages(4).size # Not found
     end
   end
+
+
+  def test_book_page
+    GrnMini::tmpdb do
+      db = Honyomi::Database.new(nil)
+      db.add_book("/path/to/book1.pdf", ["1aa"])
+      db.add_book("/path/to/book2.pdf", ["2aa", "2bb"])
+      db.add_book("/path/to/book3.pdf", ["3aa", "3bb", "3cc"])
+
+      book = db.books[2]
+      assert_equal 1, db.book_page(book, 1).page_no
+      assert_equal "2aa", db.book_page(book, 1).text
+      assert_equal 2, db.book_page(book, 2).page_no
+      assert_equal nil, db.book_page(book, 3)
+    end
+  end
 end

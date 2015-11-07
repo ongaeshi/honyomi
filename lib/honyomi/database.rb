@@ -159,6 +159,10 @@ module Honyomi
       @pages.select("book._id:\"#{book_id}\"").sort(["page_no"])
     end
 
+    def book_page(book, page_no)
+      @pages["#{book.id}:#{page_no}"]
+    end
+
     def book_from_path(path)
       r = @books.select("path:\"#{path}\"").first
 
