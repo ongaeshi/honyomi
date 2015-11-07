@@ -148,6 +148,9 @@ post '/command' do
                             url: params[:url],
                           })
     ""
+  when 'add-image'
+    @database.add_image(params[:id].to_i)
+    # @database.delete_image(params[:id].to_i)
   end
 end
 
