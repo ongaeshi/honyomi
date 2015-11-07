@@ -170,6 +170,30 @@ module Honyomi
       end
     end
 
+    def test_image
+      Dir.mktmpdir do |dir|
+        core = Core.new({home_dir: dir})
+        core.init_database
+
+        book, _ = core.add(datafile("test.pdf"), title: "TEST PDF")
+        
+        image_dir = File.join(dir, "image", book.id.to_s)
+        assert File.exist?(File.join(image_dir, "book-1.jpg"))
+        assert File.exist?(File.join(image_dir, "book-2.jpg"))
+        assert File.exist?(File.join(image_dir, "book-3.jpg"))
+
+        core.image(book.id, {delete: true})
+        assert !File.exist?(File.join(image_dir, "book-1.jpg"))
+        assert !File.exist?(File.join(image_dir, "book-2.jpg"))
+        assert !File.exist?(File.join(image_dir, "book-3.jpg"))
+
+        core.image(book.id)
+        assert File.exist?(File.join(image_dir, "book-1.jpg"))
+        assert File.exist?(File.join(image_dir, "book-2.jpg"))
+        assert File.exist?(File.join(image_dir, "book-3.jpg"))
+      end
+    end
+
     private
 
     def datafile(path)
