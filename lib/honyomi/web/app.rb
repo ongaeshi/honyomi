@@ -150,7 +150,8 @@ post '/command' do
     ""
   when 'add-image'
     @database.add_image(params[:id].to_i)
-    # @database.delete_image(params[:id].to_i)
+  when 'delete-image'
+    @database.delete_image(params[:id].to_i)
   end
 end
 
