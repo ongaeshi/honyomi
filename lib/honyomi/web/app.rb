@@ -310,7 +310,7 @@ EOF
       image_path = Util.image_path(page)
 
       if File.exist? image_path
-        main_contents += %|<div><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></div>|
+        main_contents += %|<div><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="250px"/></div>|
       end
 
       <<EOF
@@ -381,7 +381,7 @@ EOF
       content = r.map { |e| "<p>#{escape_html(e)}</p>" }.join("\n")
 
       if has_image
-        content += %|<p><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="100%"/></p>|
+        content += %|<p><img src="/v/#{page.book.id}?image=1&page=#{page.page_no}" width="250px"/></p>|
       end
 
       <<EOF
