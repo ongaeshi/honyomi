@@ -124,6 +124,7 @@ module Honyomi
     end
 
     def delete_book(book_id)
+      # Delete book
       book = @books[book_id]
       
       @pages.delete do |page|
@@ -131,6 +132,12 @@ module Honyomi
       end
 
       book.delete
+
+      # Delete iamges
+      delete_image(book_id)
+
+      # Delete file (if ~/.honyomi/book)
+      # books[id].path
     end
 
     def search(query, options = {})
