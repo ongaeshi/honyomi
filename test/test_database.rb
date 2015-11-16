@@ -92,8 +92,11 @@ class TestDatabase < MiniTest::Test
   end
 
   def test_delete_book
-    GrnMini::tmpdb do
-      db = Honyomi::Database.new(nil)
+    Dir.mktmpdir do |dir|
+      core = Honyomi::Core.new({home_dir: dir})
+      core.init_database
+
+      db = core.database
 
       db.add_book("/path/to/book1.pdf", ["1aa"], title: "Book1")
       db.add_book("/path/to/book2.pdf", ["2aa", "2bb"], title: "Book2")
