@@ -1,5 +1,20 @@
 # HISTORY - Honyomi
 
+## 1.5 - 2015-11-21
+
+- Display as thumbnails
+  - Bookmark
+  - Search Result
+- Manage books from the web app
+  - Remove book
+  - Add/Delete image
+- Improve honyomi commands
+  - Fix page parse bug of 'honyomi add'
+  - Add "honyomi add --no-image" option
+  - Add 'honyomi image -d' options
+  - Delete image with 'honyomi remove'
+  - Exit with 1 on error
+
 ## 1.4 - 2015-08-05
 
 - Add basic authorization
